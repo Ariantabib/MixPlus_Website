@@ -12,7 +12,7 @@
   <style>
     /* --- Search & Filter Section --- */
     .products-container {
-      padding-top: 120px; /* فاصله برای هدر فیکس */
+      padding-top: 120px;
       max-width: 1600px;
       margin: 0 auto;
       padding-bottom: 4rem;
@@ -94,7 +94,7 @@
     }
 
     .sub-filter-container {
-      display: none; /* پیش‌فرض مخفی */
+      display: none;
       animation: slideDown 0.4s ease forwards;
     }
     .sub-filter-container.active { display: block; }
@@ -125,6 +125,7 @@
     /* --- Product Grid --- */
     .products-grid {
       display: grid;
+      /* اصلاح تایپی باگ دابل پرانتز */
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2rem;
       padding: 0 2rem;
@@ -174,7 +175,6 @@
       font-weight: 700;
       margin-bottom: 0.5rem;
       color: var(--fg);
-      /* LTR for names */
       direction: ltr;
       unicode-bidi: embed; 
     }
@@ -355,7 +355,6 @@
       <!-- Main Categories -->
       <div class="filter-row" id="main-categories">
         <button class="filter-btn active" data-cat="all">همه محصولات</button>
-        <!-- دکمه‌ها توسط جاوا اسکریپت پر می‌شوند -->
       </div>
 
       <!-- Sub Categories & Local Search -->
@@ -364,7 +363,6 @@
           <input type="text" id="local-search" class="local-search-input" placeholder="جستجو در این دسته‌بندی...">
         </div>
         <div class="filter-row" id="sub-categories">
-          <!-- دکمه‌های ساب کتگوری اینجا قرار می‌گیرند -->
         </div>
       </div>
     </section>
@@ -437,7 +435,6 @@
     const globalSearchInput = document.getElementById('global-search');
     const localSearchInput = document.getElementById('local-search');
     
-    // Modal Elements
     const modal = document.getElementById('product-modal');
     const modalImg = document.getElementById('modal-img');
     const modalTitle = document.getElementById('modal-title');
@@ -456,6 +453,8 @@
     // --- DATA FETCHING ---
     async function fetchData() {
       try {
+        grid.innerHTML = '<div class="loading-state">در حال دریافت اطلاعات محصولات...</div>';
+        
         const response = await fetch(CSV_URL);
         const data = await response.text();
         allProducts = parseCSV(data);
@@ -467,6 +466,29 @@
 
         generateCategoryButtons();
         renderProducts(allProducts);
+        
+        // --- NEW LOGIC: CHECK URL PARAMETERS ---
+        // بررسی اینکه کاربر با لینک خاصی (مثلا ?cat=Hob) آمده است یا خیر
+        const urlParams = new URLSearchParams(window.location.search);
+        const catParam = urlParams.get('cat');
+        
+        if (catParam) {
+          setTimeout(() => {
+            // پیدا کردن تمام دکمه‌های دسته‌بندی
+            const buttons = Array.from(document.querySelectorAll('#main-categories .filter-btn'));
+            // پیدا کردن دکمه‌ای که متنش برابر پارامتر آدرس است
+            const targetBtn = buttons.find(btn => btn.textContent === catParam);
+            
+            // اگر دکمه پیدا شد، روی آن کلیک کن تا فیلتر اعمال شود
+            if (targetBtn) {
+              targetBtn.click();
+            } else {
+              // اگر دسته‌بندی پیدا نشد (مثلا نام تایپی اشتباه)، همه را نشان بده
+              console.warn('Category not found:', catParam);
+            }
+          }, 100);
+        }
+
       } catch (error) {
         console.error('Error loading CSV:', error);
         grid.innerHTML = '<div class="no-result">خطا در بارگذاری اطلاعات. لطفا اتصال اینترنت خود را بررسی کنید.</div>';
@@ -484,26 +506,22 @@
         const currentLine = lines[i].split(',');
         
         // خط مقابله: اگر تعداد ستون‌ها کم بود ازش رد شو
-        if (currentLine.length < 5) continue;
+        if (currentLine.length < 6) continue;
 
-        // فرض بر اساس ستون‌های گوگل شیت:
-        // 0: ID, 1: Category, 2: Sub-Category, 3: Name, 4: Description, 5: Price
-        const product = {
+        products.push({
           id: currentLine[0]?.trim() || '',
           category: currentLine[1]?.trim() || '',
           subCategory: currentLine[2]?.trim() || '',
           name: currentLine[3]?.trim() || '',
           description: currentLine[4]?.trim() || '',
           price: currentLine[5]?.trim() || '0'
-        };
-        products.push(product);
+        });
       }
       return products;
     }
 
     // --- UI GENERATION ---
     function generateCategoryButtons() {
-      // استخراج دسته‌بندی‌های یکتا
       const categories = ['all', ...new Set(allProducts.map(p => p.category))];
       
       mainCatContainer.innerHTML = '';
@@ -556,12 +574,10 @@
         card.className = 'product-card reveal';
         card.onclick = () => openModal(p);
 
-        // فرض ساختار عکس: images/products/ID-1.jpg
-        // اگر عکس اول پیدا نشد از پلیس‌هولدر استفاده میکنیم (اختیاری)
+        // هاردکد مسیر عکس (همان کد قدیمی شما)
         const img1 = `images/products/${p.id}-1.jpg`;
         const img2 = `images/products/${p.id}-2.jpg`;
 
-        // فرمت قیمت (فاصله سه رقم سه رقم)
         const formattedPrice = parseInt(p.price).toLocaleString('fa-IR');
 
         card.innerHTML = `
@@ -582,13 +598,8 @@
         grid.appendChild(card);
       });
 
-      // تریگر کردن افکت Reveal
-      setupObserversForNewItems();
-    }
-
-    function setupObserversForNewItems() {
-       // استفاده از آبزرور موجود در سایت برای المان‌های جدید
-       const observer = new IntersectionObserver((entries) => {
+      // تریگر کردن افکت Reveal برای المان‌های جدید
+      const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
@@ -596,7 +607,6 @@
           }
         });
       }, { threshold: 0.1 });
-      
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
@@ -606,7 +616,6 @@
       currentSubCategory = 'all'; // رست کردن ساب
       localSearchInput.value = ''; // خالی کردن سرچ لوکال
 
-      // آپدیت کلاس دکمه‌های اصلی
       document.querySelectorAll('#main-categories .filter-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.cat === cat);
       });
@@ -641,18 +650,13 @@
     }
 
     function setupEventListeners() {
-      // Global Search (سرچ در کل سایت)
       globalSearchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        
         if (query.length < 2) {
-          // اگر سرچ پاک شد، برگرد به حالت فیلتر قبلی
           if (currentCategory === 'all') renderProducts(allProducts);
-          else handleSubCategoryClick(currentSubCategory); // دوباره لود
+          else handleSubCategoryClick(currentSubCategory); // ریسازی فیلتر
           return;
         }
-
-        // فیلتر در کل دیتابیس
         const filtered = allProducts.filter(p => 
           p.name.toLowerCase().includes(query) ||
           p.description.toLowerCase().includes(query) ||
@@ -661,21 +665,14 @@
         renderProducts(filtered);
       });
 
-      // Local Search (سرچ داخل زیرمجموعه)
       localSearchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        
-        // فقط محصولات فعلی نمایش داده شده در گرید را فیلتر کن
-        // اما منطق بهتر این است که از روی سلیکت کنونی فیلتر بکشیم
-        
         let baseList = [];
         if (currentCategory === 'all') baseList = allProducts;
         else if (currentSubCategory === 'all') baseList = allProducts.filter(p => p.category === currentCategory);
         else baseList = allProducts.filter(p => p.category === currentCategory && p.subCategory === currentSubCategory);
 
-        const filtered = baseList.filter(p => 
-          p.name.toLowerCase().includes(query)
-        );
+        const filtered = baseList.filter(p => p.name.toLowerCase().includes(query));
         renderProducts(filtered);
       });
     }
@@ -683,7 +680,6 @@
     // --- MODAL LOGIC ---
     function openModal(product) {
       const img1 = `images/products/${product.id}-1.jpg`;
-      // تلاش برای لود عکس دوم برای گالری، اگر نبود همون یکی میمونه
       
       modalImg.src = img1;
       modalTitle.textContent = product.name;
@@ -694,7 +690,7 @@
       modalId.textContent = product.id;
 
       modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // جلوگیری از اسکرول بادی
+      document.body.style.overflow = 'hidden'; 
     }
 
     window.closeModal = function() {
@@ -702,11 +698,9 @@
       document.body.style.overflow = 'auto';
     }
 
-    // بستن با کلیک بیرون مودال
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });
-
   </script>
 </body>
 </html>
