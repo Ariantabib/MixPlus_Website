@@ -32,7 +32,7 @@
     .main-search-input {
       width: 100%;
       padding: 1rem 1.5rem;
-      padding-right: 3.5rem;
+      padding-right: 3.5rem; /* فضای آیکون */
       border-radius: 50px;
       border: 2px solid var(--stroke);
       background: var(--card);
@@ -174,12 +174,11 @@
       font-weight: 700;
       margin-bottom: 0.5rem;
       color: var(--fg);
-      /* LTR for names */
       direction: ltr;
       unicode-bidi: embed; 
     }
 
-        /* --- Price & Direction Fixes --- */
+    /* --- Price & Direction Fixes --- */
     .price-wrapper {
       display: flex;
       align-items: center;
@@ -189,14 +188,14 @@
     
     /* حالت فارسی: ریال در چپ، قیمت در راست */
     html[dir="rtl"] .price-wrapper {
-      direction: rtl; /* متن از راست به چپ */
-      flex-direction: row-reverse; /* ترتیب را معکوس میکنیم تا ریال اول باشد */
+      direction: rtl;
+      flex-direction: row-reverse;
     }
     
     /* حالت انگلیسی: قیمت در چپ، ریال در راست */
     html[dir="ltr"] .price-wrapper {
       direction: ltr;
-      flex-direction: row; /* ترتیب عادی: قیمت بعد ریال */
+      flex-direction: row;
     }
 
     .product-currency {
@@ -209,13 +208,6 @@
       font-size: 1.2rem;
       font-weight: 800;
       color: var(--brand);
-    }
-
-    .product-currency {
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      margin-right: 4px;
     }
 
     /* --- Loading & Empty States --- */
@@ -262,7 +254,7 @@
       overflow-y: auto;
       position: relative;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:1fr 1fr;
       gap: 2rem;
       padding: 2rem;
       box-shadow: var(--shadow-lg);
@@ -859,10 +851,4 @@
     });
   </script>
 </body>
-
 </html>
-
-
-
-
-
