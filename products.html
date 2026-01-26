@@ -446,11 +446,13 @@
 
   <!-- PRODUCTS PAGE LOGIC -->
   <script>
-            // --- CONFIGURATION ---
-    // اگر در گیتهاب آپلود کردید، مطمئن شوید آدرس فایل درست است.
-    // مثال: اگر فایل در روت گیتهاب است: '/products.csv'
-    // مثال: اگر در پوشه data است: 'data/products.csv'
-    const CSV_URL = 'data/products.csv'; 
+                // --- CONFIGURATION ---
+    // لینک اصلی گوگل شیت (با Cache Buster برای اطمینان از لود جدیدترین ورژن)
+    const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/pub?gid=0&single=true&output=csv';
+    const CSV_URL = BASE_URL + '&t=' + new Date().getTime();
+    
+    // لینک پروکسی (اگر لینک اصلی توسط مرورگر بلاک شد، از این استفاده میکنیم)
+    const PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(BASE_URL)}`;
     
     // --- TEXT TRANSLATIONS ---
     const uiText = {
@@ -522,7 +524,7 @@
         renderGrid();
       });
 
-      await fetchData();
+      await fetchData(); // تابع جدید با پروکسی
       setupEventListeners();
     });
 
@@ -532,28 +534,35 @@
       localSearchInput.placeholder = txt.searchLocal;
     }
 
-    // --- DATA FETCHING ---
+    // --- DATA FETCHING WITH PROXY FALLBACK ---
     async function fetchData() {
       try {
-        console.log(`Fetching CSV from: ${CSV_URL}...`);
         grid.innerHTML = `<div class="loading-state">${uiText[currentLang].loading}</div>`;
         
-        const response = await fetch(CSV_URL);
+        let data;
         
-        if (!response.ok) {
-          throw new Error(`HTTP Error ${response.status} - File not found?`);
+        try {
+            // تلاش اول: مستقیم (سریع‌تر)
+            console.log("Fetching directly...");
+            const response = await fetch(CSV_URL);
+            if (!response.ok) throw new Error("Direct fetch failed");
+            data = await response.text();
+        } catch (directError) {
+            // تلاش دوم: پروکسی (برای رفع مشکل CORS)
+            console.warn("Direct fetch failed (likely CORS), trying Proxy...", directError);
+            const proxyResponse = await fetch(PROXY_URL);
+            if (!proxyResponse.ok) throw new Error("Proxy fetch failed");
+            data = await proxyResponse.text();
+            console.log("Data fetched via Proxy successfully.");
         }
-        
-        const data = await response.text();
+
         console.log("Raw Data Length:", data.length);
-        
         allProducts = parseCSV(data); 
         
         console.log(`Parsed ${allProducts.length} products.`);
         
         if (allProducts.length === 0) {
-          // اگر محصولی پارس نشد، دلیلش را نشان بده
-          grid.innerHTML = `<div class="no-result">محصولی یافت نشد. (سطرهای CSV ممکن است مشکل داشته باشند)</div>`;
+          grid.innerHTML = `<div class="no-result">هیچ محصولی یافت نشد.</div>`;
           return;
         }
 
@@ -576,54 +585,42 @@
       } catch (error) {
         console.error("Critical Error:", error);
         grid.innerHTML = `<div class="no-result" style="color:red;">
-          خطا: ${error.message}<br>
-          لطفا آدرس فایل را در گیتهاب چک کنید (Case Sensitive).
+          خطا در لود کردن داده.<br>
+          دلیل: ${error.message}<br><br>
+          <small>اگر از مرورگر کروم استفاده میکنید، حتما از Live Server استفاده کنید (دابل کلیک روی فایل HTML جواب نمیدهد).</small>
         </div>`;
       }
     }
 
-    // --- BULLETPROOF CSV PARSER (Handles Missing Columns) ---
+    // --- BULLETPROOF CSV PARSER ---
     function parseCSV(csvText) {
-      // حذف BOM و خطوط خالی
       const BOM = '\uFEFF';
       if (csvText.charCodeAt(0) === BOM.charCodeAt(0)) {
         csvText = csvText.substr(1);
       }
 
       const lines = csvText.split('\n');
+      const products = [];
       
-      // اگر هیچ خطی نبود
-      if (lines.length < 2) return [];
-
-      // 1. شمارش تعداد ستون‌ها از روی هدر
+      // شمارش ستون‌ها از هدر
       const headerLine = lines[0];
-      // استفاده از اسپلیت ساده برای هدر (فرض: هدر تمیز است)
       const headerCols = headerLine.split(',').map(c => c.trim());
       const expectedCols = headerCols.length;
       
-      console.log(`Expected Columns: ${expectedCols}`);
-
-      const products = [];
-      
       for (let i = 1; i < lines.length; i++) {
         let line = lines[i].trim();
-        if (!line) continue; // رد کردن خط خالی
+        if (!line) continue;
 
-        // پارس کردن خط
         let parts = parseLineWithQuotes(line);
-
-        // --- منطق پر کردن جای خالی (The Fix) ---
-        // اگر تعداد پارت‌ها کمتر از ستون‌های هدر بود (مثلا عکس نداشته و کاما نبوده)
-        while (parts.length < expectedCols) {
-          parts.push(''); // پر کردن با رشته خالی
-        }
         
-        // اگر بیشتر بود، بقیه را قیچی کنیم
+        // پر کردن جای خالی اگر ستون کم بود
+        while (parts.length < expectedCols) {
+          parts.push('');
+        }
         if (parts.length > expectedCols) {
           parts = parts.slice(0, expectedCols);
         }
 
-        // مپ کردن دیتا به آبجکت
         products.push({
           id: parts[0]?.trim() || '',
           category: parts[1]?.trim() || '',
@@ -639,17 +636,11 @@
       return products;
     }
 
-    // پارسر حرفه‌ای برای متن‌های دارای کاما
     function parseLineWithQuotes(text) {
-        // اگر ساده کار می‌کرد، برگرد
         if (!text.includes(',')) return [text]; 
-        
-        // اگر کوتیشن نداشت، استفاده از اسپلیت ساده برای سرعت بیشتر
         if (!text.includes('"') && !text.includes("'")) {
             return text.split(',');
         }
-
-        // روش Regex برای متن‌های پیچیده
         const re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
         let a = [];
         text.replace(re_value, function(m0, m1, m2, m3) {
@@ -687,7 +678,6 @@
         card.className = 'product-card reveal';
         card.onclick = () => openModal(p);
 
-        // اگر عکس نبود، استفاده از پلیس‌هولدر
         const img1 = p.pic1 ? p.pic1 : 'https://via.placeholder.com/300?text=No+Image';
         const img2 = p.pic2 ? p.pic2 : img1;
 
