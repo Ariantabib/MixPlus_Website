@@ -926,7 +926,6 @@
 
     let currentLang = localStorage.getItem('mix_lang') || 'fa';
     let currentTheme = localStorage.getItem('mix_theme') || 'light';
-    let activeTypingTimer = null;
     
     // ==================== FUNCTIONS ====================
     
@@ -1020,7 +1019,7 @@
       });
     }
 
-    // ==================== HERO TEXT ANIMATION (REWRITTEN) ====================
+    // ==================== HERO TEXT ANIMATION (FIXED) ====================
     let heroInterval = null;
     let heroTimeouts = [];
 
@@ -1031,7 +1030,6 @@
     }
 
     function setupHeroTextLoop() {
-      // استفاده از تابع بازگشتی (Recursive) با Delay برای کنترل دقیق ترتیب
       const contentWrapper = document.querySelector('.mix-hero__content');
       const titleEl = document.getElementById('hero-title-text');
       const subEl = document.getElementById('hero-subtitle-text');
@@ -1039,29 +1037,23 @@
       const slides = heroSlides[currentLang];
       let index = 0;
 
-      // Helper: تایپ کردن متن کاراکتر به کاراکتر
+      // تایپ کردن متن با روش substring برای ثبات بیشتر در RTL
       const typeText = (element, text, speed = 30, callback) => {
-  // ۱. اگر قبلا تایمر تایپی داره داره کار میکنه، قطعش کن (این جلوی دو بار تایپ شدن رو میگیره)
-  if (activeTypingTimer) clearInterval(activeTypingInterval);
-  
-  element.textContent = ''; // متن رو پاک کن
-  let i = 0;
-  
-  const timer = setInterval(() => {
-    element.textContent += text.charAt(i);
-    i++;
-    
-    if (i >= text.length) {
-      clearInterval(timer);
-      activeTypingInterval = null; // وقتی تموم شد، متغیر رو نال کن
-      if (callback) callback();
-    }
-  }, speed);
-  
-  // ۲. تایمر فعلی رو ثبت کن
-  activeTypingInterval = timer; 
-  heroTimeouts.push(timer);
-};
+        element.textContent = '';
+        let i = 0;
+        const timer = setInterval(() => {
+          // FIX: استفاده از substring برای بازنویسی کل متن تا ایندکس
+          // این کار در فارسی (RTL) از خطای تایپ دو بار جلوگیری می‌کند
+          element.textContent = text.substring(0, i + 1);
+          
+          i++;
+          if (i >= text.length) {
+            clearInterval(timer);
+            if (callback) callback();
+          }
+        }, speed);
+        heroTimeouts.push(timer);
+      };
 
       const runCycle = () => {
         if (!document.body.contains(contentWrapper)) {
@@ -1071,13 +1063,13 @@
 
         const slide = slides[index];
 
-        // 1. Fade Out (اگر متن قبلی هست)
+        // 1. Fade Out
         contentWrapper.style.opacity = '0';
         
         heroTimeouts.push(setTimeout(() => {
-          // 2. Set Text (بدون انیمیشن، برای فید بعدی)
+          // 2. Set Text
           titleEl.textContent = slide.title;
-          subEl.textContent = ''; // خالی کردن ساب‌تایتل
+          subEl.textContent = ''; 
           
           // 3. Fade In
           contentWrapper.style.opacity = '1';
@@ -1092,9 +1084,9 @@
                 runCycle();
               }, 5000));
             });
-          }, 500)); // تاخیر 500 میلی‌ثانیه قبل از شروع تایپ
+          }, 500)); 
 
-        }, 500)); // همزمان با مدت زمان CSS transition (0.5s)
+        }, 500)); 
       };
 
       // شروع اولیه
@@ -1102,7 +1094,6 @@
     }
 
     function resetHeroTextAnimation() {
-      // پاک کردن همه تایمرها و شروع مجدد با زبان جدید
       clearHeroTimers();
       setupHeroTextLoop();
     }
