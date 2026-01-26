@@ -65,7 +65,10 @@
       line-height: 1.7;
       transition: background-color 0.3s ease, color 0.3s ease;
       overflow-x: hidden;
-      padding-bottom: 80px; /* فضای خالی برای موبایل بار */
+    }
+    /* فاصله بادی فقط برای موبایل (برای نویگیشن بار) */
+    @media (max-width: 968px) {
+      body { padding-bottom: 80px; }
     }
     
     .lang-en body { font-family: var(--font-en); }
@@ -97,7 +100,7 @@
     }
 
     .mix-header__container {
-      max-width: 1600px; /* افزایش عرض کانتینر برای مانیتورهای بزرگ */
+      max-width: 1600px;
       margin: 0 auto;
       height: 100%;
       padding: 0 2rem; 
@@ -105,7 +108,7 @@
       align-items: center;
       justify-content: space-between;
       position: relative;
-      min-width: 0; /* اجازه دادن به انقباض */
+      min-width: 0;
     }
     
     .mix-header__logo {
@@ -123,28 +126,28 @@
       display: flex;
       align-items: center;
       gap: 0.5rem; 
-      flex-shrink: 1; /* اجازه کوچک شدن */
+      flex-shrink: 1;
       min-width: 0;
     }
     
-    /* RTL Logic - Responsive Spacing */
+    /* RTL Logic - Increased Spacing */
     html[dir="rtl"] .mix-header__nav--primary {
       order: 1; margin-right: auto;
-      padding-left: 6rem; /* فاصله پیش‌فرض بزرگ */
+      padding-left: 8rem; /* افزایش فاصله فارسی */
     }
     html[dir="rtl"] .mix-header__nav--secondary {
       order: 3; margin-left: auto;
-      padding-right: 6rem;
+      padding-right: 8rem; /* افزایش فاصله فارسی */
     }
     
-    /* LTR Logic - Responsive Spacing */
+    /* LTR Logic - More Spacing than RTL */
     html[dir="ltr"] .mix-header__nav--primary {
       order: 1; margin-left: auto;
-      padding-right: 6rem;
+      padding-right: 10rem; /* فاصله بیشتر برای انگلیسی */
     }
     html[dir="ltr"] .mix-header__nav--secondary {
       order: 3; margin-right: auto;
-      padding-left: 6rem;
+      padding-left: 10rem; /* فاصله بیشتر برای انگلیسی */
     }
     
     .mix-header__item {
@@ -258,8 +261,8 @@
     .mix-hero__content {
       position: relative; z-index: 2; text-align: center; color: white;
       max-width: 900px; padding: 0 1.5rem;
-      min-height: 120px; /* فضای رزرو شده */
-      transition: opacity 0.5s ease; /* انیمیشن فد برای کل کانتینر */
+      min-height: 120px;
+      transition: opacity 0.5s ease;
     }
     .mix-hero__title {
       font-size: clamp(2.5rem, 5vw, 4.5rem);
@@ -301,7 +304,8 @@
       padding: 5rem 1.5rem;
       max-width: 1440px; margin: 0 auto;
     }
-    .mix-section--tight { padding-bottom: 2.5rem; }
+    /* کاهش فاصله زیر دکمه‌ها */
+    .mix-section--tight { padding-bottom: 1rem; }
 
     .mix-section-title {
       text-align: center; margin-bottom: 3.5rem;
@@ -403,10 +407,10 @@
       box-shadow: 0 10px 20px rgba(15, 169, 156, 0.2);
     }
 
-    /* Footer (Restored Structure) */
+    /* Footer (Restored & Adjusted) */
     .mix-footer {
       background: var(--card); border-top: 1px solid var(--stroke);
-      padding: 5rem 2rem 2rem;
+      padding: 5rem 2rem 1rem; /* کاهش پدینگ پایین فوتر برای جلوگیری از فضای خالی اضافه */
     }
     .mix-footer__grid {
       max-width: 1400px; margin: 0 auto;
@@ -505,20 +509,20 @@
     @media (min-width: 969px) { .mix-header__nav { display: flex !important; } }
     @media (max-width: 968px) { .mix-header__nav { display: none !important; } }
 
-    /* Responsive Header Adjustments (Desktop/Tablet Range) */
+    /* Responsive Header Adjustments */
     @media (max-width: 1300px) {
-      html[dir="rtl"] .mix-header__nav--primary { padding-left: 4rem; }
-      html[dir="rtl"] .mix-header__nav--secondary { padding-right: 4rem; }
-      html[dir="ltr"] .mix-header__nav--primary { padding-right: 4rem; }
-      html[dir="ltr"] .mix-header__nav--secondary { padding-left: 4rem; }
+      html[dir="rtl"] .mix-header__nav--primary { padding-left: 6rem; }
+      html[dir="rtl"] .mix-header__nav--secondary { padding-right: 6rem; }
+      html[dir="ltr"] .mix-header__nav--primary { padding-right: 7rem; }
+      html[dir="ltr"] .mix-header__nav--secondary { padding-left: 7rem; }
     }
     @media (max-width: 1100px) {
       .mix-header__item { font-size: 0.9rem; }
       .mix-header__logo img { height: 38px; }
-      html[dir="rtl"] .mix-header__nav--primary { padding-left: 2rem; }
-      html[dir="rtl"] .mix-header__nav--secondary { padding-right: 2rem; }
-      html[dir="ltr"] .mix-header__nav--primary { padding-right: 2rem; }
-      html[dir="ltr"] .mix-header__nav--secondary { padding-left: 2rem; }
+      html[dir="rtl"] .mix-header__nav--primary { padding-left: 3rem; }
+      html[dir="rtl"] .mix-header__nav--secondary { padding-right: 3rem; }
+      html[dir="ltr"] .mix-header__nav--primary { padding-right: 4rem; }
+      html[dir="ltr"] .mix-header__nav--secondary { padding-left: 4rem; }
     }
     
     .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
@@ -898,11 +902,12 @@
     </div>
   </section>
 
-  <!-- FOOTER (Restored) -->
+  <!-- FOOTER -->
   <footer class="mix-footer">
     <div class="mix-footer__grid">
       <div class="mix-footer__col">
-        <img src="images/logos/logo-dark.svg" alt="MixPlus" style="height: 40px; margin-bottom: 1.5rem; filter: brightness(0); opacity: 0.8;">
+        <img src="images/logos/logo-light.svg" alt="MixPlus" class="footer-logo-light" style="height: 40px; margin-bottom: 1.5rem;">
+        <img src="images/logos/logo-dark.svg" alt="MixPlus" class="footer-logo-dark hidden" style="height: 40px; margin-bottom: 1.5rem;">
         <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
           <span class="text-fa">ما با الهام از طراحی ایتالیایی و استفاده از بهترین مواد اولیه، محصولاتی تولید می‌کنیم که علاوه بر زیبایی، دوام و کارایی بالایی دارند.</span>
           <span class="text-en hidden">Inspired by Italian design and using the finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
@@ -1017,6 +1022,7 @@
     // ==================== FUNCTIONS ====================
     
     function init() {
+      window.scrollTo(0, 0); // Always scroll to top on load
       setTheme(currentTheme);
       setLanguage(currentLang, false); 
       setupObservers();
@@ -1036,12 +1042,19 @@
       const logoLight = document.querySelector('.logo-light');
       const logoDark = document.querySelector('.logo-dark');
       
+      const footerLogoLight = document.querySelector('.footer-logo-light');
+      const footerLogoDark = document.querySelector('.footer-logo-dark');
+      
       if (theme === 'dark') {
         logoLight.classList.remove('hidden');
         logoDark.classList.add('hidden');
+        footerLogoLight.classList.remove('hidden');
+        footerLogoDark.classList.add('hidden');
       } else {
         logoLight.classList.add('hidden');
         logoDark.classList.remove('hidden');
+        footerLogoLight.classList.add('hidden');
+        footerLogoDark.classList.remove('hidden');
       }
       currentTheme = theme;
       localStorage.setItem('mix_theme', theme);
@@ -1139,8 +1152,8 @@
       // 4. Typewriter Subtitle
       await typeWriter(subEl, currentSlide.subtitle, 30);
       
-      // 5. Wait
-      await new Promise(r => setTimeout(r, 3000));
+      // 5. Wait - Increased to 5 seconds
+      await new Promise(r => setTimeout(r, 5000));
       
       // 6. Loop
       currentSlideIndex++;
