@@ -446,13 +446,15 @@
 
   <!-- PRODUCTS PAGE LOGIC -->
   <script>
-                // --- CONFIGURATION ---
-    // لینک اصلی گوگل شیت (با Cache Buster برای اطمینان از لود جدیدترین ورژن)
+    // --- CONFIGURATION ---
+    // آدرس اصلی گوگل شیت
     const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/pub?gid=0&single=true&output=csv';
+    // افزودن تایم استمپ برای جلوگیری از کش شدن گیتهاب
     const CSV_URL = BASE_URL + '&t=' + new Date().getTime();
     
-    // لینک پروکسی (اگر لینک اصلی توسط مرورگر بلاک شد، از این استفاده میکنیم)
-    const PROXY_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(BASE_URL)}`;
+    // استفاده از سرویس CORS-Anywhere (متد HEAD برای اتصال سریع)
+    // این سرویس به سایت اجازه می‌دهد فایل‌های دیگر را بخواند
+    const PROXY_URL = `https://corsproxy.io/?${encodeURIComponent(BASE_URL)}`;
     
     // --- TEXT TRANSLATIONS ---
     const uiText = {
@@ -524,7 +526,7 @@
         renderGrid();
       });
 
-      await fetchData(); // تابع جدید با پروکسی
+      await fetchData();
       setupEventListeners();
     });
 
@@ -534,26 +536,25 @@
       localSearchInput.placeholder = txt.searchLocal;
     }
 
-    // --- DATA FETCHING WITH PROXY FALLBACK ---
+    // --- DATA FETCHING (GitHub Pages Friendly) ---
     async function fetchData() {
       try {
         grid.innerHTML = `<div class="loading-state">${uiText[currentLang].loading}</div>`;
         
         let data;
-        
         try {
-            // تلاش اول: مستقیم (سریع‌تر)
-            console.log("Fetching directly...");
+            // تلاش اول: پروکسی (برای جلوگیری از مشکل CORS روی گیتهاب)
+            console.log("Fetching via Proxy...");
+            const response = await fetch(PROXY_URL);
+            if (!response.ok) throw new Error("Proxy fetch failed");
+            data = await response.text();
+        } catch (proxyError) {
+            // تلاش دوم: مستقیم (اگر پروکسی کار نکرد)
+            console.warn("Proxy failed, trying direct...", proxyError);
             const response = await fetch(CSV_URL);
             if (!response.ok) throw new Error("Direct fetch failed");
             data = await response.text();
-        } catch (directError) {
-            // تلاش دوم: پروکسی (برای رفع مشکل CORS)
-            console.warn("Direct fetch failed (likely CORS), trying Proxy...", directError);
-            const proxyResponse = await fetch(PROXY_URL);
-            if (!proxyResponse.ok) throw new Error("Proxy fetch failed");
-            data = await proxyResponse.text();
-            console.log("Data fetched via Proxy successfully.");
+            console.log("Direct fetch succeeded.");
         }
 
         console.log("Raw Data Length:", data.length);
@@ -562,7 +563,7 @@
         console.log(`Parsed ${allProducts.length} products.`);
         
         if (allProducts.length === 0) {
-          grid.innerHTML = `<div class="no-result">هیچ محصولی یافت نشد.</div>`;
+          grid.innerHTML = `<div class="no-result">محصولی یافت نشد.</div>`;
           return;
         }
 
@@ -585,9 +586,8 @@
       } catch (error) {
         console.error("Critical Error:", error);
         grid.innerHTML = `<div class="no-result" style="color:red;">
-          خطا در لود کردن داده.<br>
-          دلیل: ${error.message}<br><br>
-          <small>اگر از مرورگر کروم استفاده میکنید، حتما از Live Server استفاده کنید (دابل کلیک روی فایل HTML جواب نمیدهد).</small>
+          خطا در لود کردن اطلاعات.<br>
+          ${error.message}
         </div>`;
       }
     }
@@ -602,11 +602,12 @@
       const lines = csvText.split('\n');
       const products = [];
       
-      // شمارش ستون‌ها از هدر
       const headerLine = lines[0];
       const headerCols = headerLine.split(',').map(c => c.trim());
       const expectedCols = headerCols.length;
       
+      console.log(`Expected Columns: ${expectedCols}`);
+
       for (let i = 1; i < lines.length; i++) {
         let line = lines[i].trim();
         if (!line) continue;
@@ -641,6 +642,7 @@
         if (!text.includes('"') && !text.includes("'")) {
             return text.split(',');
         }
+
         const re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
         let a = [];
         text.replace(re_value, function(m0, m1, m2, m3) {
@@ -859,6 +861,7 @@
 </body>
 
 </html>
+
 
 
 
