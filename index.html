@@ -247,18 +247,13 @@
 
     /* ==================== SECTIONS ==================== */
     .mix-section {
-      /* کاهش پدینگ کلی سکشن‌ها برای فشرده‌تر شدن */
-      padding: 3.5rem 1.5rem; 
+      /* کاهش پدینگ عمومی برای فشرده‌تر شدن کل صفحه */
+      padding: 3rem 1.5rem; 
       max-width: 1440px; margin: 0 auto;
     }
     
-    /* کاهش پدینگ زیر کارت‌ها */
-    #categories { padding-bottom: 0.5rem !important; } 
-    
-    .mix-section--tight { padding-bottom: 1rem; }
-
     .mix-section-title {
-      text-align: center; margin-bottom: 2rem; /* فاصله زیر تایتل‌ها کم شد */
+      text-align: center; margin-bottom: 2.5rem; /* کاهش فاصله زیر تایتل‌ها */
     }
     .mix-section-title h2 {
       font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;
@@ -294,9 +289,9 @@
 
     /* ==================== FULL BLEED BANNER ==================== */
     .mix-fullbleed {
-      position: relative; height: 40vh; min-height: 300px;
+      position: relative; height: 35vh; min-height: 250px; /* ارتفاع کمی کمتر برای فشرده‌تر شدن */
       display: flex; align-items: center; justify-content: center; overflow: hidden;
-      margin: 2rem 0;
+      margin: 1rem 0; /* مارجین کمتر */
     }
     .mix-fullbleed__image {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
@@ -694,7 +689,7 @@
       </h2>
       <p>
         <span class="text-fa">ما با الهام از طراحی ایتالیایی و استفاده از بهترین مواد اولیه، محصولاتی تولید می‌کنیم که علاوه بر زیبایی، دوام و کارایی بالایی دارند.</span>
-        <span class="text-en hidden">Inspired by Italian design and using the finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
+        <span class="text-en hidden">Inspired by Italian design and using of finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
       </p>
     </div>
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
@@ -827,7 +822,7 @@
         <img src="images/logos/logo-dark.svg" alt="MixPlus" class="footer-logo-dark hidden" style="height: 40px; margin-bottom: 1.5rem;">
         <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
           <span class="text-fa">ما با الهام از طراحی ایتالیایی و استفاده از بهترین مواد اولیه، محصولاتی تولید می‌کنیم که علاوه بر زیبایی، دوام و کارایی بالایی دارند.</span>
-          <span class="text-en hidden">Inspired by Italian design and using finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
+          <span class="text-en hidden">Inspired by Italian design and using the finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
         </p>
       </div>
       
@@ -934,11 +929,7 @@
     let currentTheme = localStorage.getItem('mix_theme') || 'light';
     let currentVideoIndex = 0;
     let currentSlideIndex = 0;
-    let heroAnimationTimeout;
     
-    // قفل انیمیشن برای جلوگیری از تداخل اسلایدها
-    let animationLockId = 0; 
-
     // ==================== FUNCTIONS ====================
     
     function init() {
@@ -947,7 +938,7 @@
       setLanguage(currentLang, false); 
       setupObservers();
       setupHeroVideoLoop();
-      setupHeroTextLoop();
+      setupHeroTextLoop(); // شروع انیمیشن ساده
       setupMobileNavigation();
     }
 
@@ -1012,7 +1003,7 @@
       }
 
       updateProductsSubmenu();
-      resetHeroAnimation(); // ریست انیمیشن با تغییر زبان
+      resetHeroAnimation();
       
       if (save) localStorage.setItem('mix_lang', lang);
     }
@@ -1031,15 +1022,12 @@
       });
     }
 
-    // ==================== HERO TEXT ANIMATION (FIXED & ROBUST) ====================
+    // ==================== HERO TEXT ANIMATION (SIMPLIFIED) ====================
     function typeWriter(element, text, speed) {
       return new Promise(resolve => {
-        element.textContent = ''; // پاک کردن متن قبلی
+        element.textContent = ''; // شروع خالی
         let i = 0;
         function type() {
-          // بررسی اگر انیمیشن قبلی باید متوقف شود
-          if (animationLockId > localLockId) return; 
-
           if (i < text.length) {
             element.textContent += text.charAt(i);
             i++;
@@ -1053,38 +1041,34 @@
     }
 
     async function runSlide(index) {
-      // ذخیره ID این راند خاص
-      const localLockId = animationLockId;
-      
-      const slides = heroSlides[currentLang];
-      const currentSlide = slides[index % slides.length];
-      const contentWrapper = document.querySelector('.mix-hero__content');
+      // گرفتن المان‌ها یکبار
+      const wrapper = document.querySelector('.mix-hero__content');
       const titleEl = document.getElementById('hero-title-text');
       const subEl = document.getElementById('hero-subtitle-text');
       
-      // 1. Fade Out Both
-      contentWrapper.style.opacity = '0';
-      
+      const slides = heroSlides[currentLang];
+      const currentSlide = slides[index % slides.length];
+
+      // 1. Fade Out (کامل)
+      wrapper.style.opacity = '0';
       await new Promise(r => setTimeout(r, 500)); 
-      
-      // 2. Set Title & Clear Subtitle Immediately
+
+      // 2. تنظیم محتوا (اینستنت)
       titleEl.textContent = currentSlide.title;
-      subEl.textContent = '';
+      subEl.textContent = ''; // پاک کردن متن قبلی برای تایپ‌رایتر
       
       // 3. Fade In
-      contentWrapper.style.opacity = '1';
+      wrapper.style.opacity = '1';
       
       // 4. Typewriter Subtitle
       await typeWriter(subEl, currentSlide.subtitle, 40);
       
-      // 5. Wait - 5 seconds
+      // 5. Wait (5 ثانیه)
       await new Promise(r => setTimeout(r, 5000));
       
-      // 6. Loop - فقط اگر ID فعلی هنوز معتبر باشد
-      if (animationLockId === localLockId) {
-        currentSlideIndex++;
-        runSlide(currentSlideIndex);
-      }
+      // 6. Next Slide
+      currentSlideIndex++;
+      runSlide(currentSlideIndex);
     }
 
     function setupHeroTextLoop() {
@@ -1092,21 +1076,16 @@
     }
 
     function resetHeroAnimation() {
-      // افزایش ID برای باطل کردن تمام اسلایدهای قبلی
-      animationLockId++;
+      // ریست شمارنده و شروع دوباره از صفر
       currentSlideIndex = 0;
-      
-      clearTimeout(heroAnimationTimeout);
-      
-      // پاک کردن متن برای جلوگیری از تداخل
-      const subEl = document.getElementById('hero-subtitle-text');
+      // پاک کردن متن‌ها برای جلوگیری از باگ‌های بصری لحظه‌ای
+      const subEl = document.getElementById('hero-hero-subtitle-text');
       const titleEl = document.getElementById('hero-title-text');
-      if(subEl) subEl.textContent = '';
-      if(titleEl) titleEl.textContent = '';
+      if (subEl) subEl.textContent = '';
+      if (titleEl) titleEl.textContent = '';
       
       document.querySelector('.mix-hero__content').style.opacity = '1';
       
-      // شروع اسلاید جدید با ID جدید
       setTimeout(() => {
         runSlide(0);
       }, 100);
