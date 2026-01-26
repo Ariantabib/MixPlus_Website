@@ -12,7 +12,7 @@
   <style>
     /* --- Search & Filter Section --- */
     .products-container {
-      padding-top: 120px; /* فاصله برای هدر فیکس */
+      padding-top: 120px; 
       max-width: 1600px;
       margin: 0 auto;
       padding-bottom: 4rem;
@@ -32,7 +32,7 @@
     .main-search-input {
       width: 100%;
       padding: 1rem 1.5rem;
-      padding-right: 3.5rem; /* فضای آیکون */
+      padding-right: 3.5rem; 
       border-radius: 50px;
       border: 2px solid var(--stroke);
       background: var(--card);
@@ -94,7 +94,7 @@
     }
 
     .sub-filter-container {
-      display: none; /* پیش‌فرض مخفی */
+      display: none; 
       animation: slideDown 0.4s ease forwards;
     }
     .sub-filter-container.active { display: block; }
@@ -125,6 +125,7 @@
     /* --- Product Grid --- */
     .products-grid {
       display: grid;
+      /* باگ دابل پرانتز برطرف شد */
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2rem;
       padding: 0 2rem;
@@ -186,13 +187,11 @@
       gap: 5px;
     }
     
-    /* حالت فارسی: ریال در چپ، قیمت در راست */
     html[dir="rtl"] .price-wrapper {
       direction: rtl;
       flex-direction: row-reverse;
     }
     
-    /* حالت انگلیسی: قیمت در چپ، ریال در راست */
     html[dir="ltr"] .price-wrapper {
       direction: ltr;
       flex-direction: row;
@@ -254,7 +253,7 @@
       overflow-y: auto;
       position: relative;
       display: grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 2rem;
       padding: 2rem;
       box-shadow: var(--shadow-lg);
@@ -436,16 +435,15 @@
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
 
-    <!-- PRODUCTS PAGE LOGIC -->
+  <!-- PRODUCTS PAGE LOGIC -->
   <script>
     // --- CONFIGURATION ---
-    const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/pub?gid=0&single=true&output=csv';
-    // لیستی از پروکسی‌ها برای تلاش‌های متوالی (GitHub Pages Friendly)
-    const PROXY_LIST = [
-      `https://thingproxy.freeboard.io/fetch?url=${encodeURIComponent(BASE_URL)}`, // پروکسی ۱ (بسیار پایدار)
-      `https://corsproxy.io/?${encodeURIComponent(BASE_URL)}`, // پروکسی ۲
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(BASE_URL)}` // پروکسی ۳
-    ];
+    // روش اول: Pub Link (لینک معمولی شما که در پرویو جواب داده)
+    const PUB_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/pub?gid=0&single=true&output=csv';
+    
+    // روش دوم: Export Link (لینک خروجی مستقیم و پایدارتر گوگل)
+    // از Pub تبدیل شده: .../d/ID/export?format=csv&gid=0
+    const EXPORT_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/export?format=csv&gid=0';
     
     // --- TEXT TRANSLATIONS ---
     const uiText = {
@@ -456,7 +454,7 @@
         allSubs: "همه زیرمجموعه‌ها",
         noResult: "محصولی با این مشخصات یافت نشد.",
         loading: "در حال دریافت اطلاعات...",
-        error: "خطا در بارگذاری.",
+        error: "خطا در ارتباط با گوگل شیت.",
         currency: "ریال",
         buyBtn: "خرید و نصب",
         closeBtn: "بستن",
@@ -471,7 +469,7 @@
         allSubs: "All Subcategories",
         noResult: "No products found.",
         loading: "Loading products...",
-        error: "Error loading data.",
+        error: "Error connecting to Google Sheet.",
         currency: "Rial",
         buyBtn: "Buy & Install",
         closeBtn: "Close",
@@ -517,7 +515,7 @@
         renderGrid();
       });
 
-      await fetchData(); // تابع جدید با چندین پروکسی
+      await fetchData(); 
       setupEventListeners();
     });
 
@@ -527,7 +525,7 @@
       localSearchInput.placeholder = txt.searchLocal;
     }
 
-    // --- MULTI-PROXY FETCHING (GitHub Pages Solution) ---
+    // --- SMART FETCH (DUAL ENDPOINT) ---
     async function fetchData() {
       try {
         grid.innerHTML = `<div class="loading-state">${uiText[currentLang].loading}</div>`;
@@ -536,42 +534,58 @@
         let success = false;
         let lastError = null;
 
-        // تلاش با هر پروکسی تا یکی جواب دهد
-        for (let i = 0; i < PROXY_LIST.length; i++) {
-            const proxyUrl = PROXY_LIST[i];
-            console.log(`Trying Proxy ${i + 1}/${PROXY_LIST.length}: ${proxyUrl}...`);
+        // تلاش اول: لینک Pub (معمول شما)
+        console.log("Trying PUB URL...");
+        try {
+            const response = await fetch(PUB_URL);
+            if (!response.ok) throw new Error(`Status ${response.status}`);
+            
+            const textData = await response.text();
+            if (textData.length > 100 && textData.includes(',')) {
+                data = textData;
+                success = true;
+                console.log("Success with PUB URL");
+            } else {
+                throw new Error("Data invalid");
+            }
+        } catch (err) {
+            console.warn("PUB URL failed:", err.message);
+            lastError = err;
+        }
+
+        // تلاش دوم: لینک Export (اگر Pub جواب نداد)
+        if (!success) {
+            console.log("Trying EXPORT URL...");
             try {
-                const response = await fetch(proxyUrl);
+                const response = await fetch(EXPORT_URL);
                 if (!response.ok) throw new Error(`Status ${response.status}`);
                 
-                // بررسی اینکه محتوای برگشتی CSV باشد
                 const textData = await response.text();
                 if (textData.length > 100 && textData.includes(',')) {
                     data = textData;
                     success = true;
-                    console.log(`Success with Proxy ${i + 1}`);
-                    break; // خارج شدن از حلقه
+                    console.log("Success with EXPORT URL");
                 } else {
-                    throw new Error("Invalid data format received");
+                    throw new Error("Data invalid");
                 }
             } catch (err) {
-                console.warn(`Proxy ${i + 1} failed:`, err.message);
+                console.warn("EXPORT URL failed:", err.message);
                 lastError = err;
-                continue; // تلاش با پروکسی بعدی
             }
         }
 
+        // اگر هر دو روش شکست خوردند
         if (!success) {
-            throw new Error(`All proxies failed. Last error: ${lastError.message}`);
+            throw new Error(`ناتوان در دریافت داده از گوگل شیت. خطا: ${lastError.message}`);
         }
 
-        // اگر به اینجا رسیدیم یعنی دیتا لود شده
+        // پارس کردن
         allProducts = parseCSV(data); 
         
         console.log(`Parsed ${allProducts.length} products.`);
         
         if (allProducts.length === 0) {
-          grid.innerHTML = `<div class="no-result">هیچ محصولی یافت نشد.</div>`;
+          grid.innerHTML = `<div class="no-result">محصولی یافت نشد.</div>`;
           return;
         }
 
@@ -593,9 +607,9 @@
 
       } catch (error) {
         console.error("Critical Error:", error);
+        // نمایش خطا روی صفحه چون موبایل کانسل ندارد
         grid.innerHTML = `<div class="no-result" style="color:red;">
-          خطا در ارتباط با سرور داده.<br>
-          لطفا لحظاتی دیگر تلاش کنید.<br>
+          خطا در لود کردن محصولات.<br>
           <small>${error.message}</small>
         </div>`;
       }
@@ -867,4 +881,3 @@
   </script>
 </body>
 </html>
-
