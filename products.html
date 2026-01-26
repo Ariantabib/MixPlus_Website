@@ -453,7 +453,7 @@
       setupEventListeners();
     });
 
-    // --- DATA FETCHING ---
+        // --- DATA FETCHING ---
     async function fetchData() {
       try {
         const response = await fetch(CSV_URL);
@@ -466,7 +466,32 @@
         }
 
         generateCategoryButtons();
-        renderProducts(allProducts);
+        
+        // --- CHECK FOR URL PARAMETER ---
+        // بررسی اینکه آیا کاربر با لینک خاص آمده است یا خیر
+        const urlParams = new URLSearchParams(window.location.search);
+        const catParam = urlParams.get('cat');
+
+        if (catParam) {
+          // کمی تاخیر برای اطمینان از ساخت دکمه‌ها
+          setTimeout(() => {
+            const buttons = Array.from(document.querySelectorAll('#main-categories .filter-btn'));
+            // دکمه‌ای که متنش برابر پارامتر آدرس است را پیدا کن
+            const targetBtn = buttons.find(btn => btn.textContent === catParam);
+            
+            if (targetBtn) {
+              // شبیه‌سازی کلیک برای اعمال تمام فیلترها (شامل زیرمجموعه و غیره)
+              targetBtn.click();
+            } else {
+              // اگر دسته‌بندی پیدا نشد، همه را نشان بده
+              renderProducts(allProducts);
+            }
+          }, 100);
+        } else {
+          // اگر پارامتری نبود، همه محصولات را نشان بده
+          renderProducts(allProducts);
+        }
+
       } catch (error) {
         console.error('Error loading CSV:', error);
         grid.innerHTML = '<div class="no-result">خطا در بارگذاری اطلاعات. لطفا اتصال اینترنت خود را بررسی کنید.</div>';
@@ -709,4 +734,5 @@
 
   </script>
 </body>
+
 </html>
