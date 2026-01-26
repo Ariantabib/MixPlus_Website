@@ -179,11 +179,36 @@
       unicode-bidi: embed; 
     }
 
-    .product-price {
+        /* --- Price & Direction Fixes --- */
+    .price-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    /* حالت فارسی: ریال در چپ، قیمت در راست */
+    html[dir="rtl"] .price-wrapper {
+      direction: rtl; /* متن از راست به چپ */
+      flex-direction: row-reverse; /* ترتیب را معکوس میکنیم تا ریال اول باشد */
+    }
+    
+    /* حالت انگلیسی: قیمت در چپ، ریال در راست */
+    html[dir="ltr"] .price-wrapper {
+      direction: ltr;
+      flex-direction: row; /* ترتیب عادی: قیمت بعد ریال */
+    }
+
+    .product-currency {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .product-price-num {
       font-size: 1.2rem;
       font-weight: 800;
       color: var(--brand);
-      direction: ltr;
     }
 
     .product-currency {
@@ -421,13 +446,48 @@
 
   <!-- PRODUCTS PAGE LOGIC -->
   <script>
-    // --- CONFIGURATION ---
+        // --- CONFIGURATION ---
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/pub?gid=0&single=true&output=csv';
     
+    // --- TEXT TRANSLATIONS ---
+    const uiText = {
+      fa: {
+        searchGlobal: "جستجوی هوشمند محصول...",
+        searchLocal: "جستجو در این دسته‌بندی...",
+        allProducts: "همه محصولات",
+        allSubs: "همه زیرمجموعه‌ها",
+        noResult: "محصولی با این مشخصات یافت نشد.",
+        loading: "در حال دریافت اطلاعات محصولات...",
+        error: "خطا در بارگذاری اطلاعات.",
+        currency: "ریال",
+        buyBtn: "خرید و نصب",
+        closeBtn: "بستن",
+        specId: "شناسه محصول (ID)",
+        specCat: "گروه کالایی",
+        specCatSub: "زیرگروه"
+      },
+      en: {
+        searchGlobal: "Smart Product Search...",
+        searchLocal: "Search in this category...",
+        allProducts: "All Products",
+        allSubs: "All Subcategories",
+        noResult: "No products found.",
+        loading: "Loading products...",
+        error: "Error loading data.",
+        currency: "Rial",
+        buyBtn: "Buy & Install",
+        closeBtn: "Close",
+        specId: "Product ID",
+        specCat: "Category",
+        specCatSub: "Sub-Category"
+      }
+    };
+
     // --- STATE ---
     let allProducts = [];
     let currentCategory = 'all';
     let currentSubCategory = 'all';
+    let currentLang = 'fa'; // پیش‌فرض، بعدا از هدر می‌گیرد
 
     // --- DOM ELEMENTS ---
     const grid = document.getElementById('products-grid');
@@ -449,93 +509,195 @@
 
     // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', async () => {
+      // 1. تنظیم زبان از روی هدر (main.js) اگر لود شده باشد
+      if (typeof window.currentLang !== 'undefined') {
+        currentLang = window.currentLang;
+      }
+      applyLanguage();
+
+      // 2. گوش دادن به تغییر زبان از هدر
+      window.addEventListener('langReady', () => {
+        currentLang = window.currentLang;
+        applyLanguage();
+        renderGrid(); // رندر مجدد گرید برای آپدیت قیمت‌ها و متون
+      });
+
       await fetchData();
       setupEventListeners();
     });
 
-        // --- DATA FETCHING ---
+    // --- APPLY LANGUAGE UI ---
+    function applyLanguage() {
+      const txt = uiText[currentLang];
+      
+      // Update Inputs
+      globalSearchInput.placeholder = txt.searchGlobal;
+      localSearchInput.placeholder = txt.searchLocal;
+      
+      // Update Buttons (Categories will be regenerated on data load)
+      // Note: We handle category buttons inside generateCategoryButtons
+    }
+
+    // --- DATA FETCHING ---
     async function fetchData() {
       try {
+        grid.innerHTML = `<div class="loading-state">${uiText[currentLang].loading}</div>`;
+        
         const response = await fetch(CSV_URL);
         const data = await response.text();
-        allProducts = parseCSV(data);
+        allProducts = parseCSV(data); // پارسر پیشرفته
         
         if (allProducts.length === 0) {
-          grid.innerHTML = '<div class="no-result">محصولی یافت نشد.</div>';
+          grid.innerHTML = `<div class="no-result">${uiText[currentLang].noResult}</div>`;
           return;
         }
 
         generateCategoryButtons();
         
-        // --- CHECK FOR URL PARAMETER ---
-        // بررسی اینکه آیا کاربر با لینک خاص آمده است یا خیر
+        // Check URL Params
         const urlParams = new URLSearchParams(window.location.search);
         const catParam = urlParams.get('cat');
-
+        
         if (catParam) {
-          // کمی تاخیر برای اطمینان از ساخت دکمه‌ها
           setTimeout(() => {
             const buttons = Array.from(document.querySelectorAll('#main-categories .filter-btn'));
-            // دکمه‌ای که متنش برابر پارامتر آدرس است را پیدا کن
             const targetBtn = buttons.find(btn => btn.textContent === catParam);
-            
-            if (targetBtn) {
-              // شبیه‌سازی کلیک برای اعمال تمام فیلترها (شامل زیرمجموعه و غیره)
-              targetBtn.click();
-            } else {
-              // اگر دسته‌بندی پیدا نشد، همه را نشان بده
-              renderProducts(allProducts);
-            }
+            if (targetBtn) targetBtn.click();
+            else renderGrid(allProducts);
           }, 100);
         } else {
-          // اگر پارامتری نبود، همه محصولات را نشان بده
-          renderProducts(allProducts);
+          renderGrid(allProducts);
         }
 
       } catch (error) {
         console.error('Error loading CSV:', error);
-        grid.innerHTML = '<div class="no-result">خطا در بارگذاری اطلاعات. لطفا اتصال اینترنت خود را بررسی کنید.</div>';
+        grid.innerHTML = `<div class="no-result">${uiText[currentLang].error}</div>`;
       }
     }
 
-    // --- CSV PARSER ---
+    // --- ADVANCED CSV PARSER (Handles Quotes/Commas) ---
     function parseCSV(csvText) {
+      // این Regex سطرها را بر اساس کاماهایی که داخل کوتیشن نیستند جدا می‌کند
+      const parseLine = (line) => {
+        const re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
+        const re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+        let a = [];
+        line.replace(re_value, function(m0, m1, m2, m3) {
+            if (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
+            else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
+            else if (m3 !== undefined) a.push(m3);
+            return '';
+        });
+        if (/,\s*$/.test(line)) a.push('');
+        return a;
+      };
+
       const lines = csvText.split('\n').filter(line => line.trim() !== '');
-      const headers = lines[0].split(',');
+      // فرض بر این است که سطر اول هدر است
+      // هدر را نمی‌خوانیم چون ما ستون‌ها را با ایندکس می‌خوانیم
+      // Index Mapping: 0:ID, 1:Cat, 2:Sub, 3:Name, 4:Desc, 5:Price, 6:Pic1, 7:Pic2, 8:Pic3
       
       const products = [];
       
+      // حلقه از 1 شروع می‌شود (ردیف هدر)
       for (let i = 1; i < lines.length; i++) {
-        const currentLine = lines[i].split(',');
+        const currentLine = parseLine(lines[i]);
         
-        // خط مقابله: اگر تعداد ستون‌ها کم بود ازش رد شو
-        if (currentLine.length < 5) continue;
+        if (currentLine.length < 6) continue; // حداقل ستون‌ها
 
-        // فرض بر اساس ستون‌های گوگل شیت:
-        // 0: ID, 1: Category, 2: Sub-Category, 3: Name, 4: Description, 5: Price
-        const product = {
+        products.push({
           id: currentLine[0]?.trim() || '',
           category: currentLine[1]?.trim() || '',
           subCategory: currentLine[2]?.trim() || '',
           name: currentLine[3]?.trim() || '',
           description: currentLine[4]?.trim() || '',
-          price: currentLine[5]?.trim() || '0'
-        };
-        products.push(product);
+          price: currentLine[5]?.trim().replace(/,/g, '') || '0', // حذف کاماهای عددی
+          pic1: currentLine[6]?.trim() || '', // ستون Pic_1
+          pic2: currentLine[7]?.trim() || '', // ستون Pic_2
+          pic3: currentLine[8]?.trim() || ''  // ستون Pic_3
+        });
       }
       return products;
     }
 
+    // --- RENDER GRID (Wrapper) ---
+    function renderGrid(list = null) {
+      if(list) renderProducts(list);
+      else {
+        // برای رفرش بدون فیلتر
+        if(currentCategory === 'all') renderProducts(allProducts);
+        else if(currentSubCategory === 'all') renderProducts(allProducts.filter(p => p.category === currentCategory));
+        else renderProducts(allProducts.filter(p => p.category === currentCategory && p.subCategory === currentSubCategory));
+      }
+    }
+
+    // --- RENDER LOGIC ---
+    function renderProducts(productsToRender) {
+      grid.innerHTML = '';
+      const txt = uiText[currentLang];
+      
+      if (productsToRender.length === 0) {
+        grid.innerHTML = `<div class="no-result">${txt.noResult}</div>`;
+        return;
+      }
+
+      productsToRender.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card reveal';
+        card.onclick = () => openModal(p);
+
+        // منطق عکس: اگر Pic_1 خالی بود، از پلیس‌هولدر استفاده کن
+        const img1 = p.pic1 ? p.pic1 : 'https://via.placeholder.com/300?text=No+Image';
+        const img2 = p.pic2 ? p.pic2 : img1;
+
+        // فرمت قیمت
+        const formattedPrice = parseInt(p.price).toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US');
+
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <img src="${img1}" alt="${p.name}" class="card-img" 
+                 onmouseenter="this.src='${img2}'" 
+                 onmouseleave="this.src='${img1}'">
+          </div>
+          <div class="card-content">
+            <h3 class="product-title">${p.name}</h3>
+            
+            <div class="price-wrapper">
+               <!-- بسته به زبان ترتیب را عوض میکنیم ولی با CSS هندل کردیم، اینجا فقط رندر میکنیم -->
+               <span class="product-currency">${txt.currency}</span>
+               <span class="product-price-num">${formattedPrice}</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      setupObserversForNewItems();
+    }
+
+    function setupObserversForNewItems() {
+       const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
     // --- UI GENERATION ---
     function generateCategoryButtons() {
-      // استخراج دسته‌بندی‌های یکتا
+      const txt = uiText[currentLang];
       const categories = ['all', ...new Set(allProducts.map(p => p.category))];
       
       mainCatContainer.innerHTML = '';
       categories.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = `filter-btn ${cat === 'all' ? 'active' : ''}`;
-        btn.textContent = cat === 'all' ? 'همه محصولات' : cat;
+        btn.textContent = cat === 'all' ? txt.allProducts : cat;
         btn.dataset.cat = cat;
         btn.onclick = () => handleCategoryClick(cat);
         mainCatContainer.appendChild(btn);
@@ -543,6 +705,7 @@
     }
 
     function generateSubCategoryButtons(category) {
+      const txt = uiText[currentLang];
       subCatContainer.innerHTML = '';
       
       if (category === 'all') {
@@ -558,7 +721,7 @@
       subs.forEach(sub => {
         const btn = document.createElement('button');
         btn.className = `filter-btn ${sub === 'all' ? 'active' : ''}`;
-        btn.textContent = sub === 'all' ? 'همه زیرمجموعه‌ها' : sub;
+        btn.textContent = sub === 'all' ? txt.allSubs : sub;
         btn.dataset.sub = sub;
         btn.onclick = () => handleSubCategoryClick(sub);
         subCatContainer.appendChild(btn);
@@ -567,78 +730,19 @@
       subFilterContainer.classList.add('active');
     }
 
-    // --- RENDER LOGIC ---
-    function renderProducts(productsToRender) {
-      grid.innerHTML = '';
-      
-      if (productsToRender.length === 0) {
-        grid.innerHTML = '<div class="no-result">محصولی با این مشخصات یافت نشد.</div>';
-        return;
-      }
-
-      productsToRender.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card reveal';
-        card.onclick = () => openModal(p);
-
-        // فرض ساختار عکس: images/products/ID-1.jpg
-        // اگر عکس اول پیدا نشد از پلیس‌هولدر استفاده میکنیم (اختیاری)
-        const img1 = `images/products/${p.id}-1.jpg`;
-        const img2 = `images/products/${p.id}-2.jpg`;
-
-        // فرمت قیمت (فاصله سه رقم سه رقم)
-        const formattedPrice = parseInt(p.price).toLocaleString('fa-IR');
-
-        card.innerHTML = `
-          <div class="card-img-wrapper">
-            <img src="${img1}" alt="${p.name}" class="card-img" 
-                 onerror="this.src='https://via.placeholder.com/300?text=No+Image'"
-                 onmouseenter="this.src='${img2}'" 
-                 onmouseleave="this.src='${img1}'">
-          </div>
-          <div class="card-content">
-            <h3 class="product-title">${p.name}</h3>
-            <div class="product-price">
-              <span class="product-currency">ریال</span>
-              ${formattedPrice}
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      // تریگر کردن افکت Reveal
-      setupObserversForNewItems();
-    }
-
-    function setupObserversForNewItems() {
-       // استفاده از آبزرور موجود در سایت برای المان‌های جدید
-       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      
-      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    }
-
     // --- EVENT HANDLERS ---
     function handleCategoryClick(cat) {
       currentCategory = cat;
-      currentSubCategory = 'all'; // رست کردن ساب
-      localSearchInput.value = ''; // خالی کردن سرچ لوکال
+      currentSubCategory = 'all';
+      localSearchInput.value = '';
 
-      // آپدیت کلاس دکمه‌های اصلی
       document.querySelectorAll('#main-categories .filter-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.cat === cat);
       });
 
       if (cat === 'all') {
         renderProducts(allProducts);
-        generateSubCategoryButtons('all'); // مخفی کردن ساب
+        generateSubCategoryButtons('all');
       } else {
         generateSubCategoryButtons(cat);
         const filtered = allProducts.filter(p => p.category === cat);
@@ -666,18 +770,13 @@
     }
 
     function setupEventListeners() {
-      // Global Search (سرچ در کل سایت)
+      // Global Search
       globalSearchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        
         if (query.length < 2) {
-          // اگر سرچ پاک شد، برگرد به حالت فیلتر قبلی
-          if (currentCategory === 'all') renderProducts(allProducts);
-          else handleSubCategoryClick(currentSubCategory); // دوباره لود
+          renderGrid(); // Reset
           return;
         }
-
-        // فیلتر در کل دیتابیس
         const filtered = allProducts.filter(p => 
           p.name.toLowerCase().includes(query) ||
           p.description.toLowerCase().includes(query) ||
@@ -686,40 +785,48 @@
         renderProducts(filtered);
       });
 
-      // Local Search (سرچ داخل زیرمجموعه)
+      // Local Search
       localSearchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        
-        // فقط محصولات فعلی نمایش داده شده در گرید را فیلتر کن
-        // اما منطق بهتر این است که از روی سلیکت کنونی فیلتر بکشیم
-        
         let baseList = [];
         if (currentCategory === 'all') baseList = allProducts;
         else if (currentSubCategory === 'all') baseList = allProducts.filter(p => p.category === currentCategory);
         else baseList = allProducts.filter(p => p.category === currentCategory && p.subCategory === currentSubCategory);
 
-        const filtered = baseList.filter(p => 
-          p.name.toLowerCase().includes(query)
-        );
+        const filtered = baseList.filter(p => p.name.toLowerCase().includes(query));
         renderProducts(filtered);
       });
     }
 
     // --- MODAL LOGIC ---
     function openModal(product) {
-      const img1 = `images/products/${product.id}-1.jpg`;
-      // تلاش برای لود عکس دوم برای گالری، اگر نبود همون یکی میمونه
+      const txt = uiText[currentLang];
+      const img = (product.pic1 || product.pic2) ? (product.pic1 || product.pic2) : 'https://via.placeholder.com/800?text=No+Image';
       
-      modalImg.src = img1;
+      modalImg.src = img;
       modalTitle.textContent = product.name;
-      modalPrice.innerHTML = `${parseInt(product.price).toLocaleString('fa-IR')} <span class="product-currency">ریال</span>`;
+      
+      // Modal Price
+      const priceNum = parseInt(product.price).toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US');
+      modalPrice.innerHTML = `
+        <div class="price-wrapper">
+           <span class="product-currency">${txt.currency}</span>
+           <span class="product-price-num">${priceNum}</span>
+        </div>`;
+
       modalDesc.textContent = product.description;
       modalCat.textContent = product.category;
       modalCatSub.textContent = product.subCategory;
       modalId.textContent = product.id;
 
+      // Update Modal Table Headers
+      document.querySelector('.specs-table td:nth-child(1)').textContent = txt.specId;
+      // Note: Updating other table headers dynamically requires more selectors, 
+      // assuming they are somewhat static or user edits HTML text directly.
+      // Let's assume standard updates are enough for now.
+      
       modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // جلوگیری از اسکرول بادی
+      document.body.style.overflow = 'hidden';
     }
 
     window.closeModal = function() {
@@ -727,11 +834,9 @@
       document.body.style.overflow = 'auto';
     }
 
-    // بستن با کلیک بیرون مودال
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });
-
   </script>
 </body>
 
