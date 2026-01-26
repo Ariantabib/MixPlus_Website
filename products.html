@@ -436,17 +436,16 @@
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
 
-  <!-- PRODUCTS PAGE LOGIC -->
+    <!-- PRODUCTS PAGE LOGIC -->
   <script>
     // --- CONFIGURATION ---
-    // آدرس اصلی گوگل شیت
     const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/pub?gid=0&single=true&output=csv';
-    // افزودن تایم استمپ برای جلوگیری از کش شدن گیتهاب
-    const CSV_URL = BASE_URL + '&t=' + new Date().getTime();
-    
-    // استفاده از سرویس CORS-Anywhere (متد HEAD برای اتصال سریع)
-    // این سرویس به سایت اجازه می‌دهد فایل‌های دیگر را بخواند
-    const PROXY_URL = `https://corsproxy.io/?${encodeURIComponent(BASE_URL)}`;
+    // لیستی از پروکسی‌ها برای تلاش‌های متوالی (GitHub Pages Friendly)
+    const PROXY_LIST = [
+      `https://thingproxy.freeboard.io/fetch?url=${encodeURIComponent(BASE_URL)}`, // پروکسی ۱ (بسیار پایدار)
+      `https://corsproxy.io/?${encodeURIComponent(BASE_URL)}`, // پروکسی ۲
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(BASE_URL)}` // پروکسی ۳
+    ];
     
     // --- TEXT TRANSLATIONS ---
     const uiText = {
@@ -456,8 +455,8 @@
         allProducts: "همه محصولات",
         allSubs: "همه زیرمجموعه‌ها",
         noResult: "محصولی با این مشخصات یافت نشد.",
-        loading: "در حال دریافت اطلاعات محصولات...",
-        error: "خطا در بارگذاری اطلاعات.",
+        loading: "در حال دریافت اطلاعات...",
+        error: "خطا در بارگذاری.",
         currency: "ریال",
         buyBtn: "خرید و نصب",
         closeBtn: "بستن",
@@ -518,7 +517,7 @@
         renderGrid();
       });
 
-      await fetchData();
+      await fetchData(); // تابع جدید با چندین پروکسی
       setupEventListeners();
     });
 
@@ -528,34 +527,51 @@
       localSearchInput.placeholder = txt.searchLocal;
     }
 
-    // --- DATA FETCHING (GitHub Pages Friendly) ---
+    // --- MULTI-PROXY FETCHING (GitHub Pages Solution) ---
     async function fetchData() {
       try {
         grid.innerHTML = `<div class="loading-state">${uiText[currentLang].loading}</div>`;
         
-        let data;
-        try {
-            // تلاش اول: پروکسی (برای جلوگیری از مشکل CORS روی گیتهاب)
-            console.log("Fetching via Proxy...");
-            const response = await fetch(PROXY_URL);
-            if (!response.ok) throw new Error("Proxy fetch failed");
-            data = await response.text();
-        } catch (proxyError) {
-            // تلاش دوم: مستقیم (اگر پروکسی کار نکرد)
-            console.warn("Proxy failed, trying direct...", proxyError);
-            const response = await fetch(CSV_URL);
-            if (!response.ok) throw new Error("Direct fetch failed");
-            data = await response.text();
-            console.log("Direct fetch succeeded.");
+        let data = null;
+        let success = false;
+        let lastError = null;
+
+        // تلاش با هر پروکسی تا یکی جواب دهد
+        for (let i = 0; i < PROXY_LIST.length; i++) {
+            const proxyUrl = PROXY_LIST[i];
+            console.log(`Trying Proxy ${i + 1}/${PROXY_LIST.length}: ${proxyUrl}...`);
+            try {
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                
+                // بررسی اینکه محتوای برگشتی CSV باشد
+                const textData = await response.text();
+                if (textData.length > 100 && textData.includes(',')) {
+                    data = textData;
+                    success = true;
+                    console.log(`Success with Proxy ${i + 1}`);
+                    break; // خارج شدن از حلقه
+                } else {
+                    throw new Error("Invalid data format received");
+                }
+            } catch (err) {
+                console.warn(`Proxy ${i + 1} failed:`, err.message);
+                lastError = err;
+                continue; // تلاش با پروکسی بعدی
+            }
         }
 
-        console.log("Raw Data Length:", data.length);
+        if (!success) {
+            throw new Error(`All proxies failed. Last error: ${lastError.message}`);
+        }
+
+        // اگر به اینجا رسیدیم یعنی دیتا لود شده
         allProducts = parseCSV(data); 
         
         console.log(`Parsed ${allProducts.length} products.`);
         
         if (allProducts.length === 0) {
-          grid.innerHTML = `<div class="no-result">محصولی یافت نشد.</div>`;
+          grid.innerHTML = `<div class="no-result">هیچ محصولی یافت نشد.</div>`;
           return;
         }
 
@@ -578,8 +594,9 @@
       } catch (error) {
         console.error("Critical Error:", error);
         grid.innerHTML = `<div class="no-result" style="color:red;">
-          خطا در لود کردن اطلاعات.<br>
-          ${error.message}
+          خطا در ارتباط با سرور داده.<br>
+          لطفا لحظاتی دیگر تلاش کنید.<br>
+          <small>${error.message}</small>
         </div>`;
       }
     }
@@ -606,7 +623,6 @@
 
         let parts = parseLineWithQuotes(line);
         
-        // پر کردن جای خالی اگر ستون کم بود
         while (parts.length < expectedCols) {
           parts.push('');
         }
@@ -634,7 +650,6 @@
         if (!text.includes('"') && !text.includes("'")) {
             return text.split(',');
         }
-
         const re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
         let a = [];
         text.replace(re_value, function(m0, m1, m2, m3) {
@@ -852,3 +867,4 @@
   </script>
 </body>
 </html>
+
