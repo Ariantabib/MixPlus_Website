@@ -66,10 +66,7 @@
       transition: background-color 0.3s ease, color 0.3s ease;
       overflow-x: hidden;
     }
-    /* فاصله بادی فقط برای موبایل (برای نویگیشن بار) */
-    @media (max-width: 968px) {
-      body { padding-bottom: 80px; }
-    }
+    @media (max-width: 968px) { body { padding-bottom: 80px; } }
     
     .lang-en body { font-family: var(--font-en); }
     
@@ -81,10 +78,8 @@
 
     /* ==================== HEADER ==================== */
     .mix-header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 90px;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 90px; z-index: 1000;
       background: var(--glass-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -93,79 +88,54 @@
     }
     
     .mix-header--scrolled {
-      height: 75px;
-      background: var(--header-bg-solid);
+      height: 75px; background: var(--header-bg-solid);
       box-shadow: var(--shadow-sm);
       border-bottom: 1px solid var(--header-border);
     }
 
     .mix-header__container {
-      max-width: 1600px;
-      margin: 0 auto;
-      height: 100%;
-      padding: 0 2rem; 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      min-width: 0;
+      max-width: 1600px; margin: 0 auto; height: 100%;
+      padding: 0 2rem; display: flex; align-items: center;
+      justify-content: space-between; position: relative; min-width: 0;
     }
     
     .mix-header__logo {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1002;
-      display: flex;
-      align-items: center;
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%); z-index: 1002;
+      display: flex; align-items: center;
     }
     .mix-header__logo img { height: 42px; width: auto; }
 
     .mix-header__nav {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem; 
-      flex-shrink: 1;
-      min-width: 0;
+      display: flex; align-items: center; gap: 0.5rem; 
+      flex-shrink: 1; min-width: 0;
     }
     
-    /* RTL Logic - Increased Spacing */
+    /* RTL Logic */
     html[dir="rtl"] .mix-header__nav--primary {
-      order: 1; margin-right: auto;
-      padding-left: 8rem; /* افزایش فاصله فارسی */
+      order: 1; margin-right: auto; padding-left: 8rem; 
     }
     html[dir="rtl"] .mix-header__nav--secondary {
-      order: 3; margin-left: auto;
-      padding-right: 8rem; /* افزایش فاصله فارسی */
+      order: 3; margin-left: auto; padding-right: 8rem; 
     }
     
-    /* LTR Logic - More Spacing than RTL */
+    /* LTR Logic */
     html[dir="ltr"] .mix-header__nav--primary {
-      order: 1; margin-left: auto;
-      padding-right: 10rem; /* فاصله بیشتر برای انگلیسی */
+      order: 1; margin-left: auto; padding-right: 10rem; 
     }
     html[dir="ltr"] .mix-header__nav--secondary {
-      order: 3; margin-right: auto;
-      padding-left: 10rem; /* فاصله بیشتر برای انگلیسی */
+      order: 3; margin-right: auto; padding-left: 10rem; 
     }
     
     .mix-header__item {
-      padding: 0.5rem 0.75rem;
-      color: var(--fg);
-      font-weight: 500;
-      font-size: 0.95rem;
-      cursor: pointer;
-      position: relative;
-      white-space: nowrap;
-      transition: color 0.2s ease;
+      padding: 0.5rem 0.75rem; color: var(--fg); font-weight: 500;
+      font-size: 0.95rem; cursor: pointer; position: relative;
+      white-space: nowrap; transition: color 0.2s ease;
     }
     .mix-header__item:hover { color: var(--brand); }
     
     .mix-header__divider {
-      width: 1px; height: 20px;
-      background: var(--stroke);
-      margin: 0 0.5rem;
+      width: 1px; height: 20px; background: var(--stroke); margin: 0 0.5rem;
     }
 
     .mix-header__icon-btn {
@@ -179,19 +149,11 @@
 
     /* ==================== MENUS ==================== */
     .mix-megamenu {
-      position: absolute;
-      top: calc(100% + 20px);
-      background: var(--bg);
-      border: none;
-      border-radius: 12px;
-      box-shadow: var(--shadow-lg);
-      opacity: 0; visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 400px;
-      z-index: 100;
-      padding: 0.5rem 0;
-      overflow: hidden;
+      position: absolute; top: calc(100% + 20px);
+      background: var(--bg); border: none; border-radius: 12px;
+      box-shadow: var(--shadow-lg); opacity: 0; visibility: hidden;
+      transform: translateY(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 400px; z-index: 100; padding: 0.5rem 0; overflow: hidden;
     }
     html[dir="rtl"] .mix-megamenu { right: 0; }
     html[dir="ltr"] .mix-megamenu { left: 0; }
@@ -199,14 +161,11 @@
     .mix-megamenu__content { display: grid; gap: 2rem; }
     #products-mega .mix-megamenu__content { grid-template-columns: 1fr 1.5fr; padding: 0 1rem; }
 
-    /* Minimal Menu Items */
     .mix-megamenu__root-item {
       padding: 1rem; cursor: pointer; border: none;
-      border-bottom: 1px solid var(--stroke);
-      border-radius: 0;
+      border-bottom: 1px solid var(--stroke); border-radius: 0;
       transition: all 0.2s; font-weight: 600; color: var(--fg);
-      background: transparent;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      background: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .mix-megamenu__root-item:last-child { border-bottom: none; }
     .mix-megamenu__root-item:hover, .mix-megamenu__root-item.active {
@@ -226,8 +185,7 @@
 
     .mix-dropdown-simple { display: grid; gap: 0; width: 100%; }
     .mix-dropdown-simple a {
-      display: flex; align-items: center;
-      padding: 1rem; font-size: 0.95rem;
+      display: flex; align-items: center; padding: 1rem; font-size: 0.95rem;
       border: none; border-bottom: 1px solid var(--stroke);
       border-radius: 0; transition: all 0.2s;
       white-space: nowrap; background: transparent;
@@ -240,41 +198,32 @@
 
     /* ==================== HERO ==================== */
     .mix-hero {
-      position: relative;
-      height: 100vh;
-      min-height: 650px;
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
+      position: relative; height: 100vh; min-height: 650px;
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
     }
     .mix-hero__video-container {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
     }
     .mix-hero__video {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: opacity 0.5s ease;
+      width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease;
     }
     .mix-hero__overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
-      z-index: 1;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)); z-index: 1;
     }
     .mix-hero__content {
       position: relative; z-index: 2; text-align: center; color: white;
-      max-width: 900px; padding: 0 1.5rem;
-      min-height: 120px;
+      max-width: 900px; padding: 0 1.5rem; min-height: 120px;
       transition: opacity 0.5s ease;
     }
     .mix-hero__title {
       font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 800; line-height: 1.1; margin-bottom: 1rem;
-      min-height: 1.1em;
+      font-weight: 800; line-height: 1.1; margin-bottom: 1rem; min-height: 1.1em;
     }
     .mix-hero__subtitle {
       font-size: clamp(1.1rem, 2vw, 1.6rem); opacity: 0.9;
-      min-height: 1.6em;
-      color: rgba(255,255,255,0.9);
+      min-height: 1.6em; color: rgba(255,255,255,0.9);
     }
-    /* Cursor for typewriter */
     .cursor {
       display: inline-block; width: 3px; height: 1em;
       background-color: var(--brand); animation: blink 1s step-end infinite;
@@ -285,13 +234,10 @@
     .mix-hero__scroll-arrow {
       position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
       z-index: 2; cursor: pointer; color: white; opacity: 0.8;
-      animation: bounce 2s infinite;
-      width: 80px;
-      height: 80px;
+      animation: bounce 2s infinite; width: 80px; height: 80px;
     }
     .mix-hero__scroll-arrow img {
-      width: 100%; height: 100%;
-      filter: brightness(0) invert(1); 
+      width: 100%; height: 100%; filter: brightness(0) invert(1); 
     }
     @keyframes bounce {
       0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
@@ -301,14 +247,18 @@
 
     /* ==================== SECTIONS ==================== */
     .mix-section {
-      padding: 5rem 1.5rem;
+      /* کاهش پدینگ کلی سکشن‌ها برای فشرده‌تر شدن */
+      padding: 3.5rem 1.5rem; 
       max-width: 1440px; margin: 0 auto;
     }
-    /* کاهش فاصله زیر دکمه‌ها */
+    
+    /* کاهش پدینگ زیر کارت‌ها */
+    #categories { padding-bottom: 0.5rem !important; } 
+    
     .mix-section--tight { padding-bottom: 1rem; }
 
     .mix-section-title {
-      text-align: center; margin-bottom: 3.5rem;
+      text-align: center; margin-bottom: 2rem; /* فاصله زیر تایتل‌ها کم شد */
     }
     .mix-section-title h2 {
       font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;
@@ -319,9 +269,7 @@
 
     /* GRID */
     .mix-grid {
-      display: grid;
-      gap: 1.5rem;
-      grid-template-columns: repeat(4, 1fr);
+      display: grid; gap: 1.5rem; grid-template-columns: repeat(4, 1fr);
     }
     @media (max-width: 1024px) { .mix-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
     @media (max-width: 600px) { 
@@ -366,8 +314,7 @@
     .mix-btn {
       display: inline-block; padding: 0.8rem 2rem;
       border-radius: 50px; font-weight: 700;
-      transition: all 0.3s ease; cursor: pointer;
-      font-size: 0.95rem;
+      transition: all 0.3s ease; cursor: pointer; font-size: 0.95rem;
     }
     .mix-btn--primary {
       background: var(--brand); color: white;
@@ -388,12 +335,11 @@
     /* SOCIAL STRIP */
     .mix-social-strip {
       display: flex; align-items: center; justify-content: center;
-      gap: 1.5rem; padding: 3rem 1rem;
-      margin: 2rem auto; max-width: 100%;
+      gap: 1.5rem; padding: 3rem 1rem; margin: 2rem auto; max-width: 100%;
     }
     .mix-social-icon {
-      width: 60px; height: 60px;
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      width: 60px; height: 60px; border-radius: 12px; 
+      display: flex; align-items: center; justify-content: center;
       background: var(--card); border: 1px solid var(--stroke);
       transition: all 0.3s; padding: 1rem; 
     }
@@ -407,10 +353,10 @@
       box-shadow: 0 10px 20px rgba(15, 169, 156, 0.2);
     }
 
-    /* Footer (Restored & Adjusted) */
+    /* Footer */
     .mix-footer {
       background: var(--card); border-top: 1px solid var(--stroke);
-      padding: 5rem 2rem 1rem; /* کاهش پدینگ پایین فوتر برای جلوگیری از فضای خالی اضافه */
+      padding: 5rem 2rem 1rem;
     }
     .mix-footer__grid {
       max-width: 1400px; margin: 0 auto;
@@ -433,37 +379,21 @@
 
     /* ==================== MOBILE BOTTOM NAV ==================== */
     .mix-mobile-bottom-bar {
-      position: fixed;
-      bottom: 20px; left: 50%;
-      transform: translateX(-50%) translateY(150%);
-      width: 90%;
-      max-width: 400px;
-      background: var(--bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--stroke);
-      border-radius: 20px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0.8rem;
-      z-index: 2000;
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%) translateY(150%); width: 90%; max-width: 400px;
+      background: var(--bg); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px); border: 1px solid var(--stroke);
+      border-radius: 20px; display: flex; justify-content: space-around;
+      align-items: center; padding: 0.8rem; z-index: 2000;
       box-shadow: var(--shadow-lg);
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .mix-mobile-bottom-bar.visible {
-      transform: translateX(-50%) translateY(0);
-    }
+    .mix-mobile-bottom-bar.visible { transform: translateX(-50%) translateY(0); }
     
     .mobile-nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      cursor: pointer;
-      gap: 4px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; color: var(--text-muted); font-size: 0.75rem;
+      cursor: pointer; gap: 4px;
     }
     .mobile-nav-item svg { width: 24px; height: 24px; stroke-width: 2; }
     .mobile-nav-item:hover, .mobile-nav-item.active { color: var(--brand); }
@@ -478,23 +408,16 @@
     
     .mix-mobile-menu-full {
       position: fixed; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      width: 85%; max-width: 350px;
-      background: var(--bg);
-      border-radius: 20px;
-      padding: 2rem;
-      z-index: 2000;
-      opacity: 0; visibility: hidden;
-      transition: 0.3s;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--stroke);
+      transform: translate(-50%, -50%) scale(0.9); width: 85%; max-width: 350px;
+      background: var(--bg); border-radius: 20px; padding: 2rem;
+      z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s;
+      box-shadow: var(--shadow-lg); border: 1px solid var(--stroke);
     }
     .mix-mobile-menu-full.active {
       opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1);
     }
     .mix-mobile-full-link {
-      display: block; padding: 1rem 0;
-      border-bottom: 1px solid var(--stroke);
+      display: block; padding: 1rem 0; border-bottom: 1px solid var(--stroke);
       font-size: 1.1rem; font-weight: 500; color: var(--fg);
     }
     .mix-mobile-full-link:last-child { border-bottom: none; }
@@ -740,6 +663,28 @@
     </div>
   </section>
 
+  <!-- CATEGORIES GRID -->
+  <section class="mix-section" id="categories">
+    <div class="mix-grid reveal">
+      <a href="#" class="mix-card">
+        <img src="images/categories/hob.jpg" alt="Hob" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">اجاق گاز</span><span class="text-en hidden">Hob</span></h3></div>
+      </a>
+      <a href="#" class="mix-card">
+        <img src="images/categories/sink.jpg" alt="Sink" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">سینک ظرف‌شویی</span><span class="text-en hidden">Sink</span></h3></div>
+      </a>
+      <a href="#" class="mix-card">
+        <img src="images/categories/oven.jpg" alt="Oven" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">فر توکار</span><span class="text-en hidden">Built-in Oven</span></h3></div>
+      </a>
+      <a href="#" class="mix-card">
+        <img src="images/categories/hood.jpg" alt="Hood" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">هود</span><span class="text-en hidden">Hood</span></h3></div>
+      </a>
+    </div>
+  </section>
+
   <!-- INTRO SECTION -->
   <section class="mix-section mix-section--tight reveal">
     <div class="mix-section-title">
@@ -764,34 +709,6 @@
       <a href="#" class="mix-btn mix-btn--outline" id="catalog-hero-btn">
         <span class="text-fa">دانلود کاتالوگ</span>
         <span class="text-en hidden">Download Catalog</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- CATEGORIES GRID -->
-  <section class="mix-section" id="categories">
-    <div class="mix-section-title reveal">
-      <h2>
-        <span class="text-fa">گروه‌های محصولات</span>
-        <span class="text-en hidden">Product Categories</span>
-      </h2>
-    </div>
-    <div class="mix-grid reveal">
-      <a href="#" class="mix-card">
-        <img src="images/categories/hob.jpg" alt="Hob" class="mix-card__image">
-        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">اجاق گاز</span><span class="text-en hidden">Hob</span></h3></div>
-      </a>
-      <a href="#" class="mix-card">
-        <img src="images/categories/sink.jpg" alt="Sink" class="mix-card__image">
-        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">سینک ظرف‌شویی</span><span class="text-en hidden">Sink</span></h3></div>
-      </a>
-      <a href="#" class="mix-card">
-        <img src="images/categories/oven.jpg" alt="Oven" class="mix-card__image">
-        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">فر توکار</span><span class="text-en hidden">Built-in Oven</span></h3></div>
-      </a>
-      <a href="#" class="mix-card">
-        <img src="images/categories/hood.jpg" alt="Hood" class="mix-card__image">
-        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">هود</span><span class="text-en hidden">Hood</span></h3></div>
       </a>
     </div>
   </section>
@@ -910,7 +827,7 @@
         <img src="images/logos/logo-dark.svg" alt="MixPlus" class="footer-logo-dark hidden" style="height: 40px; margin-bottom: 1.5rem;">
         <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
           <span class="text-fa">ما با الهام از طراحی ایتالیایی و استفاده از بهترین مواد اولیه، محصولاتی تولید می‌کنیم که علاوه بر زیبایی، دوام و کارایی بالایی دارند.</span>
-          <span class="text-en hidden">Inspired by Italian design and using the finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
+          <span class="text-en hidden">Inspired by Italian design and using finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
         </p>
       </div>
       
@@ -1018,11 +935,14 @@
     let currentVideoIndex = 0;
     let currentSlideIndex = 0;
     let heroAnimationTimeout;
+    
+    // قفل انیمیشن برای جلوگیری از تداخل اسلایدها
+    let animationLockId = 0; 
 
     // ==================== FUNCTIONS ====================
     
     function init() {
-      window.scrollTo(0, 0); // Always scroll to top on load
+      window.scrollTo(0, 0);
       setTheme(currentTheme);
       setLanguage(currentLang, false); 
       setupObservers();
@@ -1041,7 +961,6 @@
       
       const logoLight = document.querySelector('.logo-light');
       const logoDark = document.querySelector('.logo-dark');
-      
       const footerLogoLight = document.querySelector('.footer-logo-light');
       const footerLogoDark = document.querySelector('.footer-logo-dark');
       
@@ -1093,7 +1012,7 @@
       }
 
       updateProductsSubmenu();
-      resetHeroAnimation();
+      resetHeroAnimation(); // ریست انیمیشن با تغییر زبان
       
       if (save) localStorage.setItem('mix_lang', lang);
     }
@@ -1112,12 +1031,15 @@
       });
     }
 
-    // ==================== HERO TEXT ANIMATION ====================
+    // ==================== HERO TEXT ANIMATION (FIXED & ROBUST) ====================
     function typeWriter(element, text, speed) {
       return new Promise(resolve => {
-        element.textContent = '';
+        element.textContent = ''; // پاک کردن متن قبلی
         let i = 0;
         function type() {
+          // بررسی اگر انیمیشن قبلی باید متوقف شود
+          if (animationLockId > localLockId) return; 
+
           if (i < text.length) {
             element.textContent += text.charAt(i);
             i++;
@@ -1131,6 +1053,9 @@
     }
 
     async function runSlide(index) {
+      // ذخیره ID این راند خاص
+      const localLockId = animationLockId;
+      
       const slides = heroSlides[currentLang];
       const currentSlide = slides[index % slides.length];
       const contentWrapper = document.querySelector('.mix-hero__content');
@@ -1140,24 +1065,26 @@
       // 1. Fade Out Both
       contentWrapper.style.opacity = '0';
       
-      await new Promise(r => setTimeout(r, 500)); // Wait for fade out
+      await new Promise(r => setTimeout(r, 500)); 
       
-      // 2. Set Title (Immediate)
+      // 2. Set Title & Clear Subtitle Immediately
       titleEl.textContent = currentSlide.title;
-      subEl.textContent = ''; // Clear subtitle
+      subEl.textContent = '';
       
-      // 3. Fade In (Title appears instantly)
+      // 3. Fade In
       contentWrapper.style.opacity = '1';
       
       // 4. Typewriter Subtitle
-      await typeWriter(subEl, currentSlide.subtitle, 30);
+      await typeWriter(subEl, currentSlide.subtitle, 40);
       
-      // 5. Wait - Increased to 5 seconds
+      // 5. Wait - 5 seconds
       await new Promise(r => setTimeout(r, 5000));
       
-      // 6. Loop
-      currentSlideIndex++;
-      runSlide(currentSlideIndex);
+      // 6. Loop - فقط اگر ID فعلی هنوز معتبر باشد
+      if (animationLockId === localLockId) {
+        currentSlideIndex++;
+        runSlide(currentSlideIndex);
+      }
     }
 
     function setupHeroTextLoop() {
@@ -1165,10 +1092,24 @@
     }
 
     function resetHeroAnimation() {
+      // افزایش ID برای باطل کردن تمام اسلایدهای قبلی
+      animationLockId++;
       currentSlideIndex = 0;
+      
       clearTimeout(heroAnimationTimeout);
+      
+      // پاک کردن متن برای جلوگیری از تداخل
+      const subEl = document.getElementById('hero-subtitle-text');
+      const titleEl = document.getElementById('hero-title-text');
+      if(subEl) subEl.textContent = '';
+      if(titleEl) titleEl.textContent = '';
+      
       document.querySelector('.mix-hero__content').style.opacity = '1';
-      runSlide(0);
+      
+      // شروع اسلاید جدید با ID جدید
+      setTimeout(() => {
+        runSlide(0);
+      }, 100);
     }
 
     function setupHeroVideoLoop() {
@@ -1231,7 +1172,10 @@
 
     // ==================== EVENT LISTENERS (DESKTOP) ====================
     document.getElementById('theme-toggle').addEventListener('click', () => setTheme(currentTheme === 'light' ? 'dark' : 'light'));
-    document.getElementById('scroll-arrow').addEventListener('click', () => document.getElementById('categories').scrollIntoView({ behavior: 'smooth' }));
+    document.getElementById('scroll-arrow').addEventListener('click', () => {
+      const element = document.getElementById('categories');
+      if(element) { element.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    });
 
     document.getElementById('lang-trigger').addEventListener('click', e => { e.stopPropagation(); document.getElementById('lang-dropdown').classList.toggle('active'); });
     document.getElementById('switch-lang').addEventListener('click', e => { e.preventDefault(); document.getElementById('lang-dropdown').classList.remove('active'); setLanguage(currentLang === 'fa' ? 'en' : 'fa'); });
