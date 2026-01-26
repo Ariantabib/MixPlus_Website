@@ -247,13 +247,12 @@
 
     /* ==================== SECTIONS ==================== */
     .mix-section {
-      /* کاهش پدینگ عمومی برای فشرده‌تر شدن کل صفحه */
       padding: 3rem 1.5rem; 
       max-width: 1440px; margin: 0 auto;
     }
     
     .mix-section-title {
-      text-align: center; margin-bottom: 2.5rem; /* کاهش فاصله زیر تایتل‌ها */
+      text-align: center; margin-bottom: 2.5rem;
     }
     .mix-section-title h2 {
       font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;
@@ -289,9 +288,9 @@
 
     /* ==================== FULL BLEED BANNER ==================== */
     .mix-fullbleed {
-      position: relative; height: 35vh; min-height: 250px; /* ارتفاع کمی کمتر برای فشرده‌تر شدن */
+      position: relative; height: 35vh; min-height: 250px;
       display: flex; align-items: center; justify-content: center; overflow: hidden;
-      margin: 1rem 0; /* مارجین کمتر */
+      margin: 1rem 0;
     }
     .mix-fullbleed__image {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
@@ -927,8 +926,7 @@
 
     let currentLang = localStorage.getItem('mix_lang') || 'fa';
     let currentTheme = localStorage.getItem('mix_theme') || 'light';
-    let currentVideoIndex = 0;
-    let currentSlideIndex = 0;
+    let activeTypingTimer = null;
     
     // ==================== FUNCTIONS ====================
     
@@ -938,7 +936,7 @@
       setLanguage(currentLang, false); 
       setupObservers();
       setupHeroVideoLoop();
-      setupHeroTextLoop(); // شروع انیمیشن ساده
+      setupHeroTextLoop(); // شروع سیستم متن
       setupMobileNavigation();
     }
 
@@ -1003,7 +1001,7 @@
       }
 
       updateProductsSubmenu();
-      resetHeroAnimation();
+      resetHeroTextAnimation(); // ریست انیمیشن متن
       
       if (save) localStorage.setItem('mix_lang', lang);
     }
@@ -1022,75 +1020,95 @@
       });
     }
 
-    // ==================== HERO TEXT ANIMATION (SIMPLIFIED) ====================
-    function typeWriter(element, text, speed) {
-      return new Promise(resolve => {
-        element.textContent = ''; // شروع خالی
-        let i = 0;
-        function type() {
-          if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-          } else {
-            resolve();
-          }
-        }
-        type();
-      });
+    // ==================== HERO TEXT ANIMATION (REWRITTEN) ====================
+    let heroInterval = null;
+    let heroTimeouts = [];
+
+    function clearHeroTimers() {
+      if (heroInterval) clearInterval(heroInterval);
+      heroTimeouts.forEach(t => clearTimeout(t));
+      heroTimeouts = [];
     }
 
-    async function runSlide(index) {
-      // گرفتن المان‌ها یکبار
-      const wrapper = document.querySelector('.mix-hero__content');
+    function setupHeroTextLoop() {
+      // استفاده از تابع بازگشتی (Recursive) با Delay برای کنترل دقیق ترتیب
+      const contentWrapper = document.querySelector('.mix-hero__content');
       const titleEl = document.getElementById('hero-title-text');
       const subEl = document.getElementById('hero-subtitle-text');
       
       const slides = heroSlides[currentLang];
-      const currentSlide = slides[index % slides.length];
+      let index = 0;
 
-      // 1. Fade Out (کامل)
-      wrapper.style.opacity = '0';
-      await new Promise(r => setTimeout(r, 500)); 
+      // Helper: تایپ کردن متن کاراکتر به کاراکتر
+      const typeText = (element, text, speed = 30, callback) => {
+  // ۱. اگر قبلا تایمر تایپی داره داره کار میکنه، قطعش کن (این جلوی دو بار تایپ شدن رو میگیره)
+  if (activeTypingTimer) clearInterval(activeTypingInterval);
+  
+  element.textContent = ''; // متن رو پاک کن
+  let i = 0;
+  
+  const timer = setInterval(() => {
+    element.textContent += text.charAt(i);
+    i++;
+    
+    if (i >= text.length) {
+      clearInterval(timer);
+      activeTypingInterval = null; // وقتی تموم شد، متغیر رو نال کن
+      if (callback) callback();
+    }
+  }, speed);
+  
+  // ۲. تایمر فعلی رو ثبت کن
+  activeTypingInterval = timer; 
+  heroTimeouts.push(timer);
+};
 
-      // 2. تنظیم محتوا (اینستنت)
-      titleEl.textContent = currentSlide.title;
-      subEl.textContent = ''; // پاک کردن متن قبلی برای تایپ‌رایتر
-      
-      // 3. Fade In
-      wrapper.style.opacity = '1';
-      
-      // 4. Typewriter Subtitle
-      await typeWriter(subEl, currentSlide.subtitle, 40);
-      
-      // 5. Wait (5 ثانیه)
-      await new Promise(r => setTimeout(r, 5000));
-      
-      // 6. Next Slide
-      currentSlideIndex++;
-      runSlide(currentSlideIndex);
+      const runCycle = () => {
+        if (!document.body.contains(contentWrapper)) {
+           clearHeroTimers();
+           return; 
+        }
+
+        const slide = slides[index];
+
+        // 1. Fade Out (اگر متن قبلی هست)
+        contentWrapper.style.opacity = '0';
+        
+        heroTimeouts.push(setTimeout(() => {
+          // 2. Set Text (بدون انیمیشن، برای فید بعدی)
+          titleEl.textContent = slide.title;
+          subEl.textContent = ''; // خالی کردن ساب‌تایتل
+          
+          // 3. Fade In
+          contentWrapper.style.opacity = '1';
+          
+          // 4. شروع تایپ ساب‌تایتل بعد از کمی تاخیر
+          heroTimeouts.push(setTimeout(() => {
+            typeText(subEl, slide.subtitle, 30, () => {
+              // 5. وقتی تایپ تمام شد، 5 ثانیه صبر کن
+              heroTimeouts.push(setTimeout(() => {
+                // 6. اسلاید بعدی
+                index = (index + 1) % slides.length;
+                runCycle();
+              }, 5000));
+            });
+          }, 500)); // تاخیر 500 میلی‌ثانیه قبل از شروع تایپ
+
+        }, 500)); // همزمان با مدت زمان CSS transition (0.5s)
+      };
+
+      // شروع اولیه
+      runCycle();
     }
 
-    function setupHeroTextLoop() {
-      runSlide(0);
+    function resetHeroTextAnimation() {
+      // پاک کردن همه تایمرها و شروع مجدد با زبان جدید
+      clearHeroTimers();
+      setupHeroTextLoop();
     }
 
-    function resetHeroAnimation() {
-      // ریست شمارنده و شروع دوباره از صفر
-      currentSlideIndex = 0;
-      // پاک کردن متن‌ها برای جلوگیری از باگ‌های بصری لحظه‌ای
-      const subEl = document.getElementById('hero-hero-subtitle-text');
-      const titleEl = document.getElementById('hero-title-text');
-      if (subEl) subEl.textContent = '';
-      if (titleEl) titleEl.textContent = '';
-      
-      document.querySelector('.mix-hero__content').style.opacity = '1';
-      
-      setTimeout(() => {
-        runSlide(0);
-      }, 100);
-    }
-
+    // ==================== HERO VIDEO LOOP ====================
+    let currentVideoIndex = 0;
     function setupHeroVideoLoop() {
       const videoElement = document.getElementById('hero-video');
       if(!videoElement) return;
