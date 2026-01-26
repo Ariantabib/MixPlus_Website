@@ -6,12 +6,10 @@
   <title id="page-title">میکس‌پلاس | MixPlus</title>
   <meta name="description" content="Premium Kitchen Products with Italian Design">
   
-  <!-- لینک به فایل استایل خارجی -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- این بخش توسط header.js پر می‌شود -->
   <div id="header-container"></div>
 
   <!-- HERO SECTION -->
@@ -34,19 +32,26 @@
   <!-- CATEGORIES GRID -->
   <section class="mix-section" id="categories">
     <div class="mix-grid reveal">
-      <a href="#" class="mix-card">
+      <!-- لینک به صفحه محصولات با فیلتر اجاق گاز -->
+      <a href="products.html?cat=اجاق گاز" class="mix-card">
         <img src="images/categories/hob.jpg" alt="Hob" class="mix-card__image">
         <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">اجاق گاز</span><span class="text-en hidden">Hob</span></h3></div>
       </a>
-      <a href="#" class="mix-card">
+      
+      <!-- لینک به صفحه محصولات با فیلتر سینک -->
+      <a href="products.html?cat=سینک ظرفشویی" class="mix-card">
         <img src="images/categories/sink.jpg" alt="Sink" class="mix-card__image">
         <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">سینک ظرف‌شویی</span><span class="text-en hidden">Sink</span></h3></div>
       </a>
-      <a href="#" class="mix-card">
+      
+      <!-- لینک به صفحه محصولات با فیلتر فر -->
+      <a href="products.html?cat=فر توکار" class="mix-card">
         <img src="images/categories/oven.jpg" alt="Oven" class="mix-card__image">
         <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">فر توکار</span><span class="text-en hidden">Built-in Oven</span></h3></div>
       </a>
-      <a href="#" class="mix-card">
+      
+      <!-- لینک به صفحه محصولات با فیلتر هود -->
+      <a href="products.html?cat=هود" class="mix-card">
         <img src="images/categories/hood.jpg" alt="Hood" class="mix-card__image">
         <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">هود</span><span class="text-en hidden">Hood</span></h3></div>
       </a>
@@ -66,7 +71,8 @@
       </p>
     </div>
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <a href="#categories" class="mix-btn mix-btn--primary">
+      <!-- لینک مستقیم به همه محصولات -->
+      <a href="products.html" class="mix-btn mix-btn--primary">
         <span class="text-fa">مشاهده محصولات</span>
         <span class="text-en hidden">View Products</span>
       </a>
@@ -131,7 +137,7 @@
   <!-- EXTRA CARDS -->
   <section class="mix-section">
     <div class="mix-grid reveal">
-      <a href="#" class="mix-card" style="aspect-ratio: 1/1;">
+      <a href="products.html" class="mix-card" style="aspect-ratio: 1/1;">
         <img src="images/categories/products.jpg" alt="Products" class="mix-card__image">
         <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">محصولات</span><span class="text-en hidden">Products</span></h3></div>
       </a>
@@ -187,11 +193,8 @@
     </div>
   </section>
 
-  <!-- این بخش توسط footer.js پر می‌شود -->
   <div id="footer-container"></div>
 
-  <!-- لینک به فایل‌های جاوا اسکریپت خارجی -->
-  <!-- ترتیب مهم است: ابتدا main.js (برای تعریف توابع)، سپس header.js و footer.js (برای استفاده از توابع) -->
   <script src="js/main.js"></script>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
