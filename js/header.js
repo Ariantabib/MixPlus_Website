@@ -1,6 +1,6 @@
 /**
- * HEADER COMPONENT - MixPlus Website
- * این فایل شامل HTML کامل هدر و منطق‌های مربوط به آن است.
+ * HEADER COMPONENT - MixPlus Website (Updated)
+ * اضافه شدن سیستم ارسال رویداد برای رفع مشکل لود همزمان
  */
 
 // ==================== HTML STRING ====================
@@ -29,20 +29,25 @@ const headerHTML = `
   <div class="mix-mobile-overlay" id="mobile-overlay"></div>
   <div class="mix-mobile-menu-full" id="mobile-menu-full">
     <a href="#" class="mix-mobile-full-link">
-      <span class="text-fa">خدمات پس از فروش</span><span class="text-en hidden">After-Sales</span>
+      <span class="text-fa">خدمات پس از فروش</span>
+      <span class="text-en hidden">After-Sales</span>
     </a>
     <a href="#" class="mix-mobile-full-link">
-      <span class="text-fa">نمایندگی‌ها</span><span class="text-en hidden">Dealers</span>
+      <span class="text-fa">نمایندگی‌ها</span>
+      <span class="text-en hidden">Dealers</span>
     </a>
     <a href="#" class="mix-mobile-full-link">
-      <span class="text-fa">درباره ما</span><span class="text-en hidden">About Us</span>
+      <span class="text-fa">درباره ما</span>
+      <span class="text-en hidden">About Us</span>
     </a>
     <div class="mix-header__divider" style="margin: 1rem 0;"></div>
     <a href="#" class="mix-mobile-full-link" id="mobile-lang-link">
-      <span class="text-fa">تغییر زبان</span><span class="text-en hidden">Switch Lang</span>
+      <span class="text-fa">تغییر زبان</span>
+      <span class="text-en hidden">Switch Lang</span>
     </a>
     <a href="#" class="mix-mobile-full-link" id="mobile-theme-link">
-      <span class="text-fa">تغییر تم</span><span class="text-en hidden">Switch Theme</span>
+      <span class="text-fa">تغییر تم</span>
+      <span class="text-en hidden">Switch Theme</span>
     </a>
   </div>
 
@@ -202,13 +207,14 @@ const headerHTML = `
 // ==================== INITIALIZATION & LOGIC ====================
 
 function loadHeader() {
-  // 1. Inject HTML into the container
   const container = document.getElementById('header-container');
   if (container) {
     container.innerHTML = headerHTML;
-    
-    // 2. After injection, run the specific header logic
     setupHeaderEvents();
+    
+    // --- TRIGGER EVENT ---
+    // اطلاع به main.js که هدر کامل لود شد تا تنظیمات روی آن اعمال شود
+    window.dispatchEvent(new Event('headerReady'));
   }
 }
 

@@ -90,10 +90,12 @@ const footerHTML = `
 // ==================== INITIALIZATION ====================
 
 function loadFooter() {
-  // 1. Inject HTML into the container
   const container = document.getElementById('footer-container');
   if (container) {
     container.innerHTML = footerHTML;
+    
+    // اضافه کردن این خط ضروری است
+    window.dispatchEvent(new Event('footerReady'));
   }
 }
 

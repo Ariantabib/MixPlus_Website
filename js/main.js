@@ -1,7 +1,6 @@
 /**
- * MAIN LOGIC - MixPlus Website
- * این فایل مسئولیت مدیریت حالت‌های سراسری (State)، انیمیشن‌ها 
- * و منطق‌های مشترک بین صفحات را بر عهده دارد.
+ * MAIN LOGIC - MixPlus Website (Updated)
+ * رفع مشکل Race Condition با استفاده از Event Listener
  */
 
 // ==================== CONFIGURATION & DATA ====================
@@ -45,10 +44,6 @@ let currentTheme = localStorage.getItem('mix_theme') || 'light';
 
 // ==================== THEME LOGIC ====================
 
-/**
- * تغییر تم سایت (Light/Dark)
- * این تابع باید روی window تعریف شود تا header.js بتواند آن را فراخوانی کند.
- */
 window.setTheme = function(theme) {
   currentTheme = theme;
   const html = document.documentElement;
@@ -90,10 +85,6 @@ window.setTheme = function(theme) {
 
 // ==================== LANGUAGE LOGIC ====================
 
-/**
- * تغییر زبان سایت (FA/EN)
- * این تابع باید روی window تعریف شود تا header.js بتواند آن را فراخوانی کند.
- */
 window.setLanguage = function(lang, save = true) {
   currentLang = lang;
   const html = document.documentElement;
@@ -146,9 +137,6 @@ window.setLanguage = function(lang, save = true) {
 
 // ==================== PRODUCT SUBMENU LOGIC ====================
 
-/**
- * آپدیت کردن منوی زیرمجموعه محصولات در هدر
- */
 window.updateProductsSubmenu = function(category = 'hob') {
   const subs = categories[category][currentLang];
   const container = document.getElementById('products-subs');
@@ -180,7 +168,7 @@ function setupHeroTextLoop() {
   const titleEl = document.getElementById('hero-title-text');
   const subEl = document.getElementById('hero-subtitle-text');
 
-  // اگر المان‌های هیرو در صفحه نباشند (مثلا صفحه درباره ما)، این بخش را نادیده بگیر
+  // اگر المان‌های هیرو در صفحه نباشند
   if (!contentWrapper || !titleEl || !subEl) return;
   
   const slides = heroSlides[currentLang];
@@ -190,7 +178,6 @@ function setupHeroTextLoop() {
     element.textContent = '';
     let i = 0;
     const timer = setInterval(() => {
-      // استفاده از substring برای رفع مشکل تایپ در فارسی
       element.textContent = text.substring(0, i + 1);
       i++;
       if (i >= text.length) {
@@ -209,23 +196,16 @@ function setupHeroTextLoop() {
 
     const slide = slides[index];
 
-    // 1. Fade Out
     contentWrapper.style.opacity = '0';
     
     heroTimeouts.push(setTimeout(() => {
-      // 2. Set Text
       titleEl.textContent = slide.title;
       subEl.textContent = ''; 
-      
-      // 3. Fade In
       contentWrapper.style.opacity = '1';
       
-      // 4. Type Subtitle
       heroTimeouts.push(setTimeout(() => {
         typeText(subEl, slide.subtitle, 30, () => {
-          // 5. Wait
           heroTimeouts.push(setTimeout(() => {
-            // 6. Next Slide
             index = (index + 1) % slides.length;
             runCycle();
           }, 5000));
@@ -246,7 +226,7 @@ function resetHeroTextAnimation() {
 let currentVideoIndex = 0;
 function setupHeroVideoLoop() {
   const videoElement = document.getElementById('hero-video');
-  if(!videoElement) return; // Check if element exists
+  if(!videoElement) return; 
   
   videoElement.onended = function() {
     currentVideoIndex++;
@@ -286,13 +266,28 @@ function init() {
   
   // Apply saved settings immediately
   window.setTheme(currentTheme);
-  window.setLanguage(currentLang, false); // False = don't save again on init
+  window.setLanguage(currentLang, false); 
   
   // Start features
   setupObservers();
   setupHeroVideoLoop();
-  setupHeroTextLoop(); // Start text animation
+  setupHeroTextLoop(); 
 }
 
 // Run Init when DOM is ready
 document.addEventListener('DOMContentLoaded', init);
+
+// ==================== EVENT LISTENERS FOR COMPONENTS (FIX FOR RACE CONDITION) ====================
+// وقتی هدر یا فوتر لود شد، دوباره تنظیمات اعمال شود تا مشکلات ظاهری حل شود
+
+window.addEventListener('headerReady', () => {
+  console.log('Header loaded, applying theme/lang fixes...');
+  window.setTheme(localStorage.getItem('mix_theme') || 'light');
+  window.setLanguage(localStorage.getItem('mix_lang') || 'fa', false);
+});
+
+window.addEventListener('footerReady', () => {
+  console.log('Footer loaded, applying theme/lang fixes...');
+  window.setTheme(localStorage.getItem('mix_theme') || 'light');
+  window.setLanguage(localStorage.getItem('mix_lang') || 'fa', false);
+});
