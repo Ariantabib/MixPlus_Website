@@ -12,10 +12,10 @@
   <style>
     /* --- Search & Filter Section --- */
     .products-container {
-      padding-top: 120px; 
+      padding-top: 120px;
       max-width: 1600px;
       margin: 0 auto;
-      padding-bottom:4rem;
+      padding-bottom: 4rem;
     }
 
     .search-section {
@@ -94,7 +94,7 @@
     }
 
     .sub-filter-container {
-      display: none; 
+      display: none;
       animation: slideDown 0.4s ease forwards;
     }
     .sub-filter-container.active { display: block; }
@@ -125,6 +125,7 @@
     /* --- Product Grid --- */
     .products-grid {
       display: grid;
+      /* اصلاح تایپی باگ دابل پرانتز */
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2rem;
       padding: 0 2rem;
@@ -178,36 +179,18 @@
       unicode-bidi: embed; 
     }
 
-    /* --- Price & Direction Fixes --- */
-    .price-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-    }
-    
-    /* حالت فارسی: ریال در چپ، قیمت در راست */
-    html[dir="rtl"] .price-wrapper {
-      direction: rtl; /* متن از راست به چپ */
-      flex-direction: row-reverse; /* ترتیب را معکوس میکنیم تا ریال اول باشد */
-    }
-    
-    /* حالت انگلیسی: قیمت در چپ، ریال در راست */
-    html[dir="ltr"] .price-wrapper {
+    .product-price {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--brand);
       direction: ltr;
-      flex-direction: row; /* ترتیب عادی: قیمت بعد ریال */
     }
 
     .product-currency {
       font-size: 0.9rem;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--text-muted);
-    }
-
-    .product-price-num {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--brand);
+      margin-right: 4px;
     }
 
     /* --- Loading & Empty States --- */
@@ -434,48 +417,15 @@
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
 
-  <!-- PRODUCTS PAGE LOGIC (UPDATED) -->
+  <!-- PRODUCTS PAGE LOGIC -->
   <script>
     // --- CONFIGURATION ---
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSt1el30V-dutlcuF4mcbUzbAn02ubmz_yXY_10nDYXbg8R9t4EIHA7fjwWrs0FYufYQxe4RPinz1fa/pub?gid=0&single=true&output=csv';
     
-    // --- TEXT TRANSLATIONS ---
-    const uiText = {
-      fa: {
-        searchGlobal: "جستجوی هوشمند محصول...",
-        searchLocal: "جستجو در این دسته‌بندی...",
-        allProducts: "همه محصولات",
-        allSubs: "همه زیرمجموعه‌ها",
-        noResult: "محصولی با این مشخصات یافت نشد.",
-        loading: "در حال دریافت اطلاعات...",
-        currency: "ریال",
-        buyBtn: "خرید و نصب",
-        closeBtn: "بستن",
-        specId: "شناسه محصول (ID)",
-        specCat: "گروه کالایی",
-        specCatSub: "زیرگروه"
-      },
-      en: {
-        searchGlobal: "Smart Product Search...",
-        searchLocal: "Search in this category...",
-        allProducts: "All Products",
-        allSubs: "All Subcategories",
-        noResult: "No products found.",
-        loading: "Loading products...",
-        currency: "Rial",
-        buyBtn: "Buy & Install",
-        closeBtn: "Close",
-        specId: "Product ID",
-        specCat: "Category",
-        specCatSub: "Sub-Category"
-      }
-    };
-
     // --- STATE ---
     let allProducts = [];
     let currentCategory = 'all';
     let currentSubCategory = 'all';
-    let currentLang = 'fa'; 
 
     // --- DOM ELEMENTS ---
     const grid = document.getElementById('products-grid');
@@ -496,93 +446,56 @@
 
     // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', async () => {
-      if (typeof window.currentLang !== 'undefined') {
-        currentLang = window.currentLang;
-      }
-      applyLanguage();
-
-      window.addEventListener('langReady', () => {
-        currentLang = window.currentLang;
-        applyLanguage();
-        renderGrid();
-      });
-
       await fetchData();
       setupEventListeners();
     });
 
-    function applyLanguage() {
-      const txt = uiText[currentLang];
-      globalSearchInput.placeholder = txt.searchGlobal;
-      localSearchInput.placeholder = txt.searchLocal;
-    }
-
-    // --- DATA FETCHING (ROBUST) ---
+    // --- DATA FETCHING ---
     async function fetchData() {
       try {
-        grid.innerHTML = `<div class="loading-state">${uiText[currentLang].loading}</div>`;
+        grid.innerHTML = '<div class="loading-state">در حال دریافت اطلاعات محصولات...</div>';
         
         const response = await fetch(CSV_URL);
         const data = await response.text();
-        
-        allProducts = parseCSV(data); 
+        allProducts = parseCSV(data);
         
         if (allProducts.length === 0) {
-          grid.innerHTML = '<div class="no-result">محصولی یافت نشد (CSV خالی است).</div>';
+          grid.innerHTML = '<div class="no-result">محصولی یافت نشد.</div>';
           return;
         }
 
         generateCategoryButtons();
+        renderProducts(allProducts);
         
-        // --- SMART URL PARAMETER HANDLING (FIX FOR NAVIGATION) ---
+        // --- NEW LOGIC: CHECK URL PARAMETERS ---
+        // بررسی اینکه کاربر با لینک خاصی (مثلا ?cat=Hob) آمده است یا خیر
         const urlParams = new URLSearchParams(window.location.search);
         const catParam = urlParams.get('cat');
         
         if (catParam) {
-          // صبر کردن پارامتر و جستجوی دکمه مناسب یا دسته‌بندی دیتا
-          // این بخش بسیار مهم است تا مشکلی که با 3 دسته بندی دیگر دارید حل شود
-          const catParamTrim = catParam.trim();
-          
-          // 1. تلاش برای پیدا کردن دکمه دقیق
-          const targetBtn = Array.from(document.querySelectorAll('#main-categories .filter-btn'))
-            .find(btn => btn.dataset.cat === catParamTrim);
+          setTimeout(() => {
+            // پیدا کردن تمام دکمه‌های دسته‌بندی
+            const buttons = Array.from(document.querySelectorAll('#main-categories .filter-btn'));
+            // پیدا کردن دکمه‌ای که متنش برابر پارامتر آدرس است
+            const targetBtn = buttons.find(btn => btn.textContent === catParam);
             
-          if (targetBtn) {
-            targetBtn.click();
-          } else {
-            // 2. اگر دکمه دقیق پیدا نشد (مثلا اختلاف فارسی/انگلیسی)، تلاش برای فیلتر مستقیم بر اساس داده‌ها
-            console.warn(`Button for "${catParamTrim}" not found. Trying to match in data...`);
-            
-            const matchedCat = allProducts.find(p => p.category.trim() === catParamTrim);
-            
-            if (matchedCat) {
-              // فیلتر کردن مستقیم بدون کلیک روی دکمه (چون دکمه پیدا نشد)
-              // اما باید دکمه متناظر درست را پیدا کنیم تا سبز شود
-              const fallbackBtn = Array.from(document.querySelectorAll('#main-categories .filter-btn'))
-                .find(btn => btn.dataset.cat === matchedCat.category);
-                
-              if (fallbackBtn) fallbackBtn.click();
-              else handleCategoryClick(matchedCat.category);
+            // اگر دکمه پیدا شد، روی آن کلیک کن تا فیلتر اعمال شود
+            if (targetBtn) {
+              targetBtn.click();
             } else {
-              // اگر کلاً پیدا نشد، همه را نشان بده
-              console.error('Category not found:', catParamTrim);
-              renderProducts(allProducts);
+              // اگر دسته‌بندی پیدا نشد (مثلا نام تایپی اشتباه)، همه را نشان بده
+              console.warn('Category not found:', catParam);
             }
-          }
-        } else {
-          renderProducts(allProducts);
+          }, 100);
         }
 
       } catch (error) {
-        console.error("Critical Error:", error);
-        grid.innerHTML = `<div class="no-result" style="color:red;">
-          خطا در بارگذاری اطلاعات.<br>
-          ${error.message}
-        </div>`;
+        console.error('Error loading CSV:', error);
+        grid.innerHTML = '<div class="no-result">خطا در بارگذاری اطلاعات. لطفا اتصال اینترنت خود را بررسی کنید.</div>';
       }
     }
 
-    // --- CSV PARSER (ROBUST FOR PRICE) ---
+    // --- CSV PARSER ---
     function parseCSV(csvText) {
       const lines = csvText.split('\n').filter(line => line.trim() !== '');
       const headers = lines[0].split(',');
@@ -595,107 +508,34 @@
         // خط مقابله: اگر تعداد ستون‌ها کم بود ازش رد شو
         if (currentLine.length < 6) continue;
 
-        // تمیز کردن قیمت از هر کاراکتر غیرعددی برای جلوگیری از NaN
-        let rawPrice = currentLine[5]?.trim() || '0';
-        // حذف کاماهای معمولی و فارسی
-        const cleanPrice = rawPrice.replace(/[,٬،]/g, ''); 
-
         products.push({
           id: currentLine[0]?.trim() || '',
           category: currentLine[1]?.trim() || '',
           subCategory: currentLine[2]?.trim() || '',
           name: currentLine[3]?.trim() || '',
           description: currentLine[4]?.trim() || '',
-          price: cleanPrice
+          price: currentLine[5]?.trim() || '0'
         });
       }
       return products;
     }
 
-    // --- RENDER GRID WRAPPER ---
-    function renderGrid(list = null) {
-      if(list) renderProducts(list);
-      else {
-        if(currentCategory === 'all') renderProducts(allProducts);
-        else if(currentSubCategory === 'all') renderProducts(allProducts.filter(p => p.category === currentCategory));
-        else renderProducts(allProducts.filter(p => p.category === currentCategory && p.subCategory === currentSubCategory));
-      }
-    }
-
-    // --- RENDER LOGIC ---
-    function renderProducts(productsToRender) {
-      grid.innerHTML = '';
-      const txt = uiText[currentLang];
-      
-      if (productsToRender.length === 0) {
-        grid.innerHTML = `<div class="no-result">${txt.noResult}</div>`;
-        return;
-      }
-
-      productsToRender.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card reveal';
-        card.onclick = () => openModal(p);
-
-        // هاردکد مسیر عکس (کد قدیمی شما)
-        const img1 = `images/products/${p.id}-1.jpg`;
-        const img2 = `images/products/${p.id}-2.jpg`;
-
-        // اطمینان از اینکه قیمت عدد است
-        const priceNum = parseInt(p.price);
-        const formattedPrice = !isNaN(priceNum) ? priceNum.toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US') : 'ناموجود';
-
-        card.innerHTML = `
-          <div class="card-img-wrapper">
-            <img src="${img1}" alt="${p.name}" class="card-img" 
-                 onerror="this.src='https://via.placeholder.com/300?text=No+Image'"
-                 onmouseenter="this.src='${img2}'" 
-                 onmouseleave="this.src='${img1}'">
-          </div>
-          <div class="card-content">
-            <h3 class="product-title">${p.name}</h3>
-            <div class="price-wrapper">
-               <span class="product-currency">${txt.currency}</span>
-               <span class="product-price-num">${formattedPrice}</span>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      setupObserversForNewItems();
-    }
-
-    function setupObserversForNewItems() {
-       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    }
-
     // --- UI GENERATION ---
     function generateCategoryButtons() {
-      const txt = uiText[currentLang];
       const categories = ['all', ...new Set(allProducts.map(p => p.category))];
       
       mainCatContainer.innerHTML = '';
       categories.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = `filter-btn ${cat === 'all' ? 'active' : ''}`;
-        btn.textContent = cat === 'all' ? txt.allProducts : cat;
-        btn.dataset.cat = cat; // ذخیره نام دقیق دسته‌بندی
+        btn.textContent = cat === 'all' ? 'همه محصولات' : cat;
+        btn.dataset.cat = cat;
         btn.onclick = () => handleCategoryClick(cat);
         mainCatContainer.appendChild(btn);
       });
     }
 
     function generateSubCategoryButtons(category) {
-      const txt = uiText[currentLang];
       subCatContainer.innerHTML = '';
       
       if (category === 'all') {
@@ -711,7 +551,7 @@
       subs.forEach(sub => {
         const btn = document.createElement('button');
         btn.className = `filter-btn ${sub === 'all' ? 'active' : ''}`;
-        btn.textContent = sub === 'all' ? txt.allSubs : sub;
+        btn.textContent = sub === 'all' ? 'همه زیرمجموعه‌ها' : sub;
         btn.dataset.sub = sub;
         btn.onclick = () => handleSubCategoryClick(sub);
         subCatContainer.appendChild(btn);
@@ -720,11 +560,61 @@
       subFilterContainer.classList.add('active');
     }
 
+    // --- RENDER LOGIC ---
+    function renderProducts(productsToRender) {
+      grid.innerHTML = '';
+      
+      if (productsToRender.length === 0) {
+        grid.innerHTML = '<div class="no-result">محصولی با این مشخصات یافت نشد.</div>';
+        return;
+      }
+
+      productsToRender.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card reveal';
+        card.onclick = () => openModal(p);
+
+        // هاردکد مسیر عکس (همان کد قدیمی شما)
+        const img1 = `images/products/${p.id}-1.jpg`;
+        const img2 = `images/products/${p.id}-2.jpg`;
+
+        const formattedPrice = parseInt(p.price).toLocaleString('fa-IR');
+
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <img src="${img1}" alt="${p.name}" class="card-img" 
+                 onerror="this.src='https://via.placeholder.com/300?text=No+Image'"
+                 onmouseenter="this.src='${img2}'" 
+                 onmouseleave="this.src='${img1}'">
+          </div>
+          <div class="card-content">
+            <h3 class="product-title">${p.name}</h3>
+            <div class="product-price">
+              <span class="product-currency">ریال</span>
+              ${formattedPrice}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      // تریگر کردن افکت Reveal برای المان‌های جدید
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
     // --- EVENT HANDLERS ---
     function handleCategoryClick(cat) {
       currentCategory = cat;
-      currentSubCategory = 'all';
-      localSearchInput.value = '';
+      currentSubCategory = 'all'; // رست کردن ساب
+      localSearchInput.value = ''; // خالی کردن سرچ لوکال
 
       document.querySelectorAll('#main-categories .filter-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.cat === cat);
@@ -732,7 +622,7 @@
 
       if (cat === 'all') {
         renderProducts(allProducts);
-        generateSubCategoryButtons('all');
+        generateSubCategoryButtons('all'); // مخفی کردن ساب
       } else {
         generateSubCategoryButtons(cat);
         const filtered = allProducts.filter(p => p.category === cat);
@@ -763,7 +653,8 @@
       globalSearchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
         if (query.length < 2) {
-          renderGrid();
+          if (currentCategory === 'all') renderProducts(allProducts);
+          else handleSubCategoryClick(currentSubCategory); // ریسازی فیلتر
           return;
         }
         const filtered = allProducts.filter(p => 
@@ -788,28 +679,18 @@
 
     // --- MODAL LOGIC ---
     function openModal(product) {
-      const txt = uiText[currentLang];
-      const img = `images/products/${product.id}-1.jpg`;
+      const img1 = `images/products/${product.id}-1.jpg`;
       
-      modalImg.src = img;
+      modalImg.src = img1;
       modalTitle.textContent = product.name;
-      
-      const priceNum = parseInt(product.price);
-      const formattedPrice = !isNaN(priceNum) ? priceNum.toLocaleString(currentLang === 'fa' ? 'fa-IR' : 'en-US') : 'ناموجود';
-      
-      modalPrice.innerHTML = `
-        <div class="price-wrapper">
-           <span class="product-currency">${txt.currency}</span>
-           <span class="product-price-num">${formattedPrice}</span>
-        </div>`;
-
+      modalPrice.innerHTML = `${parseInt(product.price).toLocaleString('fa-IR')} <span class="product-currency">ریال</span>`;
       modalDesc.textContent = product.description;
       modalCat.textContent = product.category;
       modalCatSub.textContent = product.subCategory;
       modalId.textContent = product.id;
 
       modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'; 
     }
 
     window.closeModal = function() {
