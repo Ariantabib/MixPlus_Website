@@ -538,26 +538,36 @@
       // Note: We handle category buttons inside generateCategoryButtons
     }
 
-    // --- DATA FETCHING ---
+        // --- DATA FETCHING ---
     async function fetchData() {
       try {
+        console.log("Starting fetch...");
         grid.innerHTML = `<div class="loading-state">${uiText[currentLang].loading}</div>`;
         
         const response = await fetch(CSV_URL);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.text();
-        allProducts = parseCSV(data); // پارسر پیشرفته
+        console.log("CSV Data received:", data); // چک کردن اینکه دیتا خوانده شده یا نه
+        
+        allProducts = parseCSV(data); 
+        
+        console.log("Parsed Products count:", allProducts.length);
         
         if (allProducts.length === 0) {
-          grid.innerHTML = `<div class="no-result">${uiText[currentLang].noResult}</div>`;
+          grid.innerHTML = `<div class="no-result">هیچ محصولی یافت نشد. (آیا ستون‌ها درست هستند؟)</div>`;
           return;
         }
 
         generateCategoryButtons();
         
-        // Check URL Params
+        // --- CHECK FOR URL PARAMETER ---
         const urlParams = new URLSearchParams(window.location.search);
         const catParam = urlParams.get('cat');
-        
+
         if (catParam) {
           setTimeout(() => {
             const buttons = Array.from(document.querySelectorAll('#main-categories .filter-btn'));
@@ -570,27 +580,75 @@
         }
 
       } catch (error) {
-        console.error('Error loading CSV:', error);
-        grid.innerHTML = `<div class="no-result">${uiText[currentLang].error}</div>`;
+        console.error("خطا در لود کردن:", error);
+        grid.innerHTML = `<div class="no-result" style="color:red;">
+          خطا در لود کردن اطلاعات. لطفا خطاهای قرمز را در Console ببینید (F12).<br>
+          احتمالا مشکل از CORS است: فایل را با Live Server باز کنید.
+        </div>`;
       }
     }
 
-    // --- ADVANCED CSV PARSER (Handles Quotes/Commas) ---
+    // --- ROBUST CSV PARSER (Handles BOM and simple/quoted CSV) ---
     function parseCSV(csvText) {
-      // این Regex سطرها را بر اساس کاماهایی که داخل کوتیشن نیستند جدا می‌کند
-      const parseLine = (line) => {
+      // حذف BOM (Byte Order Mark) که گاهی در ابتدای فایل اکسل/گوگل شیت هست
+      const BOM = '\uFEFF';
+      if (csvText.charCodeAt(0) === BOM.charCodeAt(0)) {
+        csvText = csvText.substr(1);
+      }
+
+      const lines = csvText.split('\n');
+      const products = [];
+      
+      // سطر اول را هدر در نظر میگیریم (دیتا نیست)
+      // حلقه از 1 شروع میشود
+      for (let i = 1; i < lines.length; i++) {
+        let line = lines[i].trim();
+        if (!line) continue; // خط خالی را رد کن
+
+        // تلاش برای پارس کردن ساده (اگر کاما داخل متن نباشد)
+        let parts = line.split(',');
+        
+        // اگر تعداد پارت‌ها کمتر از حد نصاب بود، احتمالا پارسر ساده شکست خورده (به خاطر کاما در متن فارسی)
+        // آنوقت از روش پارسینگ پیشرفته (Regex) استفاده میکنیم
+        if (parts.length < 6) {
+           parts = parseLineWithQuotes(line);
+        }
+
+        // اگر هنوز هم کم بود، رد کن
+        if (parts.length < 6) {
+           console.warn("Skipping line " + i + " due to missing columns:", parts);
+           continue;
+        }
+
+        products.push({
+          id: parts[0]?.trim() || '',
+          category: parts[1]?.trim() || '',
+          subCategory: parts[2]?.trim() || '',
+          name: parts[3]?.trim() || '',
+          description: parts[4]?.trim() || '',
+          price: parts[5]?.trim().replace(/,/g, '') || '0',
+          pic1: parts[6]?.trim() || '',
+          pic2: parts[7]?.trim() || '',
+          pic3: parts[8]?.trim() || ''
+        });
+      }
+      return products;
+    }
+
+    // پارسر پیشرفته برای مواقعی که متن شامل کاماست (بین کوتیشن "")
+    function parseLineWithQuotes(text) {
         const re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
         const re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
         let a = [];
-        line.replace(re_value, function(m0, m1, m2, m3) {
+        text.replace(re_value, function(m0, m1, m2, m3) {
             if (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
             else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
             else if (m3 !== undefined) a.push(m3);
             return '';
         });
-        if (/,\s*$/.test(line)) a.push('');
+        if (/,\s*$/.test(text)) a.push('');
         return a;
-      };
+    }
 
       const lines = csvText.split('\n').filter(line => line.trim() !== '');
       // فرض بر این است که سطر اول هدر است
@@ -841,4 +899,5 @@
 </body>
 
 </html>
+
 
