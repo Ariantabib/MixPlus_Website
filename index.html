@@ -1083,18 +1083,19 @@
           contentWrapper.style.opacity = '1';
           
           // 4. شروع تایپ ساب‌تایتل بعد از کمی تاخیر
-          // خط قبلی را پاک کن و این جایگزین کن:
-heroTimeouts.push(setTimeout(() => {
-    // 1. پاک کردن حتماً قبل از تایپ جدید
-    subEl.textContent = ''; 
-    // 2. اجرای تایپ
-    typeText(subEl, slide.subtitle, 40, () => {
-      heroTimeouts.push(setTimeout(() => {
-        index = (index + 1) % slides.length;
-        runCycle();
-      }, 5000));
-    });
-}, 600));
+          heroTimeouts.push(setTimeout(() => {
+            typeText(subEl, slide.subtitle, 30, () => {
+              // 5. وقتی تایپ تمام شد، 5 ثانیه صبر کن
+              heroTimeouts.push(setTimeout(() => {
+                // 6. اسلاید بعدی
+                index = (index + 1) % slides.length;
+                runCycle();
+              }, 5000));
+            });
+          }, 500)); // تاخیر 500 میلی‌ثانیه قبل از شروع تایپ
+
+        }, 500)); // همزمان با مدت زمان CSS transition (0.5s)
+      };
 
       // شروع اولیه
       runCycle();
