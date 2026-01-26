@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light" class="theme-light lang-fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">میکس‌پلاس | MixPlus</title>
+  <meta name="description" content="Premium Kitchen Products with Italian Design">
+  
+  <style>
+    /* ==================== FONTS & VARS ==================== */
+    @font-face {
+      font-family: 'Kalameh';
+      src: url('fonts/KALAMEH-REGULAR.woff2') format('woff2');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Kalameh';
+      src: url('fonts/KALAMEH-BOLD.woff2') format('woff2');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    
+    :root {
+      --font-fa: 'Kalameh', 'Vazirmatn', sans-serif;
+      --font-en: 'Montserrat', sans-serif;
+      --brand: #0fa99c;
+      --brand-hover: #0c867b;
+      
+      /* Light Mode (Default) */
+      --bg: #ffffff;
+      --fg: #111827;
+      --card: #f9fafb; /* حالا کمتر استفاده میشه تا حس یکپارچگی باشه */
+      --stroke: rgba(17, 17, 17, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --header-border: rgba(0, 0, 0, 0.05);
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+    
+    /* Dark Mode */
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --fg: #f8fafc;
+      --card: #1e293b;
+      --stroke: rgba(255, 255, 255, 0.08);
+      --glass-bg: rgba(15, 23, 42, 0.85);
+      --header-border: rgba(255, 255, 255, 0.05);
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.5);
+    }
+    
+    /* ==================== RESET & BASE ==================== */
+    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    
+    body {
+      font-family: var(--font-fa);
+      background-color: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+    }
+    
+    /* Language specific fonts */
+    .lang-en body { font-family: var(--font-en); }
+    
+    a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+    ul { list-style: none; }
+    button { border: none; background: none; cursor: pointer; font-family: inherit; }
+    img { max-width: 100%; display: block; }
+    .hidden { display: none !important; }
+
+    /* ==================== HEADER ==================== */
+    .mix-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 90px;
+      z-index: 1000;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-bottom: 1px solid var(--header-border);
+    }
+    
+    .mix-header--scrolled {
+      height: 75px;
+      background: var(--bg);
+      box-shadow: var(--shadow-sm);
+      border-bottom: 1px solid var(--stroke);
+    }
+
+    .mix-header__container {
+      max-width: 1440px;
+      margin: 0 auto;
+      height: 100%;
+      padding: 0 2rem; /* فاصله کلی کانتینر */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    
+    /* LOGO POSITIONING */
+    .mix-header__logo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1002;
+    }
+    .mix-header__logo img { height: 42px; width: auto; }
+
+    /* NAV GROUPS */
+    .mix-header__nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem; /* فاصله بین آیتم‌های منو */
+    }
+    
+    /* LOGIC FOR LTR/RTL ORDER & PADDING */
+    html[dir="rtl"] .mix-header__nav--primary {
+      order: 1; margin-right: auto;
+      /* اضافه کردن پدینگ برای اینکه منوها به لوگو نچسبند */
+      padding-left: 3rem; 
+    }
+    html[dir="rtl"] .mix-header__nav--secondary {
+      order: 3; margin-left: auto;
+      padding-right: 3rem;
+    }
+    
+    html[dir="ltr"] .mix-header__nav--primary {
+      order: 1; margin-left: auto;
+      padding-right: 3rem;
+    }
+    html[dir="ltr"] .mix-header__nav--secondary {
+      order: 3; margin-right: auto;
+      padding-left: 3rem;
+    }
+    
+    /* Nav Items */
+    .mix-header__item {
+      padding: 0.5rem 0.75rem;
+      color: var(--fg);
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+    .mix-header__item:hover { color: var(--brand); }
+    
+    .mix-header__divider {
+      width: 1px; height: 20px;
+      background: var(--stroke);
+      margin: 0 0.5rem;
+    }
+
+    .mix-header__icon-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--fg); transition: all 0.3s ease;
+    }
+    .mix-header__icon-btn:hover {
+      background: var(--card); color: var(--brand); transform: rotate(15deg);
+    }
+
+    /* ==================== MENUS ==================== */
+    .mix-megamenu {
+      position: absolute;
+      top: calc(100% + 20px);
+      background: var(--bg);
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      opacity: 0; visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 400px;
+      z-index: 100;
+      padding: 1.5rem;
+    }
+    
+    /* RTL Menu Position */
+    html[dir="rtl"] .mix-megamenu { right: 0; }
+    html[dir="ltr"] .mix-megamenu { left: 0; }
+    
+    .mix-megamenu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+    
+    .mix-megamenu__content {
+      display: grid;
+      gap: 2rem;
+    }
+
+    /* ستون‌بندی منوی محصولات (دو ستونه) */
+    #products-mega .mix-megamenu__content { grid-template-columns: 1fr 1.5fr; }
+
+    .mix-megamenu__root-item {
+      padding: 0.75rem 1rem; cursor: pointer; border-radius: 10px;
+      transition: all 0.2s; font-weight: 600; color: var(--fg);
+    }
+    .mix-megamenu__root-item:hover, .mix-megamenu__root-item.active {
+      background: rgba(15, 169, 156, 0.08); color: var(--brand);
+    }
+    
+    .mix-megamenu__sub-item {
+      display: block; padding: 0.75rem 1rem; color: var(--fg);
+      border-radius: 8px; transition: all 0.2s;
+    }
+    .mix-megamenu__sub-item:hover {
+      color: var(--brand);
+      padding-inline-start: 1.5rem; 
+    }
+
+    /* استایل منوهای کوچک (After Sales / Social) */
+    .mix-dropdown-simple {
+      display: grid; gap: 0.5rem; width: 100%;
+    }
+    .mix-dropdown-simple a {
+      display: flex; align-items: center;
+      padding: 1rem; font-size: 0.95rem;
+      border-radius: 10px; border: 1px solid var(--stroke);
+      transition: all 0.2s;
+    }
+    .mix-dropdown-simple a:hover {
+      background: rgba(15, 169, 156, 0.05);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    /* ==================== HERO ==================== */
+    .mix-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 650px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    
+    .mix-hero__video-container {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+    }
+    .mix-hero__video {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .mix-hero__overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+      z-index: 1;
+    }
+    .mix-hero__content {
+      position: relative; z-index: 2; text-align: center; color: white;
+      max-width: 900px; padding: 0 1.5rem;
+    }
+    .mix-hero__title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    .mix-hero__subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.6rem); opacity: 0.9; margin-bottom: 2rem;
+    }
+
+    .mix-hero__scroll-arrow {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; cursor: pointer; color: white; opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+      40% {transform: translateX(-50%) translateY(-10px);}
+      60% {transform: translateX(-50%) translateY(-5px);}
+    }
+
+    /* ==================== SECTIONS ==================== */
+    .mix-section {
+      padding: 5rem 1.5rem;
+      max-width: 1440px; margin: 0 auto;
+    }
+    .mix-section-title {
+      text-align: center; margin-bottom: 3.5rem;
+    }
+    .mix-section-title h2 {
+      font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;
+    }
+    .mix-section-title p {
+      color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto;
+    }
+
+    /* GRID */
+    .mix-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 1024px) { .mix-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .mix-grid { grid-template-columns: 1fr; } }
+
+    .mix-card {
+      position: relative; border-radius: 20px; overflow: hidden;
+      aspect-ratio: 3/4; cursor: pointer; background: var(--card);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .mix-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+    .mix-card__image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .mix-card:hover .mix-card__image { transform: scale(1.05); }
+    .mix-card__overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      color: white; height: 50%; display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .mix-card__title { font-size: 1.4rem; font-weight: 700; }
+
+    /* ==================== FULL BLEED BANNER ==================== */
+    .mix-fullbleed {
+      position: relative;
+      height: 50vh;
+      min-height: 350px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .mix-fullbleed__image {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .mix-fullbleed__overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+    .mix-fullbleed__content {
+      position: relative; z-index: 2; text-align: center; color: white; padding: 2rem;
+    }
+    .mix-fullbleed__title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem; }
+    
+    /* ==================== COMPONENTS ==================== */
+    .mix-btn {
+      display: inline-block; padding: 1rem 2.5rem;
+      border-radius: 50px; font-weight: 700;
+      transition: all 0.3s ease; cursor: pointer;
+    }
+    .mix-btn--primary {
+      background: var(--brand); color: white;
+      box-shadow: 0 4px 15px rgba(15, 169, 156, 0.3);
+    }
+    .mix-btn--primary:hover {
+      background: var(--brand-hover); transform: translateY(-3px);
+    }
+    .mix-btn--outline {
+      background: transparent; color: var(--fg); border: 2px solid var(--stroke);
+    }
+    .mix-btn--outline:hover {
+      border-color: var(--brand); color: var(--brand);
+    }
+
+    .mix-video-embed {
+      position: relative; padding-bottom: 56.25%; height: 0;
+      overflow: hidden; border-radius: 20px; background: #000; box-shadow: var(--shadow-lg);
+    }
+    .mix-video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+    /* SOCIAL STRIP (Redesigned for Large Icons) */
+    .mix-social-strip {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; padding: 4rem 2rem;
+      /* بک گراند حذف شد تا روی بک گراند اصلی قرار گیرد */
+      margin: 2rem auto; max-width: 100%;
+    }
+    .mix-social-icon {
+      width: 80px; height: 80px; /* بزرگتر برای لوگوی جذاب */
+      border-radius: 12px; /* کمی گردی مدرن */
+      display: flex; align-items: center; justify-content: center;
+      background: var(--card); /* باکس کوچک برای ایزوله کردن آیکون */
+      border: 1px solid var(--stroke);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+    .mix-social-icon img, .mix-social-icon svg {
+      width: 50%; height: 50%;
+      transition: transform 0.3s ease;
+    }
+    .mix-social-icon:hover {
+      transform: translateY(-8px);
+      border-color: var(--brand);
+      box-shadow: 0 10px 25px rgba(15, 169, 156, 0.2);
+      background: var(--bg);
+    }
+    .mix-social-icon:hover img, .mix-social-icon:hover svg {
+      transform: scale(1.1);
+    }
+
+    /* FOOTER (Enriched) */
+    .mix-footer {
+      background: var(--card); border-top: 1px solid var(--stroke);
+      padding: 5rem 2rem 2rem;
+    }
+    .mix-footer__grid {
+      max-width: 1400px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    @media (max-width: 1024px) { .mix-footer__grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .mix-footer__grid { grid-template-columns: 1fr; text-align: center; } }
+
+    .mix-footer__col h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--fg); }
+    .mix-footer__links li { margin-bottom: 0.8rem; }
+    .mix-footer__links a { color: var(--text-muted); font-size: 0.95rem; }
+    .mix-footer__links a:hover { color: var(--brand); padding-inline-start: 5px; }
+    
+    .mix-footer__bottom {
+      border-top: 1px solid var(--stroke); padding-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; text-align: center; max-width: 1400px; margin: 0 auto;
+    }
+    @media (max-width: 600px) { .mix-footer__bottom { flex-direction: column; } }
+
+    /* MOBILE MENU */
+    .mix-header__mobile-toggle { display: none; font-size: 1.5rem; color: var(--fg); z-index: 1001; }
+    .mix-header__mobile-menu {
+      position: fixed; top: 0; width: 85%; max-width: 320px; height: 100vh;
+      background: var(--bg); z-index: 1000; padding-top: 100px;
+      overflow-y: auto; box-shadow: var(--shadow-lg);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html[dir="rtl"] .mix-header__mobile-menu { right: 0; transform: translateX(100%); }
+    html[dir="ltr"] .mix-header__mobile-menu { left: 0; transform: translateX(-100%); }
+    
+    .mix-header__mobile-menu.active { transform: translateX(0); }
+    .mix-header__mobile-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.3s;
+      backdrop-filter: blur(3px);
+    }
+    .mix-header__mobile-overlay.active { opacity: 1; visibility: visible; }
+    .mix-header__mobile-item {
+      display: block; padding: 1.25rem 2rem; border-bottom: 1px solid var(--stroke);
+    }
+
+    @media (max-width: 968px) {
+      .mix-header__nav { display: none !important; }
+      .mix-header__mobile-toggle { display: block; }
+      .mix-hero { min-height: 500px; }
+      /* حذف پدینگ‌های اضافه موبایل برای لوگو */
+      html[dir="rtl"] .mix-header__nav--primary, html[dir="rtl"] .mix-header__nav--secondary,
+      html[dir="ltr"] .mix-header__nav--primary, html[dir="ltr"] .mix-header__nav--secondary {
+        padding-left: 0; padding-right: 0;
+      }
+    }
+
+    /* UTILS & ANIMATION */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Overlay -->
+  <div class="mix-header__mobile-overlay" id="mobile-overlay"></div>
+
+  <!-- HEADER -->
+  <header class="mix-header" id="header">
+    <div class="mix-header__container">
+      
+      <!-- PRIMARY NAV (Products/Dealers) -->
+      <nav class="mix-header__nav mix-header__nav--primary">
+        <!-- Products -->
+        <div style="position: relative;">
+          <button class="mix-header__item" id="products-trigger">
+            <span class="text-fa">محصولات</span>
+            <span class="text-en hidden">Products</span>
+          </button>
+          <div class="mix-megamenu" id="products-mega">
+            <div class="mix-megamenu__content">
+              <div class="mix-megamenu__col">
+                <div class="mix-megamenu__root-item active" data-category="hob">
+                  <span class="text-fa">اجاق گاز</span><span class="text-en hidden">Hob</span>
+                </div>
+                <div class="mix-megamenu__root-item" data-category="sink">
+                  <span class="text-fa">سینک ظرف‌شویی</span><span class="text-en hidden">Sink</span>
+                </div>
+                <div class="mix-megamenu__root-item" data-category="oven">
+                  <span class="text-fa">فر توکار</span><span class="text-en hidden">Built-in Oven</span>
+                </div>
+                <div class="mix-megamenu__root-item" data-category="hood">
+                  <span class="text-fa">هود</span><span class="text-en hidden">Hood</span>
+                </div>
+              </div>
+              <div class="mix-megamenu__col" id="products-subs"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mix-header__divider"></div>
+        
+        <a href="#" class="mix-header__item">
+          <span class="text-fa">نمایندگی‌های مجاز</span>
+          <span class="text-en hidden">Dealers</span>
+        </a>
+        
+        <div class="mix-header__divider"></div>
+        
+        <!-- After Sales (4 Items) -->
+        <div style="position: relative;">
+          <button class="mix-header__item" id="aftersales-trigger">
+            <span class="text-fa">خدمات پس از فروش</span>
+            <span class="text-en hidden">After-Sales</span>
+          </button>
+          <div class="mix-megamenu" id="aftersales-mega">
+            <div class="mix-dropdown-simple">
+              <a href="#">
+                <span class="text-fa">فرآیند رسیدگی به شکایات</span>
+                <span class="text-en hidden">Complaint Process</span>
+              </a>
+              <a href="#">
+                <span class="text-fa">شرایط گارانتی محصولات</span>
+                <span class="text-en hidden">Warranty Terms</span>
+              </a>
+              <a href="#">
+                <span class="text-fa">درخواست نصب محصول</span>
+                <span class="text-en hidden">Installation Request</span>
+              </a>
+              <a href="#">
+                <span class="text-fa">ثبت شکایت</span>
+                <span class="text-en hidden">Register Complaint</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mix-header__divider"></div>
+        
+        <a href="#" class="mix-header__item">
+          <span class="text-fa hidden"></span> 
+          <span class="text-en">About Us</span>
+        </a>
+      </nav>
+      
+      <!-- CENTER LOGO -->
+      <a href="#" class="mix-header__logo">
+        <img src="logos/logo-light.svg" alt="MixPlus Logo" class="logo-light">
+        <img src="logos/logo-dark.svg" alt="MixPlus Logo" class="logo-dark hidden">
+      </a>
+      
+      <button class="mix-header__mobile-toggle" id="mobile-toggle">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      
+      <!-- SECONDARY NAV (Search/Social/Catalog) -->
+      <nav class="mix-header__nav mix-header__nav--secondary">
+        <button class="mix-header__icon-btn" id="search-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        </button>
+        
+        <div class="mix-header__divider"></div>
+        
+        <!-- Social Menu (Hover) -->
+        <div style="position: relative;">
+          <button class="mix-header__item" id="social-trigger">#</button>
+          <div class="mix-megamenu" id="social-dropdown" style="min-width: 250px;">
+             <div class="mix-dropdown-simple">
+              <a href="https://linkedin.com/company/mixplus" target="_blank">LinkedIn</a>
+              <a href="https://instagram.com/mixplus.co" target="_blank">Instagram</a>
+              <a href="https://youtube.com/@mixplusmovie" target="_blank">YouTube</a>
+              <a href="https://aparat.com/mixplus.co" target="_blank">Aparat</a>
+              <a href="https://t.me/mixplus_co_bot" target="_blank">Telegram</a>
+             </div>
+          </div>
+        </div>
+        
+        <div class="mix-header__divider"></div>
+        
+        <a href="#" class="mix-header__item" id="catalog-link">
+          <span class="text-fa">دانلود کاتالوگ</span>
+          <span class="text-en hidden">Download Catalog</span>
+        </a>
+        
+        <div class="mix-header__divider"></div>
+        
+        <!-- Lang -->
+        <div style="position: relative;">
+          <button class="mix-header__item" id="lang-trigger">
+            <span class="text-fa">فارسی</span>
+            <span class="text-en hidden">English</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; margin-inline-start: 4px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="mix-megamenu" id="lang-dropdown" style="min-width: 180px;">
+             <div class="mix-dropdown-simple">
+              <a href="#" id="switch-lang">
+                <span class="text-fa hidden">English</span>
+                <span class="text-en hidden">فارسی</span>
+              </a>
+             </div>
+          </div>
+        </div>
+        
+        <div class="mix-header__divider"></div>
+        
+        <button class="mix-header__icon-btn" id="theme-toggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-moon" class="hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="mix-header__mobile-menu" id="mobile-menu">
+    <a href="#" class="mix-header__mobile-item">
+      <span class="text-fa">محصولات</span><span class="text-en hidden">Products</span>
+    </a>
+    <a href="#" class="mix-header__mobile-item">
+      <span class="text-fa">نمایندگی‌ها</span><span class="text-en hidden">Dealers</span>
+    </a>
+    <a href="#" class="mix-header__mobile-item">
+      <span class="text-fa">خدمات پس از فروش</span><span class="text-en hidden">After-Sales</span>
+    </a>
+    <a href="#" class="mix-header__mobile-item">
+      <span class="text-fa hidden"></span><span class="text-en">About Us</span>
+    </a>
+    <a href="#" class="mix-header__mobile-item" id="mobile-catalog">
+      <span class="text-fa">دانلود کاتالوگ</span><span class="text-en hidden">Download Catalog</span>
+    </a>
+    <button class="mix-header__mobile-item" id="mobile-lang">
+      <span class="text-fa hidden">English</span><span class="text-en hidden">فارسی</span>
+    </button>
+    <button class="mix-header__mobile-item" id="mobile-theme">
+      <span class="text-fa">تغییر تم</span><span class="text-en hidden">Toggle Theme</span>
+    </button>
+  </div>
+
+  <!-- HERO -->
+  <section class="mix-hero">
+    <div class="mix-hero__video-container">
+      <video class="mix-hero__video" id="hero-video" autoplay muted playsinline loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-modern-kitchen-with-a-smoke-extractor-fan-4767-large.mp4" type="video/mp4">
+      </video>
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1920&q=80" 
+           alt="Hero" class="mix-hero__video" id="hero-fallback" style="position: absolute; top: 0; left: 0; object-fit: cover; opacity: 0;">
+    </div>
+    <div class="mix-hero__overlay"></div>
+    <div class="mix-hero__content">
+      <h1 class="mix-hero__title" id="hero-title">
+        <span class="text-fa">کیفیت برتر با طراحی ایتالیایی</span>
+        <span class="text-en hidden">Premium Quality with Italian Design</span>
+      </h1>
+      <p class="mix-hero__subtitle" id="hero-subtitle">
+        <span class="text-fa">محصولات آشپزخانه که زندگی شما را متحول می‌کنند</span>
+        <span class="text-en hidden">Kitchen products that transform your life</span>
+      </p>
+    </div>
+    <div class="mix-hero__scroll-arrow" id="scroll-arrow">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- INTRO SECTION -->
+  <section class="mix-section reveal">
+    <div class="mix-section-title">
+      <h2>
+        <span class="text-fa">میکس‌پلاس؛ کیفیت و زیبایی در آشپزخانه شما</span>
+        <span class="text-en hidden">MixPlus: Quality and Beauty in Your Kitchen</span>
+      </h2>
+      <p>
+        <span class="text-fa">ما با الهام از طراحی ایتالیایی و استفاده از بهترین مواد اولیه، محصولاتی تولید می‌کنیم که علاوه بر زیبایی، دوام و کارایی بالایی دارند.</span>
+        <span class="text-en hidden">Inspired by Italian design and using the finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
+      </p>
+    </div>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="#categories" class="mix-btn mix-btn--primary">
+        <span class="text-fa">مشاهده محصولات</span>
+        <span class="text-en hidden">View Products</span>
+      </a>
+      <a href="#" class="mix-btn mix-btn--outline">
+        <span class="text-fa">درباره میکس‌پلاس</span>
+        <span class="text-en hidden">About MixPlus</span>
+      </a>
+      <a href="#" class="mix-btn mix-btn--outline" id="catalog-hero-btn">
+        <span class="text-fa">دانلود کاتالوگ</span>
+        <span class="text-en hidden">Download Catalog</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- CATEGORIES GRID (No extra bg) -->
+  <section class="mix-section" id="categories">
+    <div class="mix-section-title reveal">
+      <h2>
+        <span class="text-fa">گروه‌های محصولات</span>
+        <span class="text-en hidden">Product Categories</span>
+      </h2>
+    </div>
+    <div class="mix-grid reveal">
+      <a href="#" class="mix-card">
+        <img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=600&q=80" alt="Hob" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">اجاق گاز</span><span class="text-en hidden">Hob</span></h3></div>
+      </a>
+      <a href="#" class="mix-card">
+        <img src="https://images.unsplash.com/photo-1584622050111-993a426fbf0a?auto=format&fit=crop&w=600&q=80" alt="Sink" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">سینک ظرف‌شویی</span><span class="text-en hidden">Sink</span></h3></div>
+      </a>
+      <a href="#" class="mix-card">
+        <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=600&q=80" alt="Oven" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">فر توکار</span><span class="text-en hidden">Built-in Oven</span></h3></div>
+      </a>
+      <a href="#" class="mix-card">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?auto=format&fit=crop&w=600&q=80" alt="Hood" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">هود</span><span class="text-en hidden">Hood</span></h3></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FULL BLEED BANNER 1 -->
+  <section class="mix-fullbleed reveal">
+    <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?auto=format&fit=crop&w=1600&q=80" alt="Italian Design" class="mix-fullbleed__image">
+    <div class="mix-fullbleed__overlay"></div>
+    <div class="mix-fullbleed__content">
+      <h2 class="mix-fullbleed__title">
+        <span class="text-fa">طراحی الهام‌گرفته از ایتالیا</span>
+        <span class="text-en hidden">Italian-Inspired Design</span>
+      </h2>
+      <p>
+        <span class="text-fa">زیبایی، کیفیت و نوآوری در هر جزئیات</span>
+        <span class="text-en hidden">Beauty, quality and innovation in every detail</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- FACTORY VIDEO -->
+  <section class="mix-section">
+    <div class="mix-section-title reveal">
+      <h2>
+        <span class="text-fa">بازدید از کارخانه میکس‌پلاس</span>
+        <span class="text-en hidden">Visit MixPlus Factory</span>
+      </h2>
+    </div>
+    <div style="max-width: 900px; margin: 0 auto;" class="reveal">
+      <div class="mix-video-embed">
+        <iframe id="factory-iframe" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULL BLEED BANNER 2 -->
+  <section class="mix-fullbleed reveal">
+    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1600&q=80" alt="Quality" class="mix-fullbleed__image">
+    <div class="mix-fullbleed__overlay"></div>
+    <div class="mix-fullbleed__content">
+      <h2 class="mix-fullbleed__title">
+        <span class="text-fa">کیفیت بی‌نظیر، قیمت منصفانه</span>
+        <span class="text-en hidden">Unmatched Quality, Fair Price</span>
+      </h2>
+      <p>
+        <span class="text-fa">محصولات میکس‌پلاس، انتخابی هوشمندانه برای آشپزخانه شما</span>
+        <span class="text-en hidden">MixPlus products, a smart choice for your kitchen</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- EXTRA CARDS -->
+  <section class="mix-section">
+    <div class="mix-grid reveal">
+      <a href="#" class="mix-card" style="aspect-ratio: 1/1;">
+        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=600&q=80" alt="Products" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">محصولات</span><span class="text-en hidden">Products</span></h3></div>
+      </a>
+      <a href="#" class="mix-card" style="aspect-ratio: 1/1;">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80" alt="Events" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">رویدادها</span><span class="text-en hidden">Events</span></h3></div>
+      </a>
+      <a href="#" class="mix-card" style="aspect-ratio: 1/1;">
+        <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80" alt="Services" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">خدمات</span><span class="text-en hidden">Services</span></h3></div>
+      </a>
+      <a href="#" class="mix-card" style="aspect-ratio: 1/1;">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Training" class="mix-card__image">
+        <div class="mix-card__overlay"><h3 class="mix-card__title"><span class="text-fa">آموزش</span><span class="text-en hidden">Training</span></h3></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FULL BLEED BANNER 3 -->
+  <section class="mix-fullbleed reveal">
+    <img src="https://images.unsplash.com/photo-1484154218962-a1c002085d2f?auto=format&fit=crop&w=1600&q=80" alt="Support" class="mix-fullbleed__image">
+    <div class="mix-fullbleed__overlay"></div>
+    <div class="mix-fullbleed__content">
+      <h2 class="mix-fullbleed__title">
+        <span class="text-fa">در کنار شما در هر لحظه</span>
+        <span class="text-en hidden">With You Every Moment</span>
+      </h2>
+      <p>
+        <span class="text-fa">میکس‌پلاس، نامی مطمئن در صنعت لوازم خانگی</span>
+        <span class="text-en hidden">MixPlus, a trusted name in the home appliances industry</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- SOCIAL STRIP (Large Icons, No Extra BG) -->
+  <section class="container">
+    <div class="mix-social-strip reveal">
+      <!-- Placeholders for your future SVG uploads -->
+      <a href="https://linkedin.com/company/mixplus" target="_blank" class="mix-social-icon">
+        <svg width="40" height="40" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      </a>
+      <a href="https://instagram.com/mixplus.co" target="_blank" class="mix-social-icon">
+        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      </a>
+      <a href="https://youtube.com/@mixplusmovie" target="_blank" class="mix-social-icon">
+        <svg width="40" height="40" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+      </a>
+      <a href="https://aparat.com/mixplus.co" target="_blank" class="mix-social-icon">
+        <svg width="40" height="40" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      </a>
+      <a href="https://t.me/mixplus_co_bot" target="_blank" class="mix-social-icon">
+        <svg width="40" height="40" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER (Enhanced) -->
+  <footer class="mix-footer">
+    <div class="mix-footer__grid">
+      <div class="mix-footer__col">
+        <svg width="120" height="40" viewBox="0 0 120 40" style="margin-bottom: 1.5rem;">
+          <text x="0" y="30" font-family="Arial" font-size="24" font-weight="bold" fill="var(--brand)">MixPlus</text>
+        </svg>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
+          <span class="text-fa">ما با الهام از طراحی ایتالیایی و استفاده از بهترین مواد اولیه، محصولاتی تولید می‌کنیم که علاوه بر زیبایی، دوام و کارایی بالایی دارند.</span>
+          <span class="text-en hidden">Inspired by Italian design and using the finest raw materials, we manufacture products that combine beauty with durability and high performance.</span>
+        </p>
+      </div>
+      
+      <div class="mix-footer__col">
+        <h4>
+          <span class="text-fa">لینک‌های سریع</span>
+          <span class="text-en hidden">Quick Links</span>
+        </h4>
+        <ul class="mix-footer__links">
+          <li><a href="#"><span class="text-fa">درباره ما</span><span class="text-en hidden">About Us</span></a></li>
+          <li><a href="#"><span class="text-fa">محصولات</span><span class="text-en hidden">Products</span></a></li>
+          <li><a href="#"><span class="text-fa">نمایندگی‌ها</span><span class="text-en hidden">Dealers</span></a></li>
+          <li><a href="#"><span class="text-fa">تماس با ما</span><span class="text-en hidden">Contact Us</span></a></li>
+        </ul>
+      </div>
+      
+      <div class="mix-footer__col">
+        <h4>
+          <span class="text-fa">خدمات مشتریان</span>
+          <span class="text-en hidden">Customer Service</span>
+        </h4>
+        <ul class="mix-footer__links">
+          <li><a href="#"><span class="text-fa">شرایط گارانتی</span><span class="text-en hidden">Warranty</span></a></li>
+          <li><a href="#"><span class="text-fa">شرایط بازگشت کالا</span><span class="text-en hidden">Return Policy</span></a></li>
+          <li><a href="#"><span class="text-fa">سوالات متداول</span><span class="text-en hidden">FAQ</span></a></li>
+          <li><a href="#"><span class="text-fa">درخواست نصب</span><span class="text-en hidden">Installation Request</span></a></li>
+        </ul>
+      </div>
+      
+      <div class="mix-footer__col">
+        <h4>
+          <span class="text-fa">تماس با ما</span>
+          <span class="text-en hidden">Contact Us</span>
+        </h4>
+        <ul class="mix-footer__links">
+          <li><span class="text-fa">تهران، خیابان ولیعصر، برج فناوری</span><span class="text-en hidden">Tehran, Valiasr St, Tech Tower</span></li>
+          <li>021-88888888</li>
+          <li>info@mixplus.co</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="mix-footer__bottom">
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        <span class="text-fa">© ۱۴۰۳ میکس‌پلاس. تمامی حقوق محفوظ است.</span>
+        <span class="text-en hidden">© 2024 MixPlus. All rights reserved.</span>
+      </p>
+      <div style="display: flex; gap: 1.5rem;">
+        <a href="#" class="mix-footer__link" style="font-size: 0.9rem;">
+          <span class="text-fa">حریم خصوصی</span><span class="text-en hidden">Privacy Policy</span>
+        </a>
+        <a href="#" class="mix-footer__link" style="font-size: 0.9rem;">
+          <span class="text-fa">قوانین استفاده</span><span class="text-en hidden">Terms of Use</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==================== CONFIG & DATA ====================
+    const videos = {
+      aparat: 'https://www.aparat.com/video/video/embed/videohash/rqy7870/vt/frame',
+      youtube: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    };
+    
+    const categories = {
+      hob: { fa: [{ name: 'اجاق استیل' }, { name: 'اجاق شیشه‌ای' }], en: [{ name: 'Steel Hob' }, { name: 'Glass Hob' }] },
+      sink: { fa: [{ name: 'سینک دست‌ساز' }, { name: 'گرانیتی' }], en: [{ name: 'Handmade' }, { name: 'Granite' }] },
+      oven: { fa: [{ name: 'مشاهده همه' }], en: [{ name: 'View All' }] },
+      hood: { fa: [{ name: 'هود توکار' }, { name: 'هود دیواری' }], en: [{ name: 'Built-in' }, { name: 'Wall' }] }
+    };
+
+    // Default: Light & FA
+    let currentLang = localStorage.getItem('mix_lang') || 'fa';
+    let currentTheme = localStorage.getItem('mix_theme') || 'light';
+
+    // ==================== FUNCTIONS ====================
+    
+    function init() {
+      setTheme(currentTheme);
+      setLanguage(currentLang, false); 
+      setupObservers();
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.getElementById('theme-icon-sun').classList.toggle('hidden', theme === 'dark');
+      document.getElementById('theme-icon-moon').classList.toggle('hidden', theme === 'light');
+      
+      const logoLight = document.querySelector('.logo-light');
+      const logoDark = document.querySelector('.logo-dark');
+      
+      if (theme === 'dark') {
+        logoLight.classList.remove('hidden');
+        logoDark.classList.add('hidden');
+      } else {
+        logoLight.classList.add('hidden');
+        logoDark.classList.remove('hidden');
+      }
+      currentTheme = theme;
+      localStorage.setItem('mix_theme', theme);
+    }
+
+    function setLanguage(lang, save = true) {
+      currentLang = lang;
+      const html = document.documentElement;
+      const isFa = lang === 'fa';
+      
+      html.setAttribute('lang', lang);
+      html.setAttribute('dir', isFa ? 'rtl' : 'ltr');
+      html.classList.remove('lang-fa', 'lang-en');
+      html.classList.add(`lang-${lang}`);
+
+      document.querySelectorAll('.text-fa').forEach(el => el.classList.toggle('hidden', !isFa));
+      document.querySelectorAll('.text-en').forEach(el => el.classList.toggle('hidden', isFa));
+
+      const catalogLink = isFa ? '/catalog-fa.pdf' : '/catalog-en.pdf';
+      document.getElementById('catalog-link').href = catalogLink;
+      document.getElementById('catalog-hero-btn').href = catalogLink;
+      document.getElementById('mobile-catalog').href = catalogLink;
+
+      const videoSrc = isFa ? videos.aparat : videos.youtube;
+      const iframe = document.getElementById('factory-iframe');
+      if (iframe) iframe.src = videoSrc;
+
+      const switchBtn = document.getElementById('switch-lang');
+      const mobileLangBtn = document.getElementById('mobile-lang');
+      if (isFa) {
+        switchBtn.innerHTML = '<span class="text-en">English</span>';
+        mobileLangBtn.innerHTML = '<span class="text-en">Switch to English</span>';
+      } else {
+        switchBtn.innerHTML = '<span class="text-fa">فارسی</span>';
+        mobileLangBtn.innerHTML = '<span class="text-fa">تغییر به فارسی</span>';
+      }
+
+      updateProductsSubmenu();
+      if (save) localStorage.setItem('mix_lang', lang);
+    }
+
+    function updateProductsSubmenu(category = 'hob') {
+      const subs = categories[category][currentLang];
+      const container = document.getElementById('products-subs');
+      if (!container || !subs) return;
+      container.innerHTML = '';
+      subs.forEach(sub => {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.className = 'mix-megamenu__sub-item';
+        link.textContent = sub.name;
+        container.appendChild(link);
+      });
+    }
+
+    // ==================== EVENT LISTENERS ====================
+    
+    document.getElementById('theme-toggle').addEventListener('click', () => setTheme(currentTheme === 'light' ? 'dark' : 'light'));
+    document.getElementById('mobile-theme').addEventListener('click', () => { setTheme(currentTheme === 'light' ? 'dark' : 'light'); toggleMobileMenu(); });
+
+    document.getElementById('lang-trigger').addEventListener('click', e => { e.stopPropagation(); document.getElementById('lang-dropdown').classList.toggle('active'); });
+    document.getElementById('switch-lang').addEventListener('click', e => { e.preventDefault(); document.getElementById('lang-dropdown').classList.remove('active'); setLanguage(currentLang === 'fa' ? 'en' : 'fa'); });
+    document.getElementById('mobile-lang').addEventListener('click', () => { setLanguage(currentLang === 'fa' ? 'en' : 'fa'); toggleMobileMenu(); });
+
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if(window.scrollY > 50) header.classList.add('mix-header--scrolled');
+      else header.classList.remove('mix-header--scrolled');
+    });
+
+    document.getElementById('scroll-arrow').addEventListener('click', () => document.getElementById('categories').scrollIntoView({ behavior: 'smooth' }));
+
+    // Mega Menus
+    function setupMegaMenu(triggerId, megaId) {
+      const trigger = document.getElementById(triggerId);
+      const mega = document.getElementById(megaId);
+      let timeout;
+      trigger.addEventListener('mouseenter', () => { clearTimeout(timeout); timeout = setTimeout(() => mega.classList.add('active'), 150); });
+      trigger.addEventListener('mouseleave', () => { clearTimeout(timeout); timeout = setTimeout(() => { if (!mega.matches(':hover')) mega.classList.remove('active'); }, 150); });
+      mega.addEventListener('mouseenter', () => { clearTimeout(timeout); mega.classList.add('active'); });
+      mega.addEventListener('mouseleave', () => { timeout = setTimeout(() => mega.classList.remove('active'), 150); });
+    }
+
+    setupMegaMenu('products-trigger', 'products-mega');
+    setupMegaMenu('aftersales-trigger', 'aftersales-mega');
+    setupMegaMenu('social-trigger', 'social-dropdown'); // Social & Lang use Mega logic for hover
+
+    document.querySelectorAll('.mix-megamenu__root-item').forEach(item => {
+      item.addEventListener('mouseenter', function() {
+        document.querySelectorAll('.mix-megamenu__root-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        updateProductsSubmenu(this.getAttribute('data-category'));
+      });
+    });
+
+    document.addEventListener('click', () => {
+      document.getElementById('lang-dropdown').classList.remove('active');
+      document.getElementById('social-dropdown').classList.remove('active');
+    });
+
+    // Mobile Menu
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('active');
+      mobileOverlay.classList.toggle('active');
+    }
+    mobileToggle.addEventListener('click', toggleMobileMenu);
+    mobileOverlay.addEventListener('click', toggleMobileMenu);
+
+    // ==================== ANIMATIONS ====================
+    function setupObservers() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    init();
+  </script>
+</body>
+</html>
