@@ -24,30 +24,27 @@
       margin: 0 auto;
       padding: 0 1.5rem;
       display: flex;
-      flex-direction: column; /* Stack Top Row and Bottom Row */
+      flex-direction: column;
       gap: 1.5rem;
     }
 
     /* TOP ROW: Contains Search and Main Categories */
     .top-filters-row {
       display: flex;
-      align-items: flex-start; /* Align top so full height works */
+      align-items: flex-start;
       gap: 2rem;
       width: 100%;
     }
 
     /* Desktop Specifics */
     @media (min-width: 769px) {
-      /* Search Section */
       .search-section {
-        flex: 0 0 33%; /* Fixed width */
+        flex: 0 0 33%;
         display: flex;
         flex-direction: column;
       }
-
-      /* Categories Section */
       .cats-section {
-        flex: 1; /* Take remaining space */
+        flex: 1;
         display: flex;
         flex-direction: column;
       }
@@ -64,25 +61,19 @@
     /* Mobile Specifics */
     @media (max-width: 768px) {
       .top-filters-row {
-        flex-direction: column; /* Stack vertically */
+        flex-direction: column;
         gap: 1rem;
       }
-
-      /* Search takes Full Width on Row 1 */
       .search-section {
         width: 100%;
         order: 1;
         flex: none;
       }
-
-      /* Categories take Full Width on Row 2 */
       .cats-section {
         width: 100%;
         order: 2;
         flex: none;
       }
-      
-      /* Center buttons on mobile */
       .main-cats { justify-content: center; }
     }
 
@@ -235,7 +226,11 @@
     }
     .product-img-main { z-index: 1; }
     .product-img-hover { z-index: 2; opacity: 0; }
+    
+    /* FIX: Explicitly hide main image on hover */
+    .product-card:hover .product-img-main { opacity: 0 !important; }
     .product-card:hover .product-img-hover { opacity: 1; }
+    
     .no-image { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.8rem; }
 
     .product-info {
@@ -247,7 +242,6 @@
       background: var(--bg);
       min-height: 80px;
       gap: 0.5rem;
-      /* CENTER ALIGNMENT CHANGES */
       text-align: center;
       align-items: center;
     }
@@ -256,8 +250,8 @@
       font-size: 0.95rem;
       font-weight: 700;
       color: var(--fg);
-      direction: ltr; /* Keep LTR for name */
-      text-align: center; /* Align center */
+      direction: ltr;
+      text-align: center;
       width: 100%;
       order: 1;
     }
@@ -270,8 +264,8 @@
       align-items: baseline;
       gap: 4px;
       white-space: nowrap;
-      direction: rtl; /* Keep RTL grouping for price */
-      text-align: center; /* Align center */
+      direction: rtl;
+      text-align: center;
       justify-content: center;
       width: 100%;
       order: 2;
@@ -287,24 +281,82 @@
       backdrop-filter: blur(5px);
     }
     .mix-modal-overlay.active { opacity: 1; visibility: visible; }
+    
+    /* FIX: Increase Modal Size on Desktop (30-40% bigger) */
     .mix-modal-content {
-      background: var(--bg); width: 90%; max-width: 900px;
-      max-height: 90vh; border-radius: 20px; overflow-y: auto;
-      position: relative; display: grid; grid-template-columns: 1fr 1fr;
-      box-shadow: var(--shadow-lg); transform: scale(0.9); transition: 0.3s ease;
+      background: var(--bg); 
+      width: 90%; 
+      max-width: 900px; /* Mobile */
+      max-height: 90vh; 
+      border-radius: 20px; 
+      overflow-y: auto;
+      position: relative; 
+      display: grid; 
+      grid-template-columns: 1fr 1fr;
+      box-shadow: var(--shadow-lg); 
+      transform: scale(0.9); 
+      transition: 0.3s ease;
     }
+    
+    @media (min-width: 769px) {
+      .mix-modal-content {
+        max-width: 1200px; /* Desktop Increased */
+      }
+    }
+
     .mix-modal-overlay.active .mix-modal-content { transform: scale(1); }
     @media (max-width: 768px) { .mix-modal-content { grid-template-columns: 1fr; } }
-    .modal-gallery { background: #f8f8f8; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
-    .modal-main-img { max-width: 100%; max-height: 350px; object-fit: contain; }
-    .modal-thumbs { display: flex; gap: 0.5rem; }
-    .thumb { width: 50px; height: 50px; border: 2px solid var(--stroke); border-radius: 8px; cursor: pointer; object-fit: cover; }
+    
+    /* FIX: Thumbs pinned to bottom */
+    .modal-gallery { 
+      background: #f8f8f8; 
+      padding: 2rem; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 1rem;
+      height: 100%; /* Important: Fill parent height */
+    }
+    
+    .modal-main-img { 
+      max-width: 100%; 
+      max-height: 350px; 
+      object-fit: contain; 
+      flex: 1; /* Take available space */
+      transition: transform 0.2s ease-out; /* Smooth for zoom */
+      cursor: crosshair;
+    }
+    
+    .modal-thumbs { 
+      display: flex; 
+      gap: 0.5rem; 
+      margin-top: auto; /* Force to bottom */
+      flex-shrink: 0; /* Don't shrink if image is small */
+    }
+    
+    .thumb { 
+      width: 50px; 
+      height: 50px; 
+      border: 2px solid var(--stroke); 
+      border-radius: 8px; 
+      cursor: pointer; 
+      object-fit: cover; 
+    }
     .thumb.active { border-color: var(--brand); }
-    .modal-details { padding: 2rem; display: flex; flex-direction: column; }
+    
+    .modal-details { 
+      padding: 2rem; 
+      display: flex; 
+      flex-direction: column; 
+      height: 100%; /* Match gallery height */
+    }
+    
     .modal-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; direction: ltr; text-align: left; }
     .modal-cat { color: var(--brand); font-weight: 600; margin-bottom: 1.5rem; }
     .modal-desc { color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; max-height: 200px; overflow-y: auto; }
     .modal-price { font-size: 1.4rem; font-weight: 800; color: var(--fg); margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--stroke); direction: rtl; text-align: right; }
+    
     .close-modal {
       position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px;
       border-radius: 50%; background: var(--card); border: 1px solid var(--stroke);
@@ -385,7 +437,10 @@
       </button>
       
       <div class="modal-gallery">
-        <img src="" id="m-main-img" class="modal-main-img" alt="Product">
+        <!-- Container added for Zoom & Swipe logic -->
+        <div id="m-img-container" style="width: 100%; height: 100%; overflow: hidden; position: relative;">
+            <img src="" id="m-main-img" class="modal-main-img" alt="Product">
+        </div>
         <div class="modal-thumbs" id="m-thumbs"></div>
       </div>
       
@@ -452,11 +507,8 @@
       applyFilters();
     }
 
-        // ... (بقیه کدها مثل قبل)
-
     function normalizeCategory(cat) {
       if (!cat) return null;
-      // Check mapping first
       if (categoryMap[cat]) return categoryMap[cat];
       return cat;
     }
@@ -472,7 +524,6 @@
       const mainCatProduct = allProducts.find(p => p.Category_Fa === rawValue || p.Category_En === rawValue);
       
       if (mainCatProduct) {
-        // Normalize (e.g. "Sink Dishwasher" -> "Sink")
         activeCategory = normalizeCategory(mainCatProduct.Category_Fa);
         activeSubCategory = null;
         return;
@@ -482,15 +533,10 @@
       const subCatProduct = allProducts.find(p => p['Sub-Category_Fa'] === rawValue || p['Sub-Category_En'] === rawValue);
 
       if (subCatProduct) {
-        // Set the PARENT category as active (so the main tabs are highlighted)
         activeCategory = normalizeCategory(subCatProduct.Category_Fa);
-        
-        // Set the SPECIFIC sub-category as active (so the sub-list is filtered)
         activeSubCategory = subCatProduct['Sub-Category_Fa'];
       }
     }
-
-    // ... (ادامه کدها)
 
     // --- CATEGORIES LOGIC ---
 
@@ -530,17 +576,14 @@
       const targetCat = cat ? decodeURIComponent(cat) : null;
 
       if (activeCategory === targetCat) {
-        // Clicking the same active category turns it OFF -> Show All
         activeCategory = null;
       } else {
-        // Clicking a different or inactive category turns it ON
         activeCategory = targetCat;
       }
       
       activeSubCategory = null; // Reset sub
       renderAll();
       
-      // Update URL (null removes query param)
       const newUrl = activeCategory ? `?cat=${encodeURIComponent(activeCategory)}` : 'products.html';
       window.history.replaceState({}, '', newUrl);
     }
@@ -641,7 +684,6 @@
           imgHTML = `<div class="no-image"><span class="text-fa">تصویر ندارد</span><span class="text-en hidden">No Image</span></div>`;
         }
 
-        // Currency Label: "Rial" (Singular) for En, "ریال" for Fa
         const currencyLabel = lang === 'en' ? 'Rial' : 'ریال';
 
         return `
@@ -661,7 +703,9 @@
       }).join('');
     }
 
-    // --- MODAL LOGIC ---
+    // --- MODAL LOGIC & INTERACTIONS ---
+
+    let modalImages = []; // Store images for swipe logic
 
     function findProductById(id) {
       return allProducts.find(p => String(p.ID) === String(id));
@@ -686,12 +730,13 @@
 
       const mainImg = document.getElementById('m-main-img');
       const thumbsContainer = document.getElementById('m-thumbs');
-      const images = [p.Pic_1, p.Pic_2, p.Pic_3].filter(path => path && path.trim() !== '');
       
-      if (images.length > 0) {
-        const firstImg = images[0].replace(/\\/g, '/');
+      modalImages = [p.Pic_1, p.Pic_2, p.Pic_3].filter(path => path && path.trim() !== '');
+      
+      if (modalImages.length > 0) {
+        const firstImg = modalImages[0].replace(/\\/g, '/');
         mainImg.src = firstImg;
-        thumbsContainer.innerHTML = images.map((imgPath, index) => {
+        thumbsContainer.innerHTML = modalImages.map((imgPath, index) => {
            const path = imgPath.replace(/\\/g, '/');
            return `<img src="${path}" class="thumb ${index===0?'active':''}" onclick="changeModalImage('${path}', this)">`;
         }).join('');
@@ -719,6 +764,66 @@
     document.getElementById('product-modal').addEventListener('click', (e) => {
       if (e.target.id === 'product-modal') window.closeModal();
     });
+
+    // --- DESKTOP ZOOM LOGIC ---
+    const imgContainer = document.getElementById('m-img-container');
+    const modalImg = document.getElementById('m-main-img');
+
+    // Only enable zoom on hover-enabled devices (Desktop)
+    if (window.matchMedia("(hover: hover)").matches) {
+        imgContainer.addEventListener('mousemove', (e) => {
+            const rect = imgContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left; // x position within element
+            const y = e.clientY - rect.top;  // y position within element
+            
+            const xPercent = (x / rect.width) * 100;
+            const yPercent = (y / rect.height) * 100;
+            
+            // Set origin to mouse position to simulate parallax
+            modalImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+            // Scale up (1.8x zoom)
+            modalImg.style.transform = 'scale(1.8)'; 
+        });
+
+        imgContainer.addEventListener('mouseleave', () => {
+            // Reset on leave
+            modalImg.style.transformOrigin = 'center center';
+            modalImg.style.transform = 'scale(1)';
+        });
+    }
+
+    // --- MOBILE SWIPE LOGIC ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    imgContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    imgContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, {passive: true});
+
+    function handleSwipe() {
+        const diffX = touchStartX - touchEndX;
+        // Swipe Right (Prev)
+        if (diffX > 50) {
+            const currentSrc = document.getElementById('m-main-img').src;
+            const currentIndex = modalImages.findIndex(img => img.replace(/\\/g, '/') === currentSrc);
+            if (currentIndex > 0) {
+                changeModalImage(modalImages[currentIndex - 1].replace(/\\/g, '/'), document.querySelectorAll('.thumb')[currentIndex - 1]);
+            }
+        }
+        // Swipe Left (Next)
+        if (diffX < -50) {
+            const currentSrc = document.getElementById('m-main-img').src;
+            const currentIndex = modalImages.findIndex(img => img.replace(/\\/g, '/') === currentSrc);
+            if (currentIndex < modalImages.length - 1) {
+                changeModalImage(modalImages[currentIndex + 1].replace(/\\/g, '/'), document.querySelectorAll('.thumb')[currentIndex + 1]);
+            }
+        }
+    }
 
     function observeLanguageChange() {
       const target = document.documentElement;
