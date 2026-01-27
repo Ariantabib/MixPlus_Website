@@ -1,17 +1,17 @@
 /**
  * HEADER COMPONENT - MixPlus Website (Updated)
- * اضافه شدن سیستم ارسال رویداد برای رفع مشکل لود همزمان
+ * منوی هوشمند با سیستم بستن هوشمند هنگام حرکت بین دکمه‌ها (Smart Collision Logic)
  */
 
 // ==================== HTML STRING ====================
 const headerHTML = `
   <!-- MOBILE BOTTOM NAV -->
   <nav class="mix-mobile-bottom-bar" id="mobile-nav-bar">
-    <div class="mobile-nav-item" onclick="window.scrollTo(0,0)">
+    <div class="mobile-nav-item" onclick="window.location.href='index.html'">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
       <span class="text-fa">خانه</span><span class="text-en hidden">Home</span>
     </div>
-    <div class="mobile-nav-item" onclick="document.getElementById('categories')?.scrollIntoView()">
+    <div class="mobile-nav-item" onclick="window.location.href='products.html'">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
       <span class="text-fa">محصولات</span><span class="text-en hidden">Prod</span>
     </div>
@@ -28,15 +28,15 @@ const headerHTML = `
   <!-- MOBILE MENU OVERLAY -->
   <div class="mix-mobile-overlay" id="mobile-overlay"></div>
   <div class="mix-mobile-menu-full" id="mobile-menu-full">
-    <a href="#" class="mix-mobile-full-link">
+    <a href="after-sales.html" class="mix-mobile-full-link">
       <span class="text-fa">خدمات پس از فروش</span>
       <span class="text-en hidden">After-Sales</span>
     </a>
-    <a href="#" class="mix-mobile-full-link">
+    <a href="dealers.html" class="mix-mobile-full-link">
       <span class="text-fa">نمایندگی‌ها</span>
       <span class="text-en hidden">Dealers</span>
     </a>
-    <a href="#" class="mix-mobile-full-link">
+    <a href="about.html" class="mix-mobile-full-link">
       <span class="text-fa">درباره ما</span>
       <span class="text-en hidden">About Us</span>
     </a>
@@ -58,34 +58,44 @@ const headerHTML = `
       <!-- PRIMARY NAV -->
       <nav class="mix-header__nav mix-header__nav--primary">
         <div style="position: relative;">
-          <button class="mix-header__item" id="products-trigger">
+          <!-- Main Products Link -->
+          <!-- Removed inline onmouseenter for cleaner logic -->
+          <a href="products.html" id="products-trigger" class="mix-header__item" style="z-index: 1001; position: relative;">
             <span class="text-fa">محصولات</span>
             <span class="text-en hidden">Products</span>
-          </button>
+          </a>
+          
           <div class="mix-megamenu" id="products-mega">
             <div class="mix-megamenu__content">
               <div class="mix-megamenu__col">
-                <div class="mix-megamenu__root-item active" data-category="hob">
+                <!-- Root Categories -->
+                <div class="mix-megamenu__root-item" onclick="window.location.href='products.html?cat=اجاق گاز'" data-category="hob">
                   <span class="text-fa">اجاق گاز</span><span class="text-en hidden">Hob</span>
                 </div>
-                <div class="mix-megamenu__root-item" data-category="sink">
+                <div class="mix-megamenu__root-item" onclick="window.location.href='products.html?cat=سینک'" data-category="sink">
                   <span class="text-fa">سینک ظرف‌شویی</span><span class="text-en hidden">Sink</span>
                 </div>
-                <div class="mix-megamenu__root-item" data-category="oven">
+                <div class="mix-megamenu__root-item" onclick="window.location.href='products.html?cat=فر و آون'" data-category="oven">
                   <span class="text-fa">فر توکار</span><span class="text-en hidden">Built-in Oven</span>
                 </div>
-                <div class="mix-megamenu__root-item" data-category="hood">
+                <div class="mix-megamenu__root-item" onclick="window.location.href='products.html?cat=هود'" data-category="hood">
                   <span class="text-fa">هود</span><span class="text-en hidden">Hood</span>
                 </div>
               </div>
-              <div class="mix-megamenu__col" id="products-subs"></div>
+              <!-- Dynamic Sub Categories -->
+              <div class="mix-megamenu__col" id="products-subs">
+                <div style="padding: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                  <span class="text-fa">انتخاب دسته‌بندی...</span>
+                  <span class="text-en hidden">Select Category...</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         
         <div class="mix-header__divider"></div>
         
-        <a href="#" class="mix-header__item">
+        <a href="dealers.html" class="mix-header__item">
           <span class="text-fa">نمایندگی‌های مجاز</span>
           <span class="text-en hidden">Dealers</span>
         </a>
@@ -93,25 +103,25 @@ const headerHTML = `
         <div class="mix-header__divider"></div>
         
         <div style="position: relative;">
-          <button class="mix-header__item" id="aftersales-trigger">
+          <a href="after-sales.html" id="aftersales-trigger" class="mix-header__item" style="z-index: 1001; position: relative;">
             <span class="text-fa">خدمات پس از فروش</span>
             <span class="text-en hidden">After-Sales</span>
-          </button>
+          </a>
           <div class="mix-megamenu" id="aftersales-mega">
             <div class="mix-dropdown-simple">
-              <a href="#">
+              <a href="complaint.html">
                 <span class="text-fa">فرآیند رسیدگی به شکایات</span>
                 <span class="text-en hidden">Complaint Process</span>
               </a>
-              <a href="#">
+              <a href="warranty.html">
                 <span class="text-fa">شرایط گارانتی محصولات</span>
                 <span class="text-en hidden">Warranty Terms</span>
               </a>
-              <a href="#">
+              <a href="installation.html">
                 <span class="text-fa">درخواست نصب محصول</span>
                 <span class="text-en hidden">Installation Request</span>
               </a>
-              <a href="#">
+              <a href="register-complaint.html">
                 <span class="text-fa">ثبت شکایت</span>
                 <span class="text-en hidden">Register Complaint</span>
               </a>
@@ -119,7 +129,7 @@ const headerHTML = `
           </div>
         </div>
         
-        <a href="#" class="mix-header__item">
+        <a href="about.html" class="mix-header__item">
           <span class="text-fa hidden"></span> 
           <span class="text-en">About Us</span>
         </a>
@@ -206,6 +216,35 @@ const headerHTML = `
 
 // ==================== INITIALIZATION & LOGIC ====================
 
+// Data for Sub Categories (Based on User Request)
+const menuSubs = {
+  hob: [
+    { fa: "اجاق گاز شیشه ای (قطعات ایتالیایی)", en: "Italian Glass Hob" },
+    { fa: "اجاق گاز برقی", en: "Electric Hob" },
+    { fa: "اجاق گاز استیل (قطعات ایتالیایی)", en: "Italian Steel Hob" },
+    { fa: "اجاق گاز شیشه ای (قطعات ایرانی)", en: "Iranian Glass Hob" },
+    { fa: "اجاق گاز استیل (قطعات ایرانی)", en: "Iranian Steel Hob" }
+  ],
+  hood: [
+    { fa: "هود توکار", en: "Built-In Hood" },
+    { fa: "هود دیواری", en: "Wall Mount Hood" }
+  ],
+  sink: [
+    { fa: "سینک های فانتزی توکار", en: "Built-In Fantsy Sink" },
+    { fa: "سینک های توکار تک لگن", en: "Built-In Single Basin" },
+    { fa: "سینک های فانتزی روکار", en: "Fantsy Sink" },
+    { fa: "سینک های نیمه فانتزی توکار", en: "Built-In Semi-Fantsy Sink" },
+    { fa: "سینک های نیمه فانتزی روکار", en: "Semi-Fantsy Sink" },
+    { fa: "سینک های دست ساز", en: "Hand-Made Sink" },
+    { fa: "سینک های زیر کابینتی", en: "Under-Mount Sink" },
+    { fa: "سینک های گرانیتی", en: "Granite Sink" }
+  ],
+  oven: [
+    { fa: "فر توکار", en: "Built-In Oven" },
+    { fa: "آون توستر", en: "Oven Toaster" }
+  ]
+};
+
 function loadHeader() {
   const container = document.getElementById('header-container');
   if (container) {
@@ -213,13 +252,12 @@ function loadHeader() {
     setupHeaderEvents();
     
     // --- TRIGGER EVENT ---
-    // اطلاع به main.js که هدر کامل لود شد تا تنظیمات روی آن اعمال شود
     window.dispatchEvent(new Event('headerReady'));
   }
 }
 
 function setupHeaderEvents() {
-  // --- Mega Menu Logic ---
+  // --- Mega Menu Logic (With Smart Collision) ---
   function setupMegaMenu(triggerId, megaId) {
     const trigger = document.getElementById(triggerId);
     const mega = document.getElementById(megaId);
@@ -228,32 +266,66 @@ function setupHeaderEvents() {
     let timeout;
     
     trigger.addEventListener('mouseenter', () => { 
+      // SMART COLLISION LOGIC: Close all OTHER active menus immediately
+      const allActiveMenus = document.querySelectorAll('.mix-megamenu.active');
+      allActiveMenus.forEach(menu => {
+        // If this active menu is NOT the one I just entered, close it
+        if (menu !== mega) {
+          menu.classList.remove('active');
+        }
+      });
+
+      // Then open current (with slight delay for feel, or 0 for instant)
       clearTimeout(timeout); 
       timeout = setTimeout(() => mega.classList.add('active'), 150); 
     });
+    
     trigger.addEventListener('mouseleave', () => { 
-      clearTimeout(timeout); 
+      // Only close if we are not going into the mega menu itself
       timeout = setTimeout(() => { if (!mega.matches(':hover')) mega.classList.remove('active'); }, 150); 
     });
-    mega.addEventListener('mouseenter', () => { clearTimeout(timeout); mega.classList.add('active'); });
+
+    mega.addEventListener('mouseenter', () => { clearTimeout(timeout); });
     mega.addEventListener('mouseleave', () => { timeout = setTimeout(() => mega.classList.remove('active'), 150); });
   }
 
-  setupMegaMenu('products-trigger', 'products-mega');
+  setupMegaMenu('products-trigger', 'products-mega'); 
   setupMegaMenu('aftersales-trigger', 'aftersales-mega');
   setupMegaMenu('social-trigger', 'social-dropdown'); 
+  setupMegaMenu('lang-trigger', 'lang-dropdown'); 
 
-  // --- Product Category Click (Desktop) ---
+  // --- Product Category Hover (Loads Static Menu Data) ---
   document.querySelectorAll('.mix-megamenu__root-item').forEach(item => {
     item.addEventListener('mouseenter', function() {
       document.querySelectorAll('.mix-megamenu__root-item').forEach(i => i.classList.remove('active'));
       this.classList.add('active');
-      // Call global update function if exists
-      if (typeof updateProductsSubmenu === 'function') {
-        updateProductsSubmenu(this.getAttribute('data-category'));
-      }
+      
+      const categoryKey = this.getAttribute('data-category');
+      updateProductsSubmenu(categoryKey);
     });
   });
+
+  // --- Static Menu Sub-Category Rendering ---
+  window.updateProductsSubmenu = function(catKey) {
+    const container = document.getElementById('products-subs');
+    if (!container) return;
+
+    const lang = document.documentElement.lang; // 'fa' or 'en'
+    const subs = menuSubs[catKey];
+
+    if (subs && subs.length > 0) {
+      container.innerHTML = subs.map(item => `
+        <a href="products.html?cat=${encodeURIComponent(item.fa)}" class="mix-megamenu__sub-item">
+          ${lang === 'en' ? item.en : item.fa}
+        </a>
+      `).join('');
+    } else {
+      container.innerHTML = `<div style="padding:1rem; color:var(--text-muted); font-size:0.9rem;">
+        <span class="text-fa">داده‌ای یافت نشد</span>
+        <span class="text-en hidden">No data found</span>
+      </div>`;
+    }
+  };
 
   // --- Lang Dropdown Click ---
   const langTrigger = document.getElementById('lang-trigger');
@@ -266,7 +338,6 @@ function setupHeaderEvents() {
     document.getElementById('switch-lang').addEventListener('click', (e) => { 
       e.preventDefault(); 
       langDropdown.classList.remove('active'); 
-      // Call global setLanguage if exists
       if (typeof setLanguage === 'function') setLanguage(typeof currentLang !== 'undefined' && currentLang === 'fa' ? 'en' : 'fa');
     });
   }
@@ -312,6 +383,11 @@ function setupHeaderEvents() {
     if (langDropdown) langDropdown.classList.remove('active');
     const socialDropdown = document.getElementById('social-dropdown');
     if (socialDropdown) socialDropdown.classList.remove('active');
+    
+    const productsMega = document.getElementById('products-mega');
+    const aftersalesMega = document.getElementById('aftersales-mega');
+    if (productsMega) productsMega.classList.remove('active');
+    if (aftersalesMega) aftersalesMega.classList.remove('active');
   });
 
   // --- Global Header Listeners (Theme, Scroll) ---
