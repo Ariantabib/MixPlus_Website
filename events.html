@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light" class="theme-light lang-fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">رویدادها | میکس‌پلاس</title>
+  <meta name="description" content="MixPlus Events, Exhibitions and News">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PAGE SPECIFIC STYLES -->
+  <style>
+    /* Hero */
+    .events-hero {
+      position: relative;
+      padding: 9rem 1.5rem 5rem;
+      text-align: center;
+      background: var(--bg);
+      border-bottom: 1px solid var(--stroke);
+      overflow: hidden;
+    }
+    .events-hero::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(120deg, rgba(15, 169, 156, 0.03) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .events-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; margin-bottom: 1rem; color: var(--fg);
+    }
+    .events-hero p {
+      color: var(--text-muted); max-width: 700px; margin: 0 auto;
+      font-size: 1.1rem; line-height: 1.8;
+    }
+
+    /* Upcoming Events */
+    .upcoming-section {
+      max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem;
+    }
+    .upcoming-card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      box-shadow: var(--shadow-lg);
+      transition: 0.3s;
+      margin-bottom: 2rem;
+    }
+    .upcoming-card:hover { transform: translateY(-5px); border-color: var(--brand); }
+    
+    .u-image {
+      flex: 1; min-height: 300px; position: relative;
+      background: #eee;
+    }
+    .u-image img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .u-content {
+      flex: 1; padding: 3rem; display: flex; flex-direction: column; justify-content: center;
+    }
+    .u-badge {
+      display: inline-block; background: rgba(15, 169, 156, 0.1); color: var(--brand);
+      padding: 0.5rem 1rem; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+      align-self: flex-start; margin-bottom: 1rem;
+    }
+    .u-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.4; }
+    .u-desc { color: var(--text-muted); margin-bottom: 2rem; line-height: 1.8; }
+    
+    .u-details {
+      display: flex; gap: 2rem; margin-bottom: 2rem;
+    }
+    .u-detail-item { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--fg); }
+    
+    /* Past Events Grid */
+    .past-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+      max-width: 1200px; margin: 0 auto 5rem; padding: 0 1.5rem;
+    }
+    .past-card {
+      background: var(--card); border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--stroke); transition: 0.3s;
+    }
+    .past-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+    .past-img-wrap { height: 200px; overflow: hidden; position: relative; }
+    .past-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .past-card:hover .past-img-wrap img { transform: scale(1.1); }
+    
+    .past-content { padding: 1.5rem; }
+    .past-date { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; display: block; }
+    .past-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
+    .past-link { color: var(--brand); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+
+    /* Newsletter */
+    .newsletter-box {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: white; border-radius: 24px; padding: 4rem 2rem;
+      text-align: center; max-width: 900px; margin: 0 auto 5rem;
+      position: relative; overflow: hidden;
+    }
+    .news-input-group {
+      display: flex; gap: 10px; max-width: 500px; margin: 2rem auto 0;
+    }
+    .news-input {
+      flex: 1; padding: 1rem; border-radius: 12px; border: none; font-family: inherit;
+    }
+    .news-btn {
+      background: var(--brand); color: white; padding: 0 2rem; border-radius: 12px; font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .upcoming-card { flex-direction: column; }
+      .u-image { min-height: 200px; }
+      .u-content { padding: 2rem; }
+      .past-grid { grid-template-columns: 1fr; }
+      .news-input-group { flex-direction: column; }
+      .news-btn { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-container"></div>
+
+  <!-- HERO -->
+  <section class="events-hero reveal active">
+    <h1>
+      <span class="text-fa">همگام با تکنولوژی، همراه با شما</span>
+      <span class="text-en hidden">In Step with Technology, Together with You</span>
+    </h1>
+    <p>
+      <span class="text-fa">آخرین اخبار، نمایشگاه‌ها و رویدادهای تخصصی صنعت لوازم خانگی را در اینجا دنبال کنید.</span>
+      <span class="text-en hidden">Follow the latest news, exhibitions, and specialized events of the home appliance industry here.</span>
+    </p>
+  </section>
+
+  <!-- UPCOMING EVENT (Featured) -->
+  <section class="upcoming-section reveal">
+    <div class="mix-section-title" style="text-align: right; margin-bottom: 2rem;">
+      <h2>
+        <span class="text-fa">رویداد پیش‌رو</span>
+        <span class="text-en hidden">Upcoming Event</span>
+      </h2>
+    </div>
+
+    <div class="upcoming-card">
+      <div class="u-image">
+        <!-- Placeholder for Event Image -->
+        <img src="images/banners/fullbleed-01.jpg" alt="Exhibition">
+      </div>
+      <div class="u-content">
+        <div class="u-badge">
+          <span class="text-fa">به زودی</span>
+          <span class="text-en hidden">Coming Soon</span>
+        </div>
+        <h3 class="u-title">
+          <span class="text-fa">بیست و چهارمین نمایشگاه بین‌المللی لوازم خانگی تهران</span>
+          <span class="text-en hidden">24th Tehran International Home Appliance Exhibition</span>
+        </h3>
+        <p class="u-desc">
+          <span class="text-fa">میکس‌پلاس با رونمایی از جدیدترین محصولات هوشمند خود، میزبان شما در بزرگترین رویداد صنعت لوازم خانگی کشور خواهد بود. منتظر دیدار شما هستیم.</span>
+          <span class="text-en hidden">MixPlus, unveiling its latest smart products, will host you at the country's largest home appliance industry event. We look forward to seeing you.</span>
+        </p>
+        
+        <div class="u-details">
+          <div class="u-detail-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="text-fa">۱۹ الی ۲۲ مرداد ۱۴۰۴</span>
+            <span class="text-en hidden">Aug 10-13, 2025</span>
+          </div>
+          <div class="u-detail-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="text-fa">محل دائمی نمایشگاه‌های تهران، سالن ۳۸</span>
+            <span class="text-en hidden">Tehran Intl. Exhibition, Hall 38</span>
+          </div>
+        </div>
+
+        <button class="mix-btn mix-btn--primary" style="align-self: flex-start;">
+          <span class="text-fa">دریافت کارت دعوت</span>
+          <span class="text-en hidden">Get Invitation Card</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAST EVENTS GRID -->
+  <section class="past-grid reveal">
+    <div style="grid-column: 1/-1; margin-bottom: 1rem;">
+      <h2 style="font-size: 1.8rem; font-weight: 800;">
+        <span class="text-fa">آرشیو رویدادها</span>
+        <span class="text-en hidden">Past Events Archive</span>
+      </h2>
+    </div>
+
+    <!-- Event 1 -->
+    <div class="past-card">
+      <div class="past-img-wrap">
+        <img src="images/banners/fullbleed-02.jpg" alt="Tabriz Event">
+      </div>
+      <div class="past-content">
+        <span class="past-date">
+          <span class="text-fa">مهر ۱۴۰۳</span>
+          <span class="text-en hidden">Oct 2024</span>
+        </span>
+        <h3 class="past-title">
+          <span class="text-fa">حضور قدرتمند در نمایشگاه تبریز</span>
+          <span class="text-en hidden">Strong Presence at Tabriz Expo</span>
+        </h3>
+        <a href="#" class="past-link">
+          <span class="text-fa">مشاهده گزارش تصویری</span>
+          <span class="text-en hidden">View Gallery</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 5 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Event 2 -->
+    <div class="past-card">
+      <div class="past-img-wrap">
+        <img src="images/banners/fullbleed-03.jpg" alt="Conference">
+      </div>
+      <div class="past-content">
+        <span class="past-date">
+          <span class="text-fa">تیر ۱۴۰۳</span>
+          <span class="text-en hidden">July 2024</span>
+        </span>
+        <h3 class="past-title">
+          <span class="text-fa">همایش سالانه نمایندگان فروش</span>
+          <span class="text-en hidden">Annual Sales Dealers Conference</span>
+        </h3>
+        <a href="#" class="past-link">
+          <span class="text-fa">مشاهده جزئیات</span>
+          <span class="text-en hidden">View Details</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 5 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Event 3 -->
+    <div class="past-card">
+      <div class="past-img-wrap">
+        <img src="images/categories/products.jpg" alt="Product Launch">
+      </div>
+      <div class="past-content">
+        <span class="past-date">
+          <span class="text-fa">اردیبهشت ۱۴۰۳</span>
+          <span class="text-en hidden">May 2024</span>
+        </span>
+        <h3 class="past-title">
+          <span class="text-fa">رونمایی از سری جدید فر توکار</span>
+          <span class="text-en hidden">Unveiling New Built-in Oven Series</span>
+        </h3>
+        <a href="#" class="past-link">
+          <span class="text-fa">مشاهده محصول</span>
+          <span class="text-en hidden">View Product</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 5 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-box reveal">
+    <h2 style="font-size: 2rem; margin-bottom: 1rem;">
+      <span class="text-fa">هیچ خبری را از دست ندهید!</span>
+      <span class="text-en hidden">Don't Miss Any News!</span>
+    </h2>
+    <p style="opacity: 0.8; max-width: 600px; margin: 0 auto;">
+      <span class="text-fa">با عضویت در خبرنامه، از جدیدترین محصولات، تخفیف‌های ویژه و رویدادهای میکس‌پلاس قبل از دیگران مطلع شوید.</span>
+      <span class="text-en hidden">Subscribe to our newsletter to be the first to know about new products, special discounts, and MixPlus events.</span>
+    </p>
+    
+    <form class="news-input-group" onsubmit="event.preventDefault(); alert('ایمیل شما با موفقیت ثبت شد.');">
+      <input type="email" class="news-input" placeholder="ایمیل خود را وارد کنید..." required dir="ltr">
+      <button type="submit" class="news-btn">
+        <span class="text-fa">عضویت</span>
+        <span class="text-en hidden">Subscribe</span>
+      </button>
+    </form>
+  </section>
+
+  <div id="footer-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+</body>
+</html>
