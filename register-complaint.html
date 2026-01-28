@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light" class="theme-light lang-fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">ثبت شکایت | میکس‌پلاس</title>
+  <meta name="description" content="Register Customer Complaint - MixPlus Customer Care">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PAGE SPECIFIC STYLES -->
+  <style>
+    /* Hero */
+    .complaint-hero {
+      background: var(--bg);
+      padding: 8rem 1.5rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--stroke);
+    }
+    .complaint-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; margin-bottom: 1rem; color: var(--fg);
+    }
+
+    /* Layout */
+    .complaint-container {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Form Section */
+    .complaint-card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label {
+      display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 1rem; border-radius: 12px;
+      border: 1px solid var(--stroke); background: var(--bg);
+      color: var(--fg); font-family: inherit; font-size: 1rem;
+      transition: 0.3s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--brand); outline: none;
+      box-shadow: 0 0 0 4px rgba(15, 169, 156, 0.1);
+    }
+    .form-textarea { resize: vertical; min-height: 120px; }
+
+    /* File Upload Styling */
+    .file-upload-wrapper {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      border: 2px dashed var(--stroke);
+      border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: 0.3s;
+      background: var(--bg);
+      text-align: center; padding: 1rem;
+    }
+    .file-upload-wrapper:hover { border-color: var(--brand); background: rgba(15, 169, 156, 0.05); }
+    .file-upload-input {
+      position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer;
+    }
+    .upload-icon { color: var(--text-muted); width: 32px; height: 32px; margin-bottom: 0.5rem; }
+    
+    /* Side Info (Timeline) */
+    .info-box {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 1.5rem;
+      position: sticky; top: 100px;
+    }
+    .timeline-item {
+      display: flex; gap: 1rem; margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .timeline-item:not(:last-child)::after {
+      content: ''; position: absolute; top: 30px; right: 14px; bottom: -20px;
+      width: 2px; background: var(--stroke);
+    }
+    html[dir="ltr"] .timeline-item:not(:last-child)::after { right: auto; left: 14px; }
+    
+    .timeline-icon {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--brand); color: white;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; z-index: 2; font-size: 0.8rem; font-weight: 700;
+    }
+    .timeline-content h4 { font-size: 1rem; margin-bottom: 0.3rem; }
+    .timeline-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* Success Message (Hidden by default) */
+    .success-message {
+      display: none;
+      text-align: center; padding: 2rem;
+      border: 2px solid var(--brand); border-radius: 16px;
+      background: rgba(15, 169, 156, 0.05); margin-top: 1rem;
+    }
+    .tracking-code {
+      font-family: monospace; font-size: 1.5rem; font-weight: 700;
+      color: var(--fg); background: var(--bg);
+      padding: 0.5rem 1rem; border-radius: 8px; border: 1px dashed var(--stroke);
+      margin: 1rem 0; display: inline-block;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .complaint-container { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .info-box { order: -1; margin-bottom: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-container"></div>
+
+  <!-- HERO -->
+  <section class="complaint-hero reveal active">
+    <h1>
+      <span class="text-fa">ثبت و پیگیری شکایات</span>
+      <span class="text-en hidden">Register & Track Complaints</span>
+    </h1>
+    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+      <span class="text-fa">صدای شما برای ما ارزشمند است. ما متعهد به رسیدگی سریع و شفاف به تمام شکایات مشتریان هستیم.</span>
+      <span class="text-en hidden">Your voice is valuable to us. We are committed to handling all customer complaints quickly and transparently.</span>
+    </p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="complaint-container">
+    
+    <!-- LEFT: FORM -->
+    <div class="complaint-card reveal">
+      
+      <form id="complaintForm" onsubmit="handleComplaintSubmit(event)">
+        
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.3rem;">
+          <span class="text-fa">فرم ثبت شکایت</span>
+          <span class="text-en hidden">Complaint Form</span>
+        </h3>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="text-fa">نام و نام خانوادگی</span>
+              <span class="text-en hidden">Full Name</span>
+            </label>
+            <input type="text" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <span class="text-fa">شماره موبایل</span>
+              <span class="text-en hidden">Mobile Number</span>
+            </label>
+            <input type="tel" class="form-input" placeholder="09xxxxxxxxx" dir="ltr" required>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="text-fa">موضوع شکایت</span>
+              <span class="text-en hidden">Subject</span>
+            </label>
+            <select class="form-select">
+              <option value="technical">
+                <span class="text-fa">نقص فنی محصول</span>
+                <span class="text-en hidden">Technical Defect</span>
+              </option>
+              <option value="service">
+                <span class="text-fa">کیفیت خدمات / تعمیرات</span>
+                <span class="text-en hidden">Service Quality</span>
+              </option>
+              <option value="staff">
+                <span class="text-fa">رفتار پرسنل / نصاب</span>
+                <span class="text-en hidden">Staff/Installer Behavior</span>
+              </option>
+              <option value="delay">
+                <span class="text-fa">تاخیر در ارائه خدمات</span>
+                <span class="text-en hidden">Service Delay</span>
+              </option>
+              <option value="other">
+                <span class="text-fa">سایر موارد</span>
+                <span class="text-en hidden">Other</span>
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <span class="text-fa">شماره فاکتور / سریال (اختیاری)</span>
+              <span class="text-en hidden">Invoice/Serial No (Optional)</span>
+            </label>
+            <input type="text" class="form-input" dir="ltr">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="text-fa">شرح شکایت</span>
+            <span class="text-en hidden">Description</span>
+          </label>
+          <textarea class="form-textarea" placeholder="لطفاً جزئیات کامل مشکل را شرح دهید..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="text-fa">پیوست مستندات (تصویر/ویدیو)</span>
+            <span class="text-en hidden">Attachments (Image/Video)</span>
+          </label>
+          <div class="file-upload-wrapper">
+            <input type="file" class="file-upload-input" accept="image/*,video/*">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <span style="font-size: 0.9rem; color: var(--text-muted);">
+              <span class="text-fa">برای آپلود فایل کلیک کنید یا فایل را اینجا رها کنید</span>
+              <span class="text-en hidden">Click to upload or drag & drop file here</span>
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" class="mix-btn mix-btn--primary" style="width: 100%;">
+          <span class="text-fa">ثبت نهایی شکایت</span>
+          <span class="text-en hidden">Submit Complaint</span>
+        </button>
+
+      </form>
+
+      <!-- SUCCESS MESSAGE (Appears after submit) -->
+      <div id="successMsg" class="success-message">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <h3 style="margin-bottom: 1rem;">
+          <span class="text-fa">شکایت شما با موفقیت ثبت شد</span>
+          <span class="text-en hidden">Complaint Submitted Successfully</span>
+        </h3>
+        <p style="color: var(--text-muted);">
+          <span class="text-fa">کد پیگیری شما:</span>
+          <span class="text-en hidden">Your Tracking Code:</span>
+        </p>
+        <div class="tracking-code">MX-928471</div>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">
+          <span class="text-fa">نتیجه بررسی تا ۴۸ ساعت کاری از طریق پیامک به اطلاع شما خواهد رسید.</span>
+          <span class="text-en hidden">The result will be notified via SMS within 48 working hours.</span>
+        </p>
+        <button class="mix-btn mix-btn--outline" style="margin-top: 1.5rem;" onclick="location.reload()">
+          <span class="text-fa">بازگشت</span>
+          <span class="text-en hidden">Return</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: TIMELINE (SIDEBAR) -->
+    <div class="info-box reveal">
+      <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--fg);">
+        <span class="text-fa">فرآیند رسیدگی</span>
+        <span class="text-en hidden">Resolution Process</span>
+      </h3>
+      
+      <div class="timeline-item">
+        <div class="timeline-icon">1</div>
+        <div class="timeline-content">
+          <h4>
+            <span class="text-fa">ثبت و دریافت کد</span>
+            <span class="text-en hidden">Registration</span>
+          </h4>
+          <p>
+            <span class="text-fa">شکایت شما در سیستم ثبت شده و کد پیگیری صادر می‌شود.</span>
+            <span class="text-en hidden">Your complaint is registered and a tracking code is issued.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-icon">2</div>
+        <div class="timeline-content">
+          <h4>
+            <span class="text-fa">بررسی کارشناس</span>
+            <span class="text-en hidden">Review</span>
+          </h4>
+          <p>
+            <span class="text-fa">تیم پشتیبانی مستندات را بررسی و صحت‌سنجی می‌کند.</span>
+            <span class="text-en hidden">Support team reviews and verifies the documents.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-icon">3</div>
+        <div class="timeline-content">
+          <h4>
+            <span class="text-fa">اقدام اصلاحی</span>
+            <span class="text-en hidden">Action</span>
+          </h4>
+          <p>
+            <span class="text-fa">اعزام مجدد تکنسین، تعویض قطعه یا جبران خسارت.</span>
+            <span class="text-en hidden">Technician revisit, part replacement or compensation.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-icon">4</div>
+        <div class="timeline-content">
+          <h4>
+            <span class="text-fa">نظرسنجی پایانی</span>
+            <span class="text-en hidden">Feedback</span>
+          </h4>
+          <p>
+            <span class="text-fa">تماس جهت اطمینان از رضایت کامل شما.</span>
+            <span class="text-en hidden">Call to ensure your complete satisfaction.</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="footer-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+  <script>
+    function handleComplaintSubmit(e) {
+      e.preventDefault();
+      // Simulate API Call
+      const btn = e.target.querySelector('button[type="submit"]');
+      const originalText = btn.innerHTML;
+      
+      btn.innerHTML = document.documentElement.lang === 'fa' ? 'در حال ارسال...' : 'Sending...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        document.getElementById('complaintForm').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>

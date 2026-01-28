@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light" class="theme-light lang-fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">شرایط گارانتی | میکس‌پلاس</title>
+  <meta name="description" content="MixPlus Warranty Terms and Conditions - Golden Guarantee">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PAGE SPECIFIC STYLES -->
+  <style>
+    /* Hero */
+    .warranty-hero {
+      background: var(--bg);
+      padding: 8rem 1.5rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--stroke);
+    }
+    .warranty-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; margin-bottom: 1rem; color: var(--fg);
+    }
+    
+    /* Golden Card Section */
+    .card-section {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 4rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .theme-dark .card-section {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    }
+
+    .warranty-card-visual {
+      background: linear-gradient(135deg, #d4af37 0%, #f9d976 50%, #d4af37 100%);
+      color: #333;
+      max-width: 500px;
+      margin: 0 auto;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.4);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+    .warranty-card-visual:hover {
+      transform: translateY(-5px) rotateX(5deg);
+    }
+    .card-shine {
+      position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+      transform: rotate(45deg);
+      animation: shine 5s infinite;
+    }
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      20% { transform: translateX(100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+    
+    .w-logo { font-weight: 800; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .w-title { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .w-subtitle { font-size: 1rem; opacity: 0.9; margin-bottom: 2rem; font-weight: 600; }
+    .w-details { display: flex; justify-content: space-between; align-items: flex-end; }
+    .w-duration { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .w-duration span { font-size: 1rem; display: block; font-weight: 600; margin-top: 5px; }
+
+    /* Content Layout */
+    .content-container {
+      max-width: 1000px; margin: 0 auto; padding: 4rem 1.5rem;
+    }
+    
+    .activation-box {
+      border: 2px dashed var(--brand);
+      background: rgba(15, 169, 156, 0.05);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .sms-number {
+      font-family: var(--font-en);
+      font-size: 1.8rem; font-weight: 800;
+      color: var(--brand);
+      display: inline-block;
+      margin: 1rem 0;
+      padding: 0.5rem 1.5rem;
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+    }
+
+    .terms-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 4rem;
+    }
+    .term-col h3 { font-size: 1.4rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+    .term-list li {
+      position: relative; padding-right: 1.5rem; margin-bottom: 1rem; color: var(--text-muted);
+    }
+    .term-list li::before {
+      content: '•'; color: var(--brand); font-size: 1.5rem; position: absolute; right: 0; top: -5px;
+    }
+    html[dir="ltr"] .term-list li { padding-right: 0; padding-left: 1.5rem; }
+    html[dir="ltr"] .term-list li::before { right: auto; left: 0; }
+
+    .invalid-list li::before { color: #ef4444; content: '×'; font-size: 1.8rem; top: -8px; }
+
+    /* FAQ Accordion */
+    .faq-item {
+      border-bottom: 1px solid var(--stroke);
+      margin-bottom: 1rem;
+    }
+    .faq-question {
+      width: 100%; text-align: right; padding: 1.2rem 0;
+      font-weight: 700; font-size: 1.1rem; color: var(--fg);
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer;
+    }
+    html[dir="ltr"] .faq-question { text-align: left; }
+    .faq-question:hover { color: var(--brand); }
+    .faq-icon { transition: 0.3s; }
+    .faq-item.active .faq-icon { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: 0.4s ease;
+      color: var(--text-muted); line-height: 1.8;
+    }
+    .faq-item.active .faq-answer { padding-bottom: 1.5rem; max-height: 200px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .terms-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-container"></div>
+
+  <!-- HERO -->
+  <section class="warranty-hero reveal active">
+    <h1>
+      <span class="text-fa">شرایط گارانتی طلایی میکس‌پلاس</span>
+      <span class="text-en hidden">MixPlus Golden Warranty Terms</span>
+    </h1>
+    <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+      <span class="text-fa">تعهد ما به کیفیت، تضمین آرامش شماست. تمامی محصولات میکس‌پلاس تحت پوشش گارانتی و خدمات پس از فروش یکپارچه قرار دارند.</span>
+      <span class="text-en hidden">Our commitment to quality is your guarantee of peace of mind. All MixPlus products are covered by integrated warranty and after-sales services.</span>
+    </p>
+  </section>
+
+  <!-- GOLDEN CARD VISUAL -->
+  <section class="card-section reveal">
+    <div class="warranty-card-visual">
+      <div class="card-shine"></div>
+      <div class="w-logo">
+        <span>MixPlus</span>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+      </div>
+      <div class="w-title">
+        <span class="text-fa">گارانتی طلایی</span>
+        <span class="text-en hidden">Golden Warranty</span>
+      </div>
+      <div class="w-subtitle">
+        <span class="text-fa">ضمانت تعویض و خدمات پس از فروش</span>
+        <span class="text-en hidden">Replacement & Service Guarantee</span>
+      </div>
+      <div class="w-details">
+        <div class="w-duration">
+          24
+          <span class="text-fa">ماه گارانتی</span>
+          <span class="text-en hidden">Months Warranty</span>
+        </div>
+        <div style="text-align: left; font-weight: 700; opacity: 0.8;">
+          VIP SERVICE<br>
+          xxxx-xxxx
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content-container">
+    
+    <!-- ACTIVATION -->
+    <div class="activation-box reveal">
+      <h3 style="margin-bottom: 1rem;">
+        <span class="text-fa">نحوه فعال‌سازی گارانتی</span>
+        <span class="text-en hidden">How to Activate Warranty</span>
+      </h3>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        <span class="text-fa">برای فعال‌سازی گارانتی، شماره سریال محصول را به سامانه پیامکی زیر ارسال نمایید:</span>
+        <span class="text-en hidden">To activate the warranty, send the product serial number to the SMS system below:</span>
+      </p>
+      <div class="sms-number">1000-7353</div>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">
+        <span class="text-fa">* شماره سریال روی کارتن محصول و بدنه دستگاه درج شده است.</span>
+        <span class="text-en hidden">* Serial number is printed on the product box and body.</span>
+      </p>
+    </div>
+
+    <!-- TERMS GRID -->
+    <div class="terms-grid reveal">
+      
+      <!-- Covered -->
+      <div class="term-col">
+        <h3 style="color: var(--brand);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span class="text-fa">موارد تحت پوشش</span>
+          <span class="text-en hidden">Coverage</span>
+        </h3>
+        <ul class="term-list">
+          <li>
+            <span class="text-fa">هرگونه نقص فنی ناشی از تولید و مونتاژ کارخانه.</span>
+            <span class="text-en hidden">Any technical defects caused by manufacturing and assembly.</span>
+          </li>
+          <li>
+            <span class="text-fa">خرابی قطعات اصلی (موتور هود، ترموکوپل اجاق، لگن سینک) در دوره گارانتی.</span>
+            <span class="text-en hidden">Failure of main parts (hood motor, hob thermocouple, sink basin) during warranty period.</span>
+          </li>
+          <li>
+            <span class="text-fa">تغییر رنگ یا زنگ‌زدگی استیل در شرایط استفاده استاندارد.</span>
+            <span class="text-en hidden">Discoloration or rusting of steel under standard usage conditions.</span>
+          </li>
+          <li>
+            <span class="text-fa">شکستگی شیشه اجاق گاز (در صورت نقص ذاتی و تایید کارشناس).</span>
+            <span class="text-en hidden">Hob glass breakage (if inherent defect and confirmed by expert).</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Not Covered -->
+      <div class="term-col">
+        <h3 style="color: #ef4444;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+          <span class="text-fa">موارد ابطال گارانتی</span>
+          <span class="text-en hidden">Warranty Void Conditions</span>
+        </h3>
+        <ul class="term-list invalid-list">
+          <li>
+            <span class="text-fa">نصب محصول توسط افراد غیرمجاز (نصاب غیر شرکتی).</span>
+            <span class="text-en hidden">Installation by unauthorized persons (non-company installer).</span>
+          </li>
+          <li>
+            <span class="text-fa">عدم ارسال پیامک فعال‌سازی یا مخدوش بودن شماره سریال.</span>
+            <span class="text-en hidden">Failure to send activation SMS or distorted serial number.</span>
+          </li>
+          <li>
+            <span class="text-fa">صدمات ناشی از حمل و نقل، نوسانات برق، ضربه و استفاده نادرست.</span>
+            <span class="text-en hidden">Damages caused by transport, power fluctuations, impact, and misuse.</span>
+          </li>
+          <li>
+            <span class="text-fa">استفاده از مواد شوینده اسیدی و غیرمجاز برای نظافت محصولات (به ویژه سینک و هود).</span>
+            <span class="text-en hidden">Use of acidic and unauthorized detergents for cleaning products.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="reveal">
+      <h2 style="margin-bottom: 2rem; font-size: 1.5rem;">
+        <span class="text-fa">سوالات متداول</span>
+        <span class="text-en hidden">Frequently Asked Questions</span>
+      </h2>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="text-fa">مدت زمان گارانتی چقدر است؟</span>
+          <span class="text-en hidden">How long is the warranty period?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <span class="text-fa">تمامی محصولات میکس‌پلاس دارای ۲۴ ماه گارانتی تعویض و ۱۰ سال خدمات پس از فروش از تاریخ نصب هستند.</span>
+          <span class="text-en hidden">All MixPlus products have a 24-month replacement warranty and 10 years of after-sales service from the date of installation.</span>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="text-fa">هزینه ایاب و ذهاب سرویس‌کار چگونه محاسبه می‌شود؟</span>
+          <span class="text-en hidden">How is the technician's travel cost calculated?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <span class="text-fa">هزینه ایاب و ذهاب بر اساس تعرفه مصوب اتحادیه و فاصله تا نزدیکترین نمایندگی محاسبه شده و بر عهده مشتری می‌باشد. خدمات گارانتی (قطعه و اجرت) رایگان است.</span>
+          <span class="text-en hidden">Travel costs are calculated based on union tariffs and distance to the nearest dealer, paid by the customer. Warranty services (parts and labor) are free.</span>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span class="text-fa">آیا سینک‌ها در برابر خط و خش مقاوم هستند؟</span>
+          <span class="text-en hidden">Are sinks scratch-resistant?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <span class="text-fa">سینک‌های استیل در برابر استفاده معمول مقاوم هستند اما کشیدن اجسام تیز (چاقو) روی آن‌ها باعث ایجاد خط و خش می‌شود که شامل گارانتی نیست.</span>
+          <span class="text-en hidden">Steel sinks are resistant to normal use, but dragging sharp objects (knives) on them causes scratches, which is not covered by warranty.</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="footer-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+  <!-- ACCORDION SCRIPT -->
+  <script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const isActive = item.classList.contains('active');
+        
+        // Close all others
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        
+        // Toggle current
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
