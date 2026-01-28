@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light" class="theme-light lang-fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">نمایندگی‌ها | میکس‌پلاس</title>
+  <meta name="description" content="MixPlus Authorized Dealers - Sales and Service Centers">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- PAGE SPECIFIC STYLES -->
+  <style>
+    /* Hero Section */
+    .dealers-hero {
+      background: var(--bg);
+      padding: 8rem 1.5rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--stroke);
+    }
+    .dealers-hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800; margin-bottom: 1rem; color: var(--fg);
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      background: var(--card);
+      border-bottom: 1px solid var(--stroke);
+      padding: 1.5rem;
+      position: sticky; top: 75px; z-index: 100; /* Stick below header */
+      transition: top 0.3s;
+    }
+    .filter-container {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      align-items: center; justify-content: center;
+    }
+    
+    .filter-select {
+      padding: 0.8rem 2rem 0.8rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: var(--bg);
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      min-width: 200px;
+    }
+    html[dir="ltr"] .filter-select { padding: 0.8rem 1rem 0.8rem 2rem; }
+
+    /* Dealers Grid */
+    .dealers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Dealer Card */
+    .dealer-card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+    }
+    .dealer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand);
+    }
+    
+    .dealer-badge-container {
+      display: flex; gap: 0.5rem; margin-bottom: 1rem;
+    }
+    .dealer-badge {
+      font-size: 0.75rem; padding: 0.3rem 0.8rem;
+      border-radius: 50px; font-weight: 600;
+    }
+    .badge-sales { background: rgba(15, 169, 156, 0.1); color: var(--brand); }
+    .badge-service { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+    .dealer-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--fg); }
+    .dealer-manager { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
+    
+    .dealer-info-row {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      margin-top: 1rem; font-size: 0.9rem; color: var(--fg);
+      line-height: 1.6;
+    }
+    .dealer-icon {
+      width: 20px; height: 20px; color: var(--text-muted); flex-shrink: 0; margin-top: 3px;
+    }
+
+    .dealer-actions {
+      margin-top: auto; padding-top: 1.5rem;
+      display: flex; gap: 0.8rem;
+    }
+    .action-btn {
+      flex: 1; padding: 0.6rem; border-radius: 8px;
+      border: 1px solid var(--stroke); text-align: center;
+      font-size: 0.9rem; transition: 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .action-btn:hover { background: var(--brand); color: white; border-color: var(--brand); }
+
+    /* Empty State */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center; padding: 4rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) { .dealers-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { 
+      .dealers-grid { grid-template-columns: 1fr; } 
+      .filter-container { flex-direction: column; width: 100%; }
+      .filter-select { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-container"></div>
+
+  <!-- HERO -->
+  <section class="dealers-hero reveal active">
+    <h1>
+      <span class="text-fa">شبکه نمایندگی‌های میکس‌پلاس</span>
+      <span class="text-en hidden">MixPlus Authorized Dealers Network</span>
+    </h1>
+    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+      <span class="text-fa">نزدیک‌ترین نمایندگی فروش یا خدمات پس از فروش را در شهر خود بیابید.</span>
+      <span class="text-en hidden">Find the nearest sales or after-sales service dealer in your city.</span>
+    </p>
+  </section>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <div class="filter-container">
+      
+      <!-- City Filter -->
+      <select id="city-filter" class="filter-select" onchange="filterDealers()">
+        <option value="all">
+          <span class="text-fa">همه شهرها</span>
+          <span class="text-en hidden">All Cities</span>
+        </option>
+        <option value="tehran">
+          <span class="text-fa">تهران</span>
+          <span class="text-en hidden">Tehran</span>
+        </option>
+        <option value="isfahan">
+          <span class="text-fa">اصفهان</span>
+          <span class="text-en hidden">Isfahan</span>
+        </option>
+        <option value="mashhad">
+          <span class="text-fa">مشهد</span>
+          <span class="text-en hidden">Mashhad</span>
+        </option>
+        <option value="shiraz">
+          <span class="text-fa">شیراز</span>
+          <span class="text-en hidden">Shiraz</span>
+        </option>
+        <option value="tabriz">
+          <span class="text-fa">تبریز</span>
+          <span class="text-en hidden">Tabriz</span>
+        </option>
+        <option value="karaj">
+          <span class="text-fa">کرج</span>
+          <span class="text-en hidden">Karaj</span>
+        </option>
+      </select>
+
+      <!-- Type Filter -->
+      <select id="type-filter" class="filter-select" onchange="filterDealers()">
+        <option value="all">
+          <span class="text-fa">همه خدمات</span>
+          <span class="text-en hidden">All Services</span>
+        </option>
+        <option value="sales">
+          <span class="text-fa">نمایندگی فروش</span>
+          <span class="text-en hidden">Sales Dealer</span>
+        </option>
+        <option value="service">
+          <span class="text-fa">خدمات پس از فروش</span>
+          <span class="text-en hidden">After-Sales Service</span>
+        </option>
+      </select>
+
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="dealers-grid" id="dealers-container">
+    <!-- JS Injected Content -->
+  </div>
+
+  <div id="footer-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+  <!-- DEALERS LOGIC -->
+  <script>
+    // MOCK DATA
+    const dealersData = [
+      {
+        id: 1,
+        city: 'tehran',
+        type: ['sales'],
+        name_fa: 'فروشگاه مرکزی میکس‌پلاس',
+        name_en: 'MixPlus Central Store',
+        manager_fa: 'آقای رضایی',
+        manager_en: 'Mr. Rezaei',
+        address_fa: 'تهرانپارس، خیابان اتحاد، پلاک 1+66',
+        address_en: 'No 1+66, Ettehad St, Tehranpars, Tehran',
+        phone: '021-7353'
+      },
+      {
+        id: 2,
+        city: 'tehran',
+        type: ['service'],
+        name_fa: 'مرکز خدمات شرق تهران',
+        name_en: 'East Tehran Service Center',
+        manager_fa: 'خانم محمدی',
+        manager_en: 'Ms. Mohammadi',
+        address_fa: 'نارمک، میدان هفت‌حوض، پلاک ۱۲',
+        address_en: 'No 12, Haft-Hoz Sq, Narmak, Tehran',
+        phone: '021-77889900'
+      },
+      {
+        id: 3,
+        city: 'isfahan',
+        type: ['sales', 'service'],
+        name_fa: 'بازرگانی نقش جهان',
+        name_en: 'Naghsh-e Jahan Trading',
+        manager_fa: 'آقای اصفهانی',
+        manager_en: 'Mr. Isfahani',
+        address_fa: 'اصفهان، خیابان بزرگمهر، نبش چهارراه',
+        address_en: 'Bozorgmehr St, Isfahan',
+        phone: '031-33334444'
+      },
+      {
+        id: 4,
+        city: 'mashhad',
+        type: ['sales'],
+        name_fa: 'نمایندگی خراسان (توس)',
+        name_en: 'Khorasan Dealer (Toos)',
+        manager_fa: 'آقای حسینی',
+        manager_en: 'Mr. Hosseini',
+        address_fa: 'مشهد، بلوار وکیل‌آباد، بین ۱۲ و ۱۴',
+        address_en: 'Vakil Abad Blvd, Mashhad',
+        phone: '051-38889999'
+      },
+      {
+        id: 5,
+        city: 'shiraz',
+        type: ['sales', 'service'],
+        name_fa: 'تجهیزات آشپزخانه شیراز',
+        name_en: 'Shiraz Kitchen Equipment',
+        manager_fa: 'آقای کریم‌خان',
+        manager_en: 'Mr. Karimkhan',
+        address_fa: 'شیراز، خیابان عفیف‌آباد، مجتمع ستاره',
+        address_en: 'Afif Abad St, Shiraz',
+        phone: '071-36667777'
+      },
+      {
+        id: 6,
+        city: 'karaj',
+        type: ['service'],
+        name_fa: 'خدمات فنی کرج',
+        name_en: 'Karaj Technical Services',
+        manager_fa: 'آقای البرزی',
+        manager_en: 'Mr. Alborzi',
+        address_fa: 'کرج، گوهردشت، خیابان اصلی',
+        address_en: 'Main St, Gohardasht, Karaj',
+        phone: '026-34445555'
+      },
+       {
+        id: 7,
+        city: 'tabriz',
+        type: ['sales'],
+        name_fa: 'خانه مدرن تبریز',
+        name_en: 'Tabriz Modern House',
+        manager_fa: 'آقای تبریزی',
+        manager_en: 'Mr. Tabrizi',
+        address_fa: 'تبریز، ولیعصر، خیابان فروغی',
+        address_en: 'Foroughi St, Valiasr, Tabriz',
+        phone: '041-33332222'
+      }
+    ];
+
+    function filterDealers() {
+      const cityVal = document.getElementById('city-filter').value;
+      const typeVal = document.getElementById('type-filter').value;
+      const container = document.getElementById('dealers-container');
+      
+      const filtered = dealersData.filter(d => {
+        const cityMatch = cityVal === 'all' || d.city === cityVal;
+        const typeMatch = typeVal === 'all' || d.type.includes(typeVal);
+        return cityMatch && typeMatch;
+      });
+
+      renderDealers(filtered);
+    }
+
+    function renderDealers(data) {
+      const container = document.getElementById('dealers-container');
+      const lang = document.documentElement.lang; // 'fa' or 'en'
+      const isFa = lang === 'fa';
+
+      if (data.length === 0) {
+        container.innerHTML = `
+          <div class="no-results reveal active">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="color:var(--text-muted); margin-bottom:1rem;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <h3>
+              <span class="text-fa">موردی یافت نشد</span>
+              <span class="text-en hidden">No dealers found</span>
+            </h3>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = data.map(d => {
+        // Badges
+        let badgesHTML = '';
+        if (d.type.includes('sales')) {
+          badgesHTML += `<span class="dealer-badge badge-sales"><span class="text-fa">فروش</span><span class="text-en hidden">Sales</span></span>`;
+        }
+        if (d.type.includes('service')) {
+          badgesHTML += `<span class="dealer-badge badge-service"><span class="text-fa">خدمات</span><span class="text-en hidden">Service</span></span>`;
+        }
+
+        return `
+          <div class="dealer-card reveal active">
+            <div class="dealer-badge-container">
+              ${badgesHTML}
+            </div>
+            
+            <div class="dealer-name">
+              <span class="text-fa">${d.name_fa}</span>
+              <span class="text-en hidden">${d.name_en}</span>
+            </div>
+            
+            <div class="dealer-manager">
+              <span class="text-fa">مدیریت: ${d.manager_fa}</span>
+              <span class="text-en hidden">Manager: ${d.manager_en}</span>
+            </div>
+
+            <div class="dealer-info-row">
+              <svg class="dealer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <div>
+                <span class="text-fa">${d.address_fa}</span>
+                <span class="text-en hidden">${d.address_en}</span>
+              </div>
+            </div>
+
+            <div class="dealer-info-row">
+              <svg class="dealer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <div dir="ltr" style="text-align:right; flex:1;">
+                ${d.phone}
+              </div>
+            </div>
+
+            <div class="dealer-actions">
+              <a href="tel:${d.phone}" class="action-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span class="text-fa">تماس</span>
+                <span class="text-en hidden">Call</span>
+              </a>
+              <a href="https://maps.google.com/?q=${encodeURIComponent(d.address_fa)}" target="_blank" class="action-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+                <span class="text-fa">مسیریابی</span>
+                <span class="text-en hidden">Route</span>
+              </a>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+      
+      // Re-apply visibility based on current lang logic
+      // This is a quick fix to ensure dynamic content respects current lang
+      document.querySelectorAll('.text-fa').forEach(el => el.classList.toggle('hidden', !isFa));
+      document.querySelectorAll('.text-en').forEach(el => el.classList.toggle('hidden', isFa));
+    }
+
+    // Initialize
+    window.addEventListener('load', () => {
+      filterDealers();
+      
+      // Observe language changes to re-render or update visibility
+      const observer = new MutationObserver(() => {
+        renderDealers(dealersData.filter(d => {
+           const cityVal = document.getElementById('city-filter').value;
+           const typeVal = document.getElementById('type-filter').value;
+           const cityMatch = cityVal === 'all' || d.city === cityVal;
+           const typeMatch = typeVal === 'all' || d.type.includes(typeVal);
+           return cityMatch && typeMatch;
+        }));
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    });
+
+  </script>
+
+</body>
+</html>
