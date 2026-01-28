@@ -644,6 +644,15 @@
         filtered = filtered.filter(p => p.Name.toLowerCase().includes(searchTerm));
       }
 
+      // --- VISIBILITY FILTER (NEW) ---
+      // حذف محصولاتی که ستون Visible آن‌ها فالس است
+      filtered = filtered.filter(p => {
+        const v = p.Visible;
+        if (v === false) return false;
+        if (typeof v === 'string' && v.trim().toLowerCase() === 'false') return false;
+        return true;
+      });
+
       renderProducts(filtered);
     }
 
@@ -673,6 +682,24 @@
         const hasHover = img2 && img2 !== img1;
         
         const priceDisplay = p.Price ? p.Price : '-';
+        const currencyLabel = lang === 'en' ? 'Rial' : 'ریال';
+
+        // --- PRICE VISIBILITY (NEW) ---
+        // چک کردن ستون ShowPrice
+        const showPrice = !(p.ShowPrice === false || (typeof p.ShowPrice === 'string' && p.ShowPrice.trim().toLowerCase() === 'false'));
+        
+        let priceHTML = '';
+        if (showPrice) {
+          priceHTML = `
+            <div class="product-price">
+              <span>${priceDisplay}</span>
+              <span class="currency">${currencyLabel}</span>
+            </div>
+          `;
+        } else {
+          // اگر ShowPrice فالس باشد، کلاً چیزی نمایش داده نمی‌شود
+          priceHTML = '';
+        }
         
         let imgHTML = '';
         if (img1) {
@@ -684,8 +711,6 @@
           imgHTML = `<div class="no-image"><span class="text-fa">تصویر ندارد</span><span class="text-en hidden">No Image</span></div>`;
         }
 
-        const currencyLabel = lang === 'en' ? 'Rial' : 'ریال';
-
         return `
           <div class="product-card" onclick="openModal(${p.ID})">
             <div class="product-image-wrapper">
@@ -693,10 +718,7 @@
             </div>
             <div class="product-info">
               <div class="product-name">${p.Name}</div>
-              <div class="product-price">
-                <span>${priceDisplay}</span>
-                <span class="currency">${currencyLabel}</span>
-              </div>
+              ${priceHTML}
             </div>
           </div>
         `;
@@ -720,13 +742,22 @@
 
       const catText = (lang === 'en') ? `${p.Category_En} > ${p['Sub-Category_En']}` : `${p.Category_Fa} > ${p['Sub-Category_Fa']}`;
       const descText = (lang === 'en') ? (p.Description_En || '-') : (p.Description_Fa || '-');
-      const currencyLabel = lang === 'en' ? 'Rial' : 'ریال';
-
+      
       document.getElementById('m-title').textContent = p.Name;
       document.getElementById('m-cat').textContent = catText;
       document.getElementById('m-desc').textContent = descText;
       document.getElementById('m-id').textContent = p.ID;
-      document.getElementById('m-price').textContent = p.Price || '-';
+
+      // --- MODAL PRICE VISIBILITY (NEW) ---
+      const showPrice = !(p.ShowPrice === false || (typeof p.ShowPrice === 'string' && p.ShowPrice.trim().toLowerCase() === 'false'));
+      const modalPriceEl = document.querySelector('.modal-price');
+
+      if (showPrice) {
+        document.getElementById('m-price').textContent = p.Price || '-';
+        modalPriceEl.style.display = 'block'; 
+      } else {
+        modalPriceEl.style.display = 'none';
+      }
 
       const mainImg = document.getElementById('m-main-img');
       const thumbsContainer = document.getElementById('m-thumbs');
