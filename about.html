@@ -7,125 +7,1086 @@
   <meta name="description" content="About MixPlus - Premium Kitchen Appliances History and Values">
   
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- PAGE SPECIFIC STYLES -->
   <style>
-    /* About Hero Section */
+    :root {
+      --brand: #0FA99C;
+      --brand-dark: #0d8a7f;
+      --brand-light: rgba(15, 169, 156, 0.1);
+      --gold: #C9A227;
+      --dark: #1a1a2e;
+      --text: #333;
+      --text-muted: #666;
+      --bg: #f8f9fa;
+      --card: #fff;
+      --stroke: #e0e0e0;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.15);
+      --font-fa: 'Vazirmatn', 'Tahoma', sans-serif;
+      --font-en: 'Poppins', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-fa);
+      background: var(--card);
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    .text-en { display: none; }
+    .lang-en .text-fa { display: none; }
+    .lang-en .text-en { display: inline; }
+
+    /* ===== HERO SECTION ===== */
     .about-hero {
       position: relative;
-      height: 60vh;
-      min-height: 400px;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      overflow: hidden;
+    }
+
+    .hero-bg-pattern {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(15, 169, 156, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(201, 162, 39, 0.1) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      animation: patternFloat 20s ease-in-out infinite;
+    }
+
+    @keyframes patternFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(1deg); }
+    }
+
+    .hero-floating-elements {
+      position: absolute;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--gold));
+      opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-shape:nth-child(1) { width: 300px; height: 300px; top: 10%; right: -5%; animation-delay: 0s; }
+    .floating-shape:nth-child(2) { width: 200px; height: 200px; bottom: 20%; left: -3%; animation-delay: 2s; }
+    .floating-shape:nth-child(3) { width: 150px; height: 150px; top: 50%; right: 20%; animation-delay: 4s; }
+    .floating-shape:nth-child(4) { width: 80px; height: 80px; top: 30%; left: 15%; animation-delay: 1s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
       text-align: center;
-      color: white;
-      background-image: url('images/banners/fullbleed-01.jpg'); /* تصویر پس‌زمینه موقت */
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      padding: 2rem;
+      max-width: 1000px;
     }
-    .about-hero::before {
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      color: var(--brand);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .hero-badge svg { width: 18px; height: 18px; }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--brand), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: rgba(255,255,255,0.8);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 0.6s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+      color: #fff;
+    }
+
+    .hero-stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      font-family: var(--font-en);
+      color: var(--brand);
+    }
+
+    .hero-stat-label {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-indicator svg {
+      width: 30px;
+      height: 30px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== SECTIONS BASE ===== */
+    .section {
+      padding: 5rem 1.5rem;
+    }
+
+    .section-container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--brand);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .section-label::before,
+    .section-label::after {
       content: '';
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      width: 30px;
+      height: 2px;
+      background: var(--brand);
     }
-    .about-hero__content {
-      position: relative; z-index: 2; max-width: 800px; padding: 0 1.5rem;
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 1rem;
     }
-    .about-hero__title {
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 800; margin-bottom: 1rem;
+
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
     }
-    
-    /* Story Section */
+
+    /* ===== STORY SECTION ===== */
     .story-section {
+      background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+    }
+
+    .story-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+      gap: 4rem;
       align-items: center;
     }
-    .story-img-wrapper {
+
+    .story-image {
+      position: relative;
+    }
+
+    .story-image-main {
       position: relative;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: var(--shadow-lg);
     }
-    .story-img-wrapper img {
-      width: 100%; height: auto; display: block;
+
+    .story-image-main img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
       transition: transform 0.5s ease;
     }
-    .story-img-wrapper:hover img { transform: scale(1.05); }
 
-    /* Values Grid */
+    .story-image-main:hover img {
+      transform: scale(1.05);
+    }
+
+    .story-image-float {
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 200px;
+      height: 200px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 5px solid #fff;
+    }
+
+    .story-image-float img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: var(--brand);
+      color: #fff;
+      padding: 1rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .story-badge-number {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: var(--font-en);
+      line-height: 1;
+    }
+
+    .story-badge-text {
+      font-size: 0.75rem;
+      opacity: 0.9;
+    }
+
+    .story-content h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+    }
+
+    .story-content p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      line-height: 2;
+    }
+
+    .story-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .story-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      transition: all 0.3s ease;
+    }
+
+    .story-feature:hover {
+      border-color: var(--brand);
+      transform: translateX(-5px);
+    }
+
+    .story-feature-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--brand-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand);
+      flex-shrink: 0;
+    }
+
+    .story-feature-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .story-feature span {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* ===== MISSION VISION ===== */
+    .mission-section {
+      background: var(--dark);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mission-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mission-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 3rem;
+      transition: all 0.4s ease;
+    }
+
+    .mission-card:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-10px);
+      border-color: var(--brand);
+    }
+
+    .mission-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .mission-icon svg {
+      width: 35px;
+      height: 35px;
+      color: #fff;
+    }
+
+    .mission-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .mission-card p {
+      color: rgba(255,255,255,0.7);
+      line-height: 1.9;
+    }
+
+    /* ===== VALUES SECTION ===== */
+    .values-section {
+      background: var(--bg);
+    }
+
     .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .value-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      border: 1px solid var(--stroke);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .value-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand), var(--gold));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .value-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+
+    .value-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .value-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--brand-light), rgba(201, 162, 39, 0.1));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      transition: all 0.4s ease;
+    }
+
+    .value-card:hover .value-icon {
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+    }
+
+    .value-icon svg {
+      width: 35px;
+      height: 35px;
+      color: var(--brand);
+      transition: color 0.4s ease;
+    }
+
+    .value-card:hover .value-icon svg {
+      color: #fff;
+    }
+
+    .value-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+      color: var(--dark);
+    }
+
+    .value-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ===== PRODUCTS SHOWCASE ===== */
+    .products-section {
+      background: #fff;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      cursor: pointer;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .product-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.8) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .product-card:hover .product-overlay {
+      background: linear-gradient(180deg, rgba(15, 169, 156, 0.3) 0%, rgba(0,0,0,0.9) 100%);
+    }
+
+    .product-overlay h3 {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-overlay p {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.85rem;
+    }
+
+    /* ===== QUALITY SECTION ===== */
+    .quality-section {
+      background: linear-gradient(135deg, var(--bg) 0%, #fff 100%);
+    }
+
+    .quality-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .quality-content h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+
+    .quality-content > p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 2;
+    }
+
+    .quality-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .quality-item {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      transition: all 0.3s ease;
+    }
+
+    .quality-item:hover {
+      border-color: var(--brand);
+      box-shadow: var(--shadow-md);
+      transform: translateX(-5px);
+    }
+
+    .quality-item-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--brand), var(--gold));
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .quality-item-icon svg {
+      width: 28px;
+      height: 28px;
+      color: #fff;
+    }
+
+    .quality-item h4 {
+      font-size: 1.1rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .quality-item p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .quality-image {
+      position: relative;
+    }
+
+    .quality-image-wrapper {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .quality-image-wrapper img {
+      width: 100%;
+      height: 550px;
+      object-fit: cover;
+    }
+
+    .quality-certifications {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .cert-badge {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--dark);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cert-badge svg {
+      width: 20px;
+      height: 20px;
+      color: var(--brand);
+    }
+
+    /* ===== STATS SECTION ===== */
+    .stats-section {
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: #fff;
+      padding: 5rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .stats-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-item {
+      padding: 1.5rem;
+    }
+
+    .stat-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .stat-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: var(--font-en);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    /* ===== TIMELINE SECTION ===== */
+    .timeline-section {
+      background: var(--bg);
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      right: 50%;
+      transform: translateX(50%);
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--brand), var(--gold));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-content {
+      width: 45%;
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--stroke);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--brand);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      right: 50%;
+      transform: translateX(50%);
+      width: 24px;
+      height: 24px;
+      background: var(--brand);
+      border: 4px solid var(--card);
+      border-radius: 50%;
+      z-index: 1;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .timeline-year {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--brand);
+      font-family: var(--font-en);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-content h3 {
+      font-size: 1.1rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-content p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials-section {
+      background: var(--dark);
+      color: #fff;
+    }
+
+    .testimonials-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
-      margin-top: 2rem;
     }
-    .value-card {
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: 16px;
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      transition: 0.3s ease;
+
+    .testimonial-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s ease;
     }
-    .value-card:hover {
-      border-color: var(--brand);
+
+    .testimonial-card:hover {
+      background: rgba(255,255,255,0.08);
       transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
     }
-    .value-icon {
-      width: 60px; height: 60px;
-      background: rgba(15, 169, 156, 0.1);
-      color: var(--brand);
+
+    .testimonial-stars {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-stars svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--gold);
+      color: var(--gold);
+    }
+
+    .testimonial-text {
+      font-size: 1rem;
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--brand), var(--gold));
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
     }
-    .value-icon svg { width: 30px; height: 30px; stroke-width: 2; }
 
-    /* Stats Section */
-    .stats-section {
-      background: var(--brand);
-      color: white;
-      padding: 4rem 1.5rem;
-      margin: 4rem 0;
+    .testimonial-info h4 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
     }
-    .stats-grid {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 2rem; text-align: center;
-    }
-    .stat-number {
-      font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;
-      font-family: var(--font-en); /* اعداد انگلیسی بهتر دیده می‌شوند معمولا */
-    }
-    .stat-label { font-size: 1.1rem; opacity: 0.9; }
 
-    /* Image Gallery Strip */
-    .gallery-strip {
-      display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;
-      scroll-snap-type: x mandatory;
+    .testimonial-info span {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
     }
-    .gallery-item {
-      min-width: 300px; height: 250px; flex: 1;
-      border-radius: 12px; overflow: hidden;
-      scroll-snap-align: center;
-    }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Responsive */
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #fff 0%, var(--bg) 100%);
+      text-align: center;
+    }
+
+    .cta-card {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 30px;
+      padding: 4rem 3rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--stroke);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--brand), var(--gold));
+    }
+
+    .cta-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--brand-light), rgba(201, 162, 39, 0.1));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-icon svg {
+      width: 40px;
+      height: 40px;
+      color: var(--brand);
+    }
+
+    .cta-card h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .cta-card > p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(15, 169, 156, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(15, 169, 156, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--dark);
+      border: 2px solid var(--stroke);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: var(--brand-light);
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ===== REVEAL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1200px) {
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
     @media (max-width: 968px) {
-      .story-section { grid-template-columns: 1fr; }
-      .story-section.reverse .story-img-wrapper { order: -1; }
-      .values-grid { grid-template-columns: 1fr; }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-image { order: -1; }
+      .story-image-float { right: 20px; bottom: -20px; width: 150px; height: 150px; }
+      .mission-grid { grid-template-columns: 1fr; }
+      .quality-grid { grid-template-columns: 1fr; }
+      .quality-image { order: -1; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .timeline::before { right: 30px; transform: none; }
+      .timeline-item { flex-direction: column !important; align-items: flex-start; padding-right: 50px; }
+      .timeline-content { width: 100%; }
+      .timeline-dot { right: 18px; transform: none; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
+    @media (max-width: 768px) {
+      .section { padding: 3rem 1rem; }
+      .values-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .hero-stats { gap: 2rem; }
+      .story-features { grid-template-columns: 1fr; }
+      .quality-certifications { flex-direction: column; align-items: center; }
+      .cta-card { padding: 2.5rem 1.5rem; }
+    }
+
     @media (max-width: 480px) {
-      .stats-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .hero-stat-number { font-size: 2rem; }
+      .stat-number { font-size: 2.5rem; }
+      .cta-buttons { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -133,38 +1094,115 @@
 
   <div id="header-container"></div>
 
-  <!-- HERO -->
+  <!-- ===== HERO SECTION ===== -->
   <header class="about-hero">
-    <div class="about-hero__content reveal active">
-      <h1 class="about-hero__title">
-        <span class="text-fa">داستانِ کیفیت و اصالت</span>
-        <span class="text-en hidden">A Story of Quality & Authenticity</span>
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-floating-elements">
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+    </div>
+    
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span class="text-fa">از سال ۱۳۸۲</span>
+        <span class="text-en hidden">Since 2003</span>
+      </div>
+      
+      <h1 class="hero-title">
+        <span class="text-fa">
+          <span class="highlight">میکس‌پلاس</span>؛<br>
+          تلفیقی از هنر ایتالیایی<br>و مهندسی دقیق
+        </span>
+        <span class="text-en hidden">
+          <span class="highlight">MixPlus</span>;<br>
+          Italian Art Meets<br>Precision Engineering
+        </span>
       </h1>
-      <p style="font-size: 1.2rem; opacity: 0.9;">
-        <span class="text-fa">جایی که طراحی ایتالیایی با مهندسی دقیق ملاقات می‌کند</span>
-        <span class="text-en hidden">Where Italian design meets precision engineering</span>
+      
+      <p class="hero-subtitle">
+        <span class="text-fa">جایی که طراحی مینیمال اروپایی با استانداردهای جهانی کیفیت گره می‌خورد تا آشپزخانه رویایی شما را بسازد</span>
+        <span class="text-en hidden">Where minimalist European design meets global quality standards to build your dream kitchen</span>
       </p>
+      
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-number">+۲۰</div>
+          <div class="hero-stat-label">
+            <span class="text-fa">سال تجربه</span>
+            <span class="text-en hidden">Years Experience</span>
+          </div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">+۱۵۰</div>
+          <div class="hero-stat-label">
+            <span class="text-fa">مدل محصول</span>
+            <span class="text-en hidden">Product Models</span>
+          </div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">+۳۰۰</div>
+          <div class="hero-stat-label">
+            <span class="text-fa">نمایندگی فعال</span>
+            <span class="text-en hidden">Active Dealers</span>
+          </div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">۹۸٪</div>
+          <div class="hero-stat-label">
+            <span class="text-fa">رضایت مشتری</span>
+            <span class="text-en hidden">Customer Satisfaction</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="scroll-indicator">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M19 12l-7 7-7-7"/>
+      </svg>
     </div>
   </header>
 
-  <!-- OUR STORY -->
-  <section class="mix-section reveal">
-    <div class="story-section">
-      <div>
-        <div class="mix-section-title" style="text-align: right;">
-          <h2 style="margin-bottom: 1rem;">
-            <span class="text-fa">درباره میکس‌پلاس</span>
-            <span class="text-en hidden">About MixPlus</span>
-          </h2>
-          <div style="width: 60px; height: 4px; background: var(--brand); margin-bottom: 1.5rem;"></div>
+  <!-- ===== OUR STORY ===== -->
+  <section class="section story-section">
+    <div class="section-container">
+      <div class="story-grid reveal">
+        <div class="story-image">
+          <div class="story-image-main">
+            <img src="images/banners/fullbleed-02.jpg" alt="MixPlus Factory">
+          </div>
+          <div class="story-image-float">
+            <img src="images/banners/fullbleed-01.jpg" alt="MixPlus Products">
+          </div>
+          <div class="story-badge">
+            <div class="story-badge-number">+20</div>
+            <div class="story-badge-text">
+              <span class="text-fa">سال</span>
+              <span class="text-en hidden">Years</span>
+            </div>
+          </div>
         </div>
-        <div style="color: var(--text-muted); line-height: 1.9; font-size: 1.05rem; text-align: justify;">
-          <p style="margin-bottom: 1rem;">
+        
+        <div class="story-content">
+          <div class="section-label">
+            <span class="text-fa">داستان ما</span>
+            <span class="text-en hidden">Our Story</span>
+          </div>
+          <h2>
+            <span class="text-fa">از آغاز یک رویا تا قله‌های موفقیت</span>
+            <span class="text-en hidden">From a Dream to the Peaks of Success</span>
+          </h2>
+          <p>
             <span class="text-fa">
-              میکس‌پلاس (MixPlus) حاصل بیش از دو دهه تجربه در صنعت لوازم خانگی است. هدف ما از همان ابتدا، پر کردن خلاء میان "کیفیت جهانی" و "تولید داخلی" بود. ما با الهام گرفتن از ظرافت طراحی‌های ایتالیایی و به‌کارگیری خطوط تولید پیشرفته، محصولاتی را خلق کرده‌ایم که نه تنها قلب آشپزخانه شما، بلکه نگین درخشان خانه شما باشند.
+              میکس‌پلاس حاصل بیش از دو دهه تجربه در صنعت لوازم آشپزخانه است. ما از همان ابتدا با هدفی بزرگ شروع کردیم: پر کردن خلاء میان «کیفیت جهانی» و «تولید داخلی». الهام ما از ظرافت بی‌نظیر طراحی‌های ایتالیایی و به‌کارگیری خطوط تولید پیشرفته، محصولاتی را خلق کرده که نه تنها قلب آشپزخانه شما، بلکه نگین درخشان خانه شما باشند.
             </span>
             <span class="text-en hidden">
-              MixPlus is the result of over two decades of experience in the home appliance industry. From the very beginning, our goal was to bridge the gap between "global quality" and "domestic production". Inspired by the elegance of Italian designs and utilizing advanced production lines, we have created products that are not only the heart of your kitchen but also the shining gem of your home.
+              MixPlus is the result of over two decades of experience in the kitchen appliance industry. From the very beginning, we started with a big goal: bridging the gap between "global quality" and "domestic production". Our inspiration from the unparalleled elegance of Italian designs and the use of advanced production lines has created products that are not only the heart of your kitchen but also the shining gem of your home.
             </span>
           </p>
           <p>
@@ -175,125 +1213,696 @@
               Our commitment goes beyond selling a product; we are dedicated to creating a unique cooking experience. The use of high-quality European parts, adherence to strict safety standards, and obsessive attention to detail are our signature.
             </span>
           </p>
+          
+          <div class="story-features">
+            <div class="story-feature">
+              <div class="story-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <span class="text-fa">طراحی ایتالیایی</span>
+              <span class="text-en hidden">Italian Design</span>
+            </div>
+            <div class="story-feature">
+              <div class="story-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <span class="text-fa">قطعات اروپایی</span>
+              <span class="text-en hidden">European Parts</span>
+            </div>
+            <div class="story-feature">
+              <div class="story-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <span class="text-fa">گارانتی معتبر</span>
+              <span class="text-en hidden">Valid Warranty</span>
+            </div>
+            <div class="story-feature">
+              <div class="story-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <span class="text-fa">خدمات پس از فروش</span>
+              <span class="text-en hidden">After-Sales Service</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="story-img-wrapper">
-        <!-- عکس کارخانه یا دفتر کار -->
-        <img src="images/banners/fullbleed-02.jpg" alt="MixPlus Factory">
       </div>
     </div>
   </section>
 
-  <!-- CORE VALUES -->
-  <section class="mix-section" style="background: var(--bg);">
-    <div class="mix-section-title reveal">
-      <h2>
-        <span class="text-fa">ارزش‌های بنیادین ما</span>
-        <span class="text-en hidden">Our Core Values</span>
-      </h2>
-      <p>
-        <span class="text-fa">آنچه ما را از دیگران متمایز می‌کند</span>
-        <span class="text-en hidden">What sets us apart from others</span>
-      </p>
-    </div>
-
-    <div class="values-grid reveal">
-      <!-- Value 1 -->
-      <div class="value-card">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+  <!-- ===== MISSION & VISION ===== -->
+  <section class="section mission-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <div class="section-label" style="color: var(--brand);">
+          <span class="text-fa">ماموریت و چشم‌انداز</span>
+          <span class="text-en hidden">Mission & Vision</span>
         </div>
-        <h3 style="margin-bottom: 1rem;">
-          <span class="text-fa">طراحی مدرن</span>
-          <span class="text-en hidden">Modern Design</span>
-        </h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">
-          <span class="text-fa">همگام با آخرین ترندهای طراحی داخلی اروپا برای زیبایی آشپزخانه شما.</span>
-          <span class="text-en hidden">In line with the latest European interior design trends for your kitchen beauty.</span>
-        </p>
+        <h2 class="section-title" style="color: #fff;">
+          <span class="text-fa">آنچه ما را به حرکت درمی‌آورد</span>
+          <span class="text-en hidden">What Drives Us Forward</span>
+        </h2>
       </div>
-
-      <!-- Value 2 -->
-      <div class="value-card">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      
+      <div class="mission-grid reveal">
+        <div class="mission-card">
+          <div class="mission-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 16v-4M12 8h.01"/>
+            </svg>
+          </div>
+          <h3>
+            <span class="text-fa">ماموریت ما</span>
+            <span class="text-en hidden">Our Mission</span>
+          </h3>
+          <p>
+            <span class="text-fa">
+              ما متعهد به ارتقای سطح کیفی و زیبایی‌شناختی فضای آشپزخانه ایرانی هستیم. با ارائه محصولاتی که تلفیقی از هنر ایتالیایی و مهندسی دقیق آلمانی است، تجربه‌ای متفاوت از آشپزی را برای خانواده‌های ایرانی رقم می‌زنیم. هدف ما این است که هر آشپزخانه ایرانی به فضایی الهام‌بخش و کارآمد تبدیل شود.
+            </span>
+            <span class="text-en hidden">
+              We are committed to enhancing the quality and aesthetic level of Iranian kitchens. By offering products that combine Italian art with precise German engineering, we create a different cooking experience for Iranian families. Our goal is to transform every Iranian kitchen into an inspiring and efficient space.
+            </span>
+          </p>
         </div>
-        <h3 style="margin-bottom: 1rem;">
-          <span class="text-fa">کیفیت تضمین شده</span>
-          <span class="text-en hidden">Guaranteed Quality</span>
-        </h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">
-          <span class="text-fa">استفاده از بهترین متریال‌ها و کنترل کیفیت چند مرحله‌ای برای دوام طولانی.</span>
-          <span class="text-en hidden">Using the finest materials and multi-stage quality control for long-lasting durability.</span>
-        </p>
-      </div>
-
-      <!-- Value 3 -->
-      <div class="value-card">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        
+        <div class="mission-card">
+          <div class="mission-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <h3>
+            <span class="text-fa">چشم‌انداز ما</span>
+            <span class="text-en hidden">Our Vision</span>
+          </h3>
+          <p>
+            <span class="text-fa">
+              ما رویای تبدیل شدن به پیشتاز صنعت لوازم آشپزخانه در خاورمیانه را داریم. با نوآوری مداوم، رصد ترندهای جهانی و به‌کارگیری تکنولوژی‌های سبز، می‌خواهیم محصولاتی هوشمندتر و سازگارتر با محیط زیست تولید کنیم که استانداردهای جدیدی در صنعت تعریف کنند.
+            </span>
+            <span class="text-en hidden">
+              We dream of becoming the leader in the kitchen appliance industry in the Middle East. Through continuous innovation, monitoring global trends, and employing green technologies, we aim to produce smarter and more environmentally friendly products that define new standards in the industry.
+            </span>
+          </p>
         </div>
-        <h3 style="margin-bottom: 1rem;">
-          <span class="text-fa">پشتیبانی واقعی</span>
-          <span class="text-en hidden">Real Support</span>
-        </h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">
-          <span class="text-fa">شبکه گسترده خدمات پس از فروش و گارانتی معتبر برای آسودگی خاطر شما.</span>
-          <span class="text-en hidden">Extensive after-sales service network and valid warranty for your peace of mind.</span>
-        </p>
       </div>
     </div>
   </section>
 
-  <!-- STATS -->
+  <!-- ===== CORE VALUES ===== -->
+  <section class="section values-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <div class="section-label">
+          <span class="text-fa">ارزش‌های ما</span>
+          <span class="text-en hidden">Our Values</span>
+        </div>
+        <h2 class="section-title">
+          <span class="text-fa">اصولی که ما را متمایز می‌کند</span>
+          <span class="text-en hidden">Principles That Set Us Apart</span>
+        </h2>
+        <p class="section-desc">
+          <span class="text-fa">در قلب استراتژی میکس‌پلاس، توجه به جزئیات و نیازهای مشتریان قرار دارد</span>
+          <span class="text-en hidden">At the heart of MixPlus strategy lies attention to detail and customer needs</span>
+        </p>
+      </div>
+      
+      <div class="values-grid reveal">
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <h3>
+            <span class="text-fa">کیفیت بی‌نظیر</span>
+            <span class="text-en hidden">Unparalleled Quality</span>
+          </h3>
+          <p>
+            <span class="text-fa">استفاده از بهترین متریال‌های اروپایی و کنترل کیفیت چندمرحله‌ای برای اطمینان از دوام طولانی محصولات</span>
+            <span class="text-en hidden">Using the best European materials and multi-stage quality control to ensure long-lasting product durability</span>
+          </p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3>
+            <span class="text-fa">طراحی مدرن</span>
+            <span class="text-en hidden">Modern Design</span>
+          </h3>
+          <p>
+            <span class="text-fa">طراحی مینیمال و ارگونومیک الهام‌گرفته از مکتب طراحی ایتالیایی برای زیبایی و کارایی همزمان</span>
+            <span class="text-en hidden">Minimalist and ergonomic design inspired by Italian design for simultaneous beauty and efficiency</span>
+          </p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>
+            <span class="text-fa">ایمنی کامل</span>
+            <span class="text-en hidden">Complete Safety</span>
+          </h3>
+          <p>
+            <span class="text-fa">سیستم‌های ایمنی پیشرفته ترموکوپل و رعایت استانداردهای سخت‌گیرانه اروپایی در تمام محصولات</span>
+            <span class="text-en hidden">Advanced thermocouple safety systems and adherence to strict European standards in all products</span>
+          </p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <h3>
+            <span class="text-fa">پشتیبانی واقعی</span>
+            <span class="text-en hidden">Real Support</span>
+          </h3>
+          <p>
+            <span class="text-fa">شبکه گسترده خدمات پس از فروش و پاسخگویی سریع به درخواست‌های نصب و تعمیرات</span>
+            <span class="text-en hidden">Extensive after-sales service network and quick response to installation and repair requests</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS SHOWCASE ===== -->
+  <section class="section products-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <div class="section-label">
+          <span class="text-fa">محصولات ما</span>
+          <span class="text-en hidden">Our Products</span>
+        </div>
+        <h2 class="section-title">
+          <span class="text-fa">مجموعه‌ای کامل برای آشپزخانه</span>
+          <span class="text-en hidden">Complete Collection for Your Kitchen</span>
+        </h2>
+        <p class="section-desc">
+          <span class="text-fa">از مدل‌های اقتصادی تا لوکس، برای هر سلیقه و بودجه‌ای</span>
+          <span class="text-en hidden">From economic to luxury models, for every taste and budget</span>
+        </p>
+      </div>
+      
+      <div class="products-grid reveal">
+        <div class="product-card">
+          <img src="images/products/cooktop-sample.jpg" alt="Cooktop" onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop'">
+          <div class="product-overlay">
+            <h3>
+              <span class="text-fa">اجاق‌گاز صفحه‌ای</span>
+              <span class="text-en hidden">Cooktops</span>
+            </h3>
+            <p>
+              <span class="text-fa">استیل و شیشه‌ای با شعله‌های ساباف</span>
+              <span class="text-en hidden">Steel & Glass with Sabaf Burners</span>
+            </p>
+          </div>
+        </div>
+        
+        <div class="product-card">
+          <img src="images/products/sink-sample.jpg" alt="Sink" onerror="this.src='https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&h=400&fit=crop'">
+          <div class="product-overlay">
+            <h3>
+              <span class="text-fa">سینک ظرفشویی</span>
+              <span class="text-en hidden">Kitchen Sinks</span>
+            </h3>
+            <p>
+              <span class="text-fa">دست‌ساز و پرسی با استیل ۳۰۴</span>
+              <span class="text-en hidden">Handmade & Pressed with 304 Steel</span>
+            </p>
+          </div>
+        </div>
+        
+        <div class="product-card">
+          <img src="images/products/oven-sample.jpg" alt="Oven" onerror="this.src='https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&h=400&fit=crop'">
+          <div class="product-overlay">
+            <h3>
+              <span class="text-fa">فر توکار</span>
+              <span class="text-en hidden">Built-in Ovens</span>
+            </h3>
+            <p>
+              <span class="text-fa">برنامه‌های پخت متنوع و هوشمند</span>
+              <span class="text-en hidden">Diverse & Smart Cooking Programs</span>
+            </p>
+          </div>
+        </div>
+        
+        <div class="product-card">
+          <img src="images/products/hood-sample.jpg" alt="Hood" onerror="this.src='https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=400&h=400&fit=crop'">
+          <div class="product-overlay">
+            <h3>
+              <span class="text-fa">هود آشپزخانه</span>
+              <span class="text-en hidden">Range Hoods</span>
+            </h3>
+            <p>
+              <span class="text-fa">کم‌صدا و پرقدرت با طراحی مدرن</span>
+              <span class="text-en hidden">Quiet & Powerful with Modern Design</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUALITY STANDARDS ===== -->
+  <section class="section quality-section">
+    <div class="section-container">
+      <div class="quality-grid reveal">
+        <div class="quality-content">
+          <div class="section-label" style="justify-content: flex-start;">
+            <span class="text-fa">استانداردهای کیفیت</span>
+            <span class="text-en hidden">Quality Standards</span>
+          </div>
+          <h2>
+            <span class="text-fa">متعهد به برترین استانداردها</span>
+            <span class="text-en hidden">Committed to the Highest Standards</span>
+          </h2>
+          <p>
+            <span class="text-fa">
+              محصولات میکس‌پلاس با بهره‌گیری از قطعات باکیفیت و استانداردهای روز اروپا، تجربه‌ای متفاوت از آشپزی را برای کاربران رقم می‌زنند.
+            </span>
+            <span class="text-en hidden">
+              MixPlus products, using high-quality parts and current European standards, create a different cooking experience for users.
+            </span>
+          </p>
+          
+          <div class="quality-items">
+            <div class="quality-item">
+              <div class="quality-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <div>
+                <h4>
+                  <span class="text-fa">شعله‌های ساباف ایتالیا</span>
+                  <span class="text-en hidden">Italian Sabaf Burners</span>
+                </h4>
+                <p>
+                  <span class="text-fa">قطعات ایتالیایی ساباف برای توزیع یکنواخت حرارت و کارایی بالا</span>
+                  <span class="text-en hidden">Italian Sabaf parts for uniform heat distribution and high efficiency</span>
+                </p>
+              </div>
+            </div>
+            
+            <div class="quality-item">
+              <div class="quality-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M12 8v8M8 12h8"/>
+                </svg>
+              </div>
+              <div>
+                <h4>
+                  <span class="text-fa">شیشه شات آلمان</span>
+                  <span class="text-en hidden">German Schott Glass</span>
+                </h4>
+                <p>
+                  <span class="text-fa">شیشه‌های مقاوم در برابر شوک حرارتی با تحمل دمای بالا</span>
+                  <span class="text-en hidden">Thermal shock resistant glass with high temperature tolerance</span>
+                </p>
+              </div>
+            </div>
+            
+            <div class="quality-item">
+              <div class="quality-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <div>
+                <h4>
+                  <span class="text-fa">استیل ضدزنگ ۳۰۴</span>
+                  <span class="text-en hidden">304 Stainless Steel</span>
+                </h4>
+                <p>
+                  <span class="text-fa">مقاوم در برابر خوردگی و زنگ‌زدگی با دوام طولانی‌مدت</span>
+                  <span class="text-en hidden">Corrosion and rust resistant with long-term durability</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="quality-image">
+          <div class="quality-image-wrapper">
+            <img src="images/banners/quality-image.jpg" alt="Quality" onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=550&fit=crop'">
+            <div class="quality-certifications">
+              <div class="cert-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span>ISO 9001</span>
+              </div>
+              <div class="cert-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span>CE</span>
+              </div>
+              <div class="cert-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span class="text-fa">استاندارد ملی</span>
+                <span class="text-en hidden">National Standard</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATISTICS ===== -->
   <section class="stats-section reveal">
     <div class="stats-grid">
-      <div>
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
         <div class="stat-number" data-target="20">0</div>
         <div class="stat-label">
           <span class="text-fa">سال تجربه</span>
           <span class="text-en hidden">Years Experience</span>
         </div>
       </div>
-      <div>
+      
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
         <div class="stat-number" data-target="150">0</div>
         <div class="stat-label">
-          <span class="text-fa">تنوع محصول</span>
-          <span class="text-en hidden">Product Types</span>
+          <span class="text-fa">مدل محصول</span>
+          <span class="text-en hidden">Product Models</span>
         </div>
       </div>
-      <div>
+      
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
         <div class="stat-number" data-target="300">0</div>
         <div class="stat-label">
           <span class="text-fa">نمایندگی فعال</span>
           <span class="text-en hidden">Active Dealers</span>
         </div>
       </div>
-      <div>
-        <div class="stat-number" data-target="98">0</div>
+      
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-target="50000">0</div>
         <div class="stat-label">
-          <span class="text-fa">درصد رضایت</span>
+          <span class="text-fa">مشتری راضی</span>
+          <span class="text-en hidden">Happy Customers</span>
+        </div>
+      </div>
+      
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-target="98" data-suffix="%">0</div>
+        <div class="stat-label">
+          <span class="text-fa">رضایت مشتری</span>
           <span class="text-en hidden">Satisfaction Rate</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA / CONTACT -->
-  <section class="mix-section reveal" style="text-align: center; margin-bottom: 4rem;">
-    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">
-      <span class="text-fa">آماده ایجاد تغییر در آشپزخانه خود هستید؟</span>
-      <span class="text-en hidden">Ready to transform your kitchen?</span>
-    </h2>
-    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <a href="products.html" class="mix-btn mix-btn--primary">
-        <span class="text-fa">مشاهده محصولات</span>
-        <span class="text-en hidden">View Products</span>
-      </a>
-      <a href="contact.html" class="mix-btn mix-btn--outline">
-        <span class="text-fa">تماس با ما</span>
-        <span class="text-en hidden">Contact Us</span>
-      </a>
+  <!-- ===== TIMELINE ===== -->
+  <section class="section timeline-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <div class="section-label">
+          <span class="text-fa">سفر ما</span>
+          <span class="text-en hidden">Our Journey</span>
+        </div>
+        <h2 class="section-title">
+          <span class="text-fa">مسیر رشد میکس‌پلاس</span>
+          <span class="text-en hidden">MixPlus Growth Path</span>
+        </h2>
+      </div>
+      
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">2003</div>
+            <h3>
+              <span class="text-fa">آغاز فعالیت</span>
+              <span class="text-en hidden">Foundation</span>
+            </h3>
+            <p>
+              <span class="text-fa">تأسیس شرکت با هدف تولید لوازم آشپزخانه باکیفیت و شروع تولید اولین محصولات</span>
+              <span class="text-en hidden">Company founded with the goal of producing quality kitchen appliances</span>
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">2008</div>
+            <h3>
+              <span class="text-fa">همکاری با ساباف</span>
+              <span class="text-en hidden">Sabaf Partnership</span>
+            </h3>
+            <p>
+              <span class="text-fa">آغاز همکاری با شرکت ساباف ایتالیا برای استفاده از شعله‌های باکیفیت در محصولات</span>
+              <span class="text-en hidden">Started partnership with Sabaf Italy for quality burners</span>
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">2013</div>
+            <h3>
+              <span class="text-fa">توسعه خط تولید</span>
+              <span class="text-en hidden">Production Expansion</span>
+            </h3>
+            <p>
+              <span class="text-fa">افزودن خط تولید سینک و فر توکار و گسترش شبکه نمایندگی‌ها در سراسر کشور</span>
+              <span class="text-en hidden">Added sink and oven production lines and expanded dealer network</span>
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">2018</div>
+            <h3>
+              <span class="text-fa">دریافت استانداردهای بین‌المللی</span>
+              <span class="text-en hidden">International Certifications</span>
+            </h3>
+            <p>
+              <span class="text-fa">کسب گواهینامه‌های ISO و CE و ورود به بازارهای صادراتی منطقه</span>
+              <span class="text-en hidden">Obtained ISO and CE certifications, entered regional export markets</span>
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">2023</div>
+            <h3>
+              <span class="text-fa">نوآوری و آینده</span>
+              <span class="text-en hidden">Innovation & Future</span>
+            </h3>
+            <p>
+              <span class="text-fa">راه‌اندازی خط محصولات هوشمند و سازگار با محیط زیست و ادامه مسیر نوآوری</span>
+              <span class="text-en hidden">Launched smart and eco-friendly product line, continuing innovation</span>
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section testimonials-section">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <div class="section-label" style="color: var(--brand);">
+          <span class="text-fa">نظرات مشتریان</span>
+          <span class="text-en hidden">Customer Reviews</span>
+        </div>
+        <h2 class="section-title" style="color: #fff;">
+          <span class="text-fa">آنچه مشتریان درباره ما می‌گویند</span>
+          <span class="text-en hidden">What Our Customers Say</span>
+        </h2>
+      </div>
+      
+      <div class="testimonials-grid reveal">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p class="testimonial-text">
+            <span class="text-fa">«اجاق‌گاز میکس‌پلاس واقعاً کیفیت فوق‌العاده‌ای داره. شعله‌ها یکنواخت هستند و طراحیش خیلی شیک و مدرنه. خدمات پس از فروششون هم عالیه!»</span>
+            <span class="text-en hidden">"MixPlus cooktop has amazing quality. The burners are uniform and the design is very chic and modern. Their after-sales service is excellent too!"</span>
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">م</div>
+            <div class="testimonial-info">
+              <h4>
+                <span class="text-fa">مریم احمدی</span>
+                <span class="text-en hidden">Maryam Ahmadi</span>
+              </h4>
+              <span>
+                <span class="text-fa">تهران</span>
+                <span class="text-en hidden">Tehran</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p class="testimonial-text">
+            <span class="text-fa">«سینک دست‌ساز میکس‌پلاس رو برای آشپزخونه جدیدم خریدم. کیفیت استیل و ظرافت کارش واقعاً بی‌نظیره. ارزش هر ریالشو داره!»</span>
+            <span class="text-en hidden">"I bought a MixPlus handmade sink for my new kitchen. The steel quality and craftsmanship is truly unparalleled. Worth every penny!"</span>
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">ع</div>
+            <div class="testimonial-info">
+              <h4>
+                <span class="text-fa">علی رضایی</span>
+                <span class="text-en hidden">Ali Rezaei</span>
+              </h4>
+              <span>
+                <span class="text-fa">اصفهان</span>
+                <span class="text-en hidden">Isfahan</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p class="testimonial-text">
+            <span class="text-fa">«فر توکار میکس‌پلاس یه شاهکاره! برنامه‌های پختش متنوعه و کیفیت پختش عالیه. نصب رایگان و گارانتیشون هم خیالمو راحت کرد.»</span>
+            <span class="text-en hidden">"MixPlus built-in oven is a masterpiece! Diverse cooking programs and excellent baking quality. Free installation and warranty gave me peace of mind."</span>
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">س</div>
+            <div class="testimonial-info">
+              <h4>
+                <span class="text-fa">سارا محمدی</span>
+                <span class="text-en hidden">Sara Mohammadi</span>
+              </h4>
+              <span>
+                <span class="text-fa">شیراز</span>
+                <span class="text-en hidden">Shiraz</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA SECTION ===== -->
+  <section class="section cta-section">
+    <div class="section-container">
+      <div class="cta-card reveal">
+        <div class="cta-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <h2>
+          <span class="text-fa">آماده ایجاد تغییر در آشپزخانه خود هستید؟</span>
+          <span class="text-en hidden">Ready to Transform Your Kitchen?</span>
+        </h2>
+        <p>
+          <span class="text-fa">با میکس‌پلاس، آشپزخانه رویایی خود را بسازید. کیفیت برتر با طراحی ایتالیایی!</span>
+          <span class="text-en hidden">Build your dream kitchen with MixPlus. Superior quality with Italian design!</span>
+        </p>
+        <div class="cta-buttons">
+          <a href="products.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span class="text-fa">مشاهده محصولات</span>
+            <span class="text-en hidden">View Products</span>
+          </a>
+          <a href="contact.html" class="btn btn-outline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span class="text-fa">تماس با ما</span>
+            <span class="text-en hidden">Contact Us</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -305,36 +1914,84 @@
   <script src="js/footer.js"></script>
   <script src="js/mobile-nav.js"></script>
 
-  <!-- NUMBER ANIMATION SCRIPT -->
+  <!-- PAGE SCRIPTS -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Reveal on scroll animation
+      const reveals = document.querySelectorAll('.reveal');
+      
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      reveals.forEach(el => revealObserver.observe(el));
+
+      // Number counter animation
       const stats = document.querySelectorAll('.stat-number');
       
-      const observer = new IntersectionObserver((entries) => {
+      const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const el = entry.target;
             const target = parseInt(el.getAttribute('data-target'));
+            const suffix = el.getAttribute('data-suffix') || '+';
             let count = 0;
-            const duration = 2000; // 2 seconds
-            const increment = target / (duration / 20); // updates every 20ms
+            const duration = 2000;
+            const increment = target / (duration / 20);
             
             const updateCount = () => {
               count += increment;
               if (count < target) {
-                el.innerText = Math.ceil(count) + (target === 98 ? '%' : '+');
+                if (target >= 1000) {
+                  el.innerText = Math.ceil(count).toLocaleString() + suffix;
+                } else {
+                  el.innerText = Math.ceil(count) + suffix;
+                }
                 setTimeout(updateCount, 20);
               } else {
-                el.innerText = target + (target === 98 ? '%' : '+');
+                if (target >= 1000) {
+                  el.innerText = target.toLocaleString() + suffix;
+                } else {
+                  el.innerText = target + suffix;
+                }
               }
             };
             updateCount();
-            observer.unobserve(el);
+            counterObserver.unobserve(el);
           }
         });
       }, { threshold: 0.5 });
 
-      stats.forEach(stat => observer.observe(stat));
+      stats.forEach(stat => counterObserver.observe(stat));
+
+      // Smooth scroll for scroll indicator
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+      if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+          const nextSection = document.querySelector('.story-section');
+          if (nextSection) {
+            nextSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+
+      // Parallax effect for floating shapes
+      document.addEventListener('mousemove', (e) => {
+        const shapes = document.querySelectorAll('.floating-shape');
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        shapes.forEach((shape, index) => {
+          const speed = (index + 1) * 10;
+          const xOffset = (x - 0.5) * speed;
+          const yOffset = (y - 0.5) * speed;
+          shape.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+        });
+      });
     });
   </script>
 
