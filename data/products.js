@@ -1,4 +1,4 @@
-/* Data Exported on 2026-01-27 */
+/* Data Exported on 2026-01-28 */
 const excelData = [
   {
     "ID": "1",
@@ -12,7 +12,9 @@ const excelData = [
     "Price": "331,200,000",
     "Pic_1": "products_photos\\hobs\\cg9571m_1.webp",
     "Pic_2": "products_photos\\hobs\\cg9571m_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg9571m_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg9571m_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "2",
@@ -26,7 +28,9 @@ const excelData = [
     "Price": "297,400,000",
     "Pic_1": "products_photos\\hobs\\gp511_1.webp",
     "Pic_2": "products_photos\\hobs\\gp511_2.webp",
-    "Pic_3": "products_photos\\hobs\\gp511_3.webp"
+    "Pic_3": "products_photos\\hobs\\gp511_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "3",
@@ -40,7 +44,9 @@ const excelData = [
     "Price": "328,900,000",
     "Pic_1": "products_photos\\hobs\\gt502_1.webp",
     "Pic_2": "products_photos\\hobs\\gt502_2.webp",
-    "Pic_3": "products_photos\\hobs\\gt502_3.webp"
+    "Pic_3": "products_photos\\hobs\\gt502_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "4",
@@ -54,7 +60,9 @@ const excelData = [
     "Price": "268,200,000",
     "Pic_1": "products_photos\\hobs\\cg8507_1.webp",
     "Pic_2": "products_photos\\hobs\\cg8507_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg8507_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg8507_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "5",
@@ -68,7 +76,9 @@ const excelData = [
     "Price": "268,200,000",
     "Pic_1": "products_photos\\hobs\\cg8506_1.webp",
     "Pic_2": "products_photos\\hobs\\cg8506_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg8506_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg8506_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "6",
@@ -82,7 +92,9 @@ const excelData = [
     "Price": "268,200,000",
     "Pic_1": "products_photos\\hobs\\cg8505_1.webp",
     "Pic_2": "products_photos\\hobs\\cg8505_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg8505_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg8505_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "7",
@@ -96,7 +108,9 @@ const excelData = [
     "Price": "299,700,000",
     "Pic_1": "products_photos\\hobs\\g502lw_1.webp",
     "Pic_2": "products_photos\\hobs\\g502lw_2.webp",
-    "Pic_3": "products_photos\\hobs\\g502lw_3.webp"
+    "Pic_3": "products_photos\\hobs\\g502lw_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "8",
@@ -110,7 +124,9 @@ const excelData = [
     "Price": "299,700,000",
     "Pic_1": "products_photos\\hobs\\g502rw_1.webp",
     "Pic_2": "products_photos\\hobs\\g502rw_2.webp",
-    "Pic_3": "products_photos\\hobs\\g502rw_3.webp"
+    "Pic_3": "products_photos\\hobs\\g502rw_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "9",
@@ -124,7 +140,9 @@ const excelData = [
     "Price": "299,700,000",
     "Pic_1": "products_photos\\hobs\\g502w_1.webp",
     "Pic_2": "products_photos\\hobs\\g502w_2.webp",
-    "Pic_3": "products_photos\\hobs\\g502w_3.webp"
+    "Pic_3": "products_photos\\hobs\\g502w_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "10",
@@ -138,7 +156,9 @@ const excelData = [
     "Price": "268,200,000",
     "Pic_1": "products_photos\\hobs\\pardyc_b_1.webp",
     "Pic_2": "products_photos\\hobs\\pardyc_b_2.webp",
-    "Pic_3": "products_photos\\hobs\\pardyc_b_3.webp"
+    "Pic_3": "products_photos\\hobs\\pardyc_b_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "11",
@@ -152,7 +172,9 @@ const excelData = [
     "Price": "300,900,000",
     "Pic_1": "products_photos\\hobs\\pardyc_w_1.webp",
     "Pic_2": "products_photos\\hobs\\pardyc_w_2.webp",
-    "Pic_3": "products_photos\\hobs\\pardyc_w_3.webp"
+    "Pic_3": "products_photos\\hobs\\pardyc_w_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "12",
@@ -166,7 +188,9 @@ const excelData = [
     "Price": "268,200,000",
     "Pic_1": "products_photos\\hobs\\cg8504_1.webp",
     "Pic_2": "products_photos\\hobs\\cg8504_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg8504_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg8504_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "13",
@@ -180,7 +204,9 @@ const excelData = [
     "Price": "268,200,000",
     "Pic_1": "products_photos\\hobs\\cg8503_1.webp",
     "Pic_2": "products_photos\\hobs\\cg8503_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg8503_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg8503_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "14",
@@ -194,7 +220,9 @@ const excelData = [
     "Price": "268,200,000",
     "Pic_1": "products_photos\\hobs\\apple_b_1.webp",
     "Pic_2": "products_photos\\hobs\\apple_b_2.webp",
-    "Pic_3": "products_photos\\hobs\\apple_b_3.webp"
+    "Pic_3": "products_photos\\hobs\\apple_b_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "15",
@@ -208,7 +236,9 @@ const excelData = [
     "Price": "300,900,000",
     "Pic_1": "products_photos\\hobs\\apple_w_1.webp",
     "Pic_2": "products_photos\\hobs\\apple_w_2.webp",
-    "Pic_3": "products_photos\\hobs\\apple_w_3.webp"
+    "Pic_3": "products_photos\\hobs\\apple_w_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "16",
@@ -222,7 +252,9 @@ const excelData = [
     "Price": "279,900,000",
     "Pic_1": "products_photos\\hobs\\apple_m_1.webp",
     "Pic_2": "products_photos\\hobs\\apple_m_2.webp",
-    "Pic_3": "products_photos\\hobs\\apple_m_3.webp"
+    "Pic_3": "products_photos\\hobs\\apple_m_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "17",
@@ -236,7 +268,9 @@ const excelData = [
     "Price": "284,600,000",
     "Pic_1": "products_photos\\hobs\\g514_1.webp",
     "Pic_2": "products_photos\\hobs\\g514_2.webp",
-    "Pic_3": "products_photos\\hobs\\g514_3.webp"
+    "Pic_3": "products_photos\\hobs\\g514_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "18",
@@ -250,7 +284,9 @@ const excelData = [
     "Price": "335,900,000",
     "Pic_1": "products_photos\\hobs\\g514r_1.webp",
     "Pic_2": "products_photos\\hobs\\g514r_2.webp",
-    "Pic_3": "products_photos\\hobs\\g514r_3.webp"
+    "Pic_3": "products_photos\\hobs\\g514r_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "19",
@@ -264,7 +300,9 @@ const excelData = [
     "Price": "316,000,000",
     "Pic_1": "products_photos\\hobs\\g514w_1.webp",
     "Pic_2": "products_photos\\hobs\\g514w_2.webp",
-    "Pic_3": "products_photos\\hobs\\g514w_3.webp"
+    "Pic_3": "products_photos\\hobs\\g514w_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "20",
@@ -278,7 +316,9 @@ const excelData = [
     "Price": "279,900,000",
     "Pic_1": "products_photos\\hobs\\g510_1.webp",
     "Pic_2": "products_photos\\hobs\\g510_2.webp",
-    "Pic_3": "products_photos\\hobs\\g510_3.webp"
+    "Pic_3": "products_photos\\hobs\\g510_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "21",
@@ -292,7 +332,9 @@ const excelData = [
     "Price": "347,500,000",
     "Pic_1": "products_photos\\hobs\\luna_1.webp",
     "Pic_2": "products_photos\\hobs\\luna_2.webp",
-    "Pic_3": "products_photos\\hobs\\luna_3.webp"
+    "Pic_3": "products_photos\\hobs\\luna_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "22",
@@ -306,7 +348,9 @@ const excelData = [
     "Price": "192,400,000",
     "Pic_1": "products_photos\\hobs\\403g_1.webp",
     "Pic_2": "products_photos\\hobs\\403g_2.webp",
-    "Pic_3": "products_photos\\hobs\\403g_3.webp"
+    "Pic_3": "products_photos\\hobs\\403g_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "23",
@@ -320,7 +364,9 @@ const excelData = [
     "Price": "215,800,000",
     "Pic_1": "products_photos\\hobs\\403g_w_1.webp",
     "Pic_2": "products_photos\\hobs\\403g_w_2.webp",
-    "Pic_3": "products_photos\\hobs\\403g_w_3.webp"
+    "Pic_3": "products_photos\\hobs\\403g_w_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "24",
@@ -334,7 +380,9 @@ const excelData = [
     "Price": "92,200,000",
     "Pic_1": "products_photos\\hobs\\302g_1.webp",
     "Pic_2": "products_photos\\hobs\\302g_2.webp",
-    "Pic_3": "products_photos\\hobs\\302g_3.webp"
+    "Pic_3": "products_photos\\hobs\\302g_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "25",
@@ -348,7 +396,9 @@ const excelData = [
     "Price": "141,100,000",
     "Pic_1": "products_photos\\hobs\\303g_1.webp",
     "Pic_2": "products_photos\\hobs\\303g_2.webp",
-    "Pic_3": "products_photos\\hobs\\303g_3.webp"
+    "Pic_3": "products_photos\\hobs\\303g_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "26",
@@ -362,7 +412,9 @@ const excelData = [
     "Price": "117,800,000",
     "Pic_1": "products_photos\\hobs\\203g_1.webp",
     "Pic_2": "products_photos\\hobs\\203g_2.webp",
-    "Pic_3": "products_photos\\hobs\\203g_3.webp"
+    "Pic_3": "products_photos\\hobs\\203g_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "27",
@@ -376,7 +428,9 @@ const excelData = [
     "Price": "220,400,000",
     "Pic_1": "products_photos\\hobs\\g401h_1.webp",
     "Pic_2": "products_photos\\hobs\\g401h_2.webp",
-    "Pic_3": "products_photos\\hobs\\g401h_3.webp"
+    "Pic_3": "products_photos\\hobs\\g401h_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "28",
@@ -390,7 +444,9 @@ const excelData = [
     "Price": "198,300,000",
     "Pic_1": "products_photos\\hobs\\cg1402_1.webp",
     "Pic_2": "products_photos\\hobs\\cg1402_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg1402_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg1402_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "29",
@@ -404,7 +460,9 @@ const excelData = [
     "Price": "151,600,000",
     "Pic_1": "products_photos\\hobs\\cg8301_1.webp",
     "Pic_2": "products_photos\\hobs\\cg8301_2.webp",
-    "Pic_3": "products_photos\\hobs\\cg8301_3.webp"
+    "Pic_3": "products_photos\\hobs\\cg8301_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "30",
@@ -418,7 +476,9 @@ const excelData = [
     "Price": "274,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "31",
@@ -432,7 +492,9 @@ const excelData = [
     "Price": "274,100,000",
     "Pic_1": "products_photos\\hobs\\cc4505_1.webp",
     "Pic_2": "products_photos\\hobs\\cc4505_2.webp",
-    "Pic_3": "products_photos\\hobs\\cc4505_3.webp"
+    "Pic_3": "products_photos\\hobs\\cc4505_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "32",
@@ -446,7 +508,9 @@ const excelData = [
     "Price": "230,900,000",
     "Pic_1": "products_photos\\hobs\\cc2206_1.webp",
     "Pic_2": "products_photos\\hobs\\cc2206_2.webp",
-    "Pic_3": "products_photos\\hobs\\cc2206_3.webp"
+    "Pic_3": "products_photos\\hobs\\cc2206_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "33",
@@ -460,7 +524,9 @@ const excelData = [
     "Price": "230,900,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "34",
@@ -474,7 +540,9 @@ const excelData = [
     "Price": "285,700,000",
     "Pic_1": "products_photos\\hobs\\523s_1.webp",
     "Pic_2": "products_photos\\hobs\\523s_2.webp",
-    "Pic_3": "products_photos\\hobs\\523s_3.webp"
+    "Pic_3": "products_photos\\hobs\\523s_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "35",
@@ -488,7 +556,9 @@ const excelData = [
     "Price": "297,400,000",
     "Pic_1": "products_photos\\hobs\\523sf_1.webp",
     "Pic_2": "products_photos\\hobs\\523sf_2.webp",
-    "Pic_3": "products_photos\\hobs\\523sf_3.webp"
+    "Pic_3": "products_photos\\hobs\\523sf_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "36",
@@ -502,7 +572,9 @@ const excelData = [
     "Price": "290,400,000",
     "Pic_1": "products_photos\\hobs\\523m_1.webp",
     "Pic_2": "products_photos\\hobs\\523m_2.webp",
-    "Pic_3": "products_photos\\hobs\\523m_3.webp"
+    "Pic_3": "products_photos\\hobs\\523m_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "37",
@@ -516,7 +588,9 @@ const excelData = [
     "Price": "285,700,000",
     "Pic_1": "products_photos\\hobs\\s506_1.webp",
     "Pic_2": "products_photos\\hobs\\s506_2.webp",
-    "Pic_3": "products_photos\\hobs\\s506_3.webp"
+    "Pic_3": "products_photos\\hobs\\s506_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "38",
@@ -530,7 +604,9 @@ const excelData = [
     "Price": "283,400,000",
     "Pic_1": "products_photos\\hobs\\518s_1.webp",
     "Pic_2": "products_photos\\hobs\\518s_2.webp",
-    "Pic_3": "products_photos\\hobs\\518s_3.webp"
+    "Pic_3": "products_photos\\hobs\\518s_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "39",
@@ -544,7 +620,9 @@ const excelData = [
     "Price": "288,100,000",
     "Pic_1": "products_photos\\hobs\\518m_1.webp",
     "Pic_2": "products_photos\\hobs\\518m_2.webp",
-    "Pic_3": "products_photos\\hobs\\518m_3.webp"
+    "Pic_3": "products_photos\\hobs\\518m_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "40",
@@ -558,7 +636,9 @@ const excelData = [
     "Price": "257,700,000",
     "Pic_1": "products_photos\\hobs\\e518m_1.webp",
     "Pic_2": "products_photos\\hobs\\e518m_2.webp",
-    "Pic_3": "products_photos\\hobs\\e518m_3.webp"
+    "Pic_3": "products_photos\\hobs\\e518m_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "41",
@@ -572,7 +652,9 @@ const excelData = [
     "Price": "253,100,000",
     "Pic_1": "products_photos\\hobs\\e518w_1.webp",
     "Pic_2": "products_photos\\hobs\\e518w_2.webp",
-    "Pic_3": "products_photos\\hobs\\e518w_3.webp"
+    "Pic_3": "products_photos\\hobs\\e518w_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "42",
@@ -586,7 +668,9 @@ const excelData = [
     "Price": "253,100,000",
     "Pic_1": "products_photos\\hobs\\e518g_1.webp",
     "Pic_2": "products_photos\\hobs\\e518g_2.webp",
-    "Pic_3": "products_photos\\hobs\\e518g_3.webp"
+    "Pic_3": "products_photos\\hobs\\e518g_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "43",
@@ -600,7 +684,9 @@ const excelData = [
     "Price": "283,400,000",
     "Pic_1": "products_photos\\hobs\\513s_1.webp",
     "Pic_2": "products_photos\\hobs\\513s_2.webp",
-    "Pic_3": "products_photos\\hobs\\513s_3.webp"
+    "Pic_3": "products_photos\\hobs\\513s_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "44",
@@ -614,7 +700,9 @@ const excelData = [
     "Price": "288,100,000",
     "Pic_1": "products_photos\\hobs\\513m_1.webp",
     "Pic_2": "products_photos\\hobs\\513m_2.webp",
-    "Pic_3": "products_photos\\hobs\\513m_3.webp"
+    "Pic_3": "products_photos\\hobs\\513m_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "45",
@@ -628,7 +716,9 @@ const excelData = [
     "Price": "285,700,000",
     "Pic_1": "products_photos\\hobs\\sd505_1.webp",
     "Pic_2": "products_photos\\hobs\\sd505_2.webp",
-    "Pic_3": "products_photos\\hobs\\sd505_3.webp"
+    "Pic_3": "products_photos\\hobs\\sd505_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "46",
@@ -642,7 +732,9 @@ const excelData = [
     "Price": "288,100,000",
     "Pic_1": "products_photos\\hobs\\s508_1.webp",
     "Pic_2": "products_photos\\hobs\\s508_2.webp",
-    "Pic_3": "products_photos\\hobs\\s508_3.webp"
+    "Pic_3": "products_photos\\hobs\\s508_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "47",
@@ -656,7 +748,9 @@ const excelData = [
     "Price": "309,000,000",
     "Pic_1": "products_photos\\hobs\\stella_1.webp",
     "Pic_2": "products_photos\\hobs\\stella_2.webp",
-    "Pic_3": "products_photos\\hobs\\stella_3.webp"
+    "Pic_3": "products_photos\\hobs\\stella_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "48",
@@ -670,7 +764,9 @@ const excelData = [
     "Price": "216,900,000",
     "Pic_1": "products_photos\\hobs\\403s_1.webp",
     "Pic_2": "products_photos\\hobs\\403s_2.webp",
-    "Pic_3": "products_photos\\hobs\\403s_3.webp"
+    "Pic_3": "products_photos\\hobs\\403s_3.webp",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "49",
@@ -684,7 +780,9 @@ const excelData = [
     "Price": "126,000,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "50",
@@ -698,7 +796,9 @@ const excelData = [
     "Price": "248,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "51",
@@ -712,7 +812,9 @@ const excelData = [
     "Price": "199,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "52",
@@ -726,7 +828,9 @@ const excelData = [
     "Price": "226,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "53",
@@ -740,7 +844,9 @@ const excelData = [
     "Price": "193,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "54",
@@ -754,7 +860,9 @@ const excelData = [
     "Price": "193,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "55",
@@ -768,7 +876,9 @@ const excelData = [
     "Price": "193,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "56",
@@ -782,7 +892,9 @@ const excelData = [
     "Price": "226,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "57",
@@ -796,7 +908,9 @@ const excelData = [
     "Price": "197,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "58",
@@ -810,7 +924,9 @@ const excelData = [
     "Price": "197,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "59",
@@ -824,7 +940,9 @@ const excelData = [
     "Price": "197,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "60",
@@ -838,7 +956,9 @@ const excelData = [
     "Price": "228,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "61",
@@ -852,7 +972,9 @@ const excelData = [
     "Price": "193,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "62",
@@ -866,7 +988,9 @@ const excelData = [
     "Price": "193,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "63",
@@ -880,7 +1004,9 @@ const excelData = [
     "Price": "193,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "64",
@@ -894,7 +1020,9 @@ const excelData = [
     "Price": "137,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "65",
@@ -908,7 +1036,9 @@ const excelData = [
     "Price": "168,000,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "66",
@@ -922,7 +1052,9 @@ const excelData = [
     "Price": "91,000,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "67",
@@ -936,7 +1068,9 @@ const excelData = [
     "Price": "206,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "68",
@@ -950,7 +1084,9 @@ const excelData = [
     "Price": "198,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "69",
@@ -964,7 +1100,9 @@ const excelData = [
     "Price": "211,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "70",
@@ -978,7 +1116,9 @@ const excelData = [
     "Price": "218,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "71",
@@ -992,7 +1132,9 @@ const excelData = [
     "Price": "204,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "72",
@@ -1006,7 +1148,9 @@ const excelData = [
     "Price": "204,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "73",
@@ -1020,7 +1164,9 @@ const excelData = [
     "Price": "191,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "74",
@@ -1034,7 +1180,9 @@ const excelData = [
     "Price": "162,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "75",
@@ -1048,7 +1196,9 @@ const excelData = [
     "Price": "98,000,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "76",
@@ -1062,7 +1212,9 @@ const excelData = [
     "Price": "135,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "77",
@@ -1076,7 +1228,9 @@ const excelData = [
     "Price": "138,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "78",
@@ -1090,7 +1244,9 @@ const excelData = [
     "Price": "130,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "79",
@@ -1104,7 +1260,9 @@ const excelData = [
     "Price": "143,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "80",
@@ -1118,7 +1276,9 @@ const excelData = [
     "Price": "148,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "81",
@@ -1132,7 +1292,9 @@ const excelData = [
     "Price": "121,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "82",
@@ -1146,7 +1308,9 @@ const excelData = [
     "Price": "93,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "83",
@@ -1160,7 +1324,9 @@ const excelData = [
     "Price": "124,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "84",
@@ -1174,7 +1340,9 @@ const excelData = [
     "Price": "135,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "85",
@@ -1188,7 +1356,9 @@ const excelData = [
     "Price": "135,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "86",
@@ -1202,7 +1372,9 @@ const excelData = [
     "Price": "133,000,000",
     "Pic_1": "products_photos\\hoods\\vento_1__1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "87",
@@ -1216,7 +1388,9 @@ const excelData = [
     "Price": "144,600,000",
     "Pic_1": "products_photos\\hoods\\vento_2__1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "88",
@@ -1230,7 +1404,9 @@ const excelData = [
     "Price": "141,100,000",
     "Pic_1": "products_photos\\hoods\\vento_3__1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "89",
@@ -1244,7 +1420,9 @@ const excelData = [
     "Price": "144,600,000",
     "Pic_1": "products_photos\\hoods\\vento_4__1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "90",
@@ -1258,7 +1436,9 @@ const excelData = [
     "Price": "137,600,000",
     "Pic_1": "products_photos\\hoods\\vento_5__1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "91",
@@ -1272,7 +1452,9 @@ const excelData = [
     "Price": "210,000,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "92",
@@ -1286,7 +1468,9 @@ const excelData = [
     "Price": "157,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "93",
@@ -1300,7 +1484,9 @@ const excelData = [
     "Price": "148,100,000",
     "Pic_1": "products_photos\\sinks\\8082-p45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "94",
@@ -1314,7 +1500,9 @@ const excelData = [
     "Price": "148,100,000",
     "Pic_1": "products_photos\\sinks\\8082-s45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "95",
@@ -1328,7 +1516,9 @@ const excelData = [
     "Price": "165,600,000",
     "Pic_1": "products_photos\\sinks\\8061-p45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "96",
@@ -1342,7 +1532,9 @@ const excelData = [
     "Price": "165,600,000",
     "Pic_1": "products_photos\\sinks\\8061-s45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "97",
@@ -1356,7 +1548,9 @@ const excelData = [
     "Price": "151,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "98",
@@ -1370,7 +1564,9 @@ const excelData = [
     "Price": "151,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "99",
@@ -1384,7 +1580,9 @@ const excelData = [
     "Price": "155,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "100",
@@ -1398,7 +1596,9 @@ const excelData = [
     "Price": "155,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "101",
@@ -1412,7 +1612,9 @@ const excelData = [
     "Price": "141,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "102",
@@ -1426,7 +1628,9 @@ const excelData = [
     "Price": "143,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "103",
@@ -1440,7 +1644,9 @@ const excelData = [
     "Price": "140,000,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "104",
@@ -1454,7 +1660,9 @@ const excelData = [
     "Price": "151,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "105",
@@ -1468,7 +1676,9 @@ const excelData = [
     "Price": "138,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "106",
@@ -1482,7 +1692,9 @@ const excelData = [
     "Price": "138,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "107",
@@ -1496,7 +1708,9 @@ const excelData = [
     "Price": "121,300,000",
     "Pic_1": "products_photos\\sinks\\s800_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "108",
@@ -1510,7 +1724,9 @@ const excelData = [
     "Price": "110,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "109",
@@ -1524,7 +1740,9 @@ const excelData = [
     "Price": "110,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "110",
@@ -1538,7 +1756,9 @@ const excelData = [
     "Price": "120,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "111",
@@ -1552,7 +1772,9 @@ const excelData = [
     "Price": "122,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "112",
@@ -1566,7 +1788,9 @@ const excelData = [
     "Price": "108,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "113",
@@ -1580,7 +1804,9 @@ const excelData = [
     "Price": "108,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "114",
@@ -1594,7 +1820,9 @@ const excelData = [
     "Price": "113,200,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "115",
@@ -1608,7 +1836,9 @@ const excelData = [
     "Price": "150,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "116",
@@ -1622,7 +1852,9 @@ const excelData = [
     "Price": "150,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "117",
@@ -1636,7 +1868,9 @@ const excelData = [
     "Price": "151,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "118",
@@ -1650,7 +1884,9 @@ const excelData = [
     "Price": "155,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "119",
@@ -1664,7 +1900,9 @@ const excelData = [
     "Price": "152,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "120",
@@ -1678,7 +1916,9 @@ const excelData = [
     "Price": "166,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "121",
@@ -1692,7 +1932,9 @@ const excelData = [
     "Price": "166,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "122",
@@ -1706,7 +1948,9 @@ const excelData = [
     "Price": "163,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "123",
@@ -1720,7 +1964,9 @@ const excelData = [
     "Price": "163,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "124",
@@ -1734,7 +1980,9 @@ const excelData = [
     "Price": "80,500,000",
     "Pic_1": "products_photos\\sinks\\2062_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "125",
@@ -1748,7 +1996,9 @@ const excelData = [
     "Price": "80,500,000",
     "Pic_1": "products_photos\\sinks\\2072_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "126",
@@ -1762,7 +2012,9 @@ const excelData = [
     "Price": "85,200,000",
     "Pic_1": "products_photos\\sinks\\3072_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "127",
@@ -1776,7 +2028,9 @@ const excelData = [
     "Price": "237,900,000",
     "Pic_1": "products_photos\\sinks\\bcn-74_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "128",
@@ -1790,7 +2044,9 @@ const excelData = [
     "Price": "271,700,000",
     "Pic_1": "products_photos\\sinks\\bcn-90_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "129",
@@ -1804,7 +2060,9 @@ const excelData = [
     "Price": "289,200,000",
     "Pic_1": "products_photos\\sinks\\bcn-104_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "130",
@@ -1818,7 +2076,9 @@ const excelData = [
     "Price": "303,200,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "131",
@@ -1832,7 +2092,9 @@ const excelData = [
     "Price": "289,200,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "132",
@@ -1846,7 +2108,9 @@ const excelData = [
     "Price": "241,400,000",
     "Pic_1": "products_photos\\sinks\\d74_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "133",
@@ -1860,7 +2124,9 @@ const excelData = [
     "Price": "275,200,000",
     "Pic_1": "products_photos\\sinks\\d90_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "134",
@@ -1874,7 +2140,9 @@ const excelData = [
     "Price": "291,500,000",
     "Pic_1": "products_photos\\sinks\\d104_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "135",
@@ -1888,7 +2156,9 @@ const excelData = [
     "Price": "243,700,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "136",
@@ -1902,7 +2172,9 @@ const excelData = [
     "Price": "277,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "137",
@@ -1916,7 +2188,9 @@ const excelData = [
     "Price": "286,900,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "138",
@@ -1930,7 +2204,9 @@ const excelData = [
     "Price": "86,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "139",
@@ -1944,7 +2220,9 @@ const excelData = [
     "Price": "96,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "140",
@@ -1958,7 +2236,9 @@ const excelData = [
     "Price": "107,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "141",
@@ -1972,7 +2252,9 @@ const excelData = [
     "Price": "115,500,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "142",
@@ -1986,7 +2268,9 @@ const excelData = [
     "Price": "58,300,000",
     "Pic_1": "products_photos\\sinks\\dls45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "143",
@@ -2000,7 +2284,9 @@ const excelData = [
     "Price": "56,000,000",
     "Pic_1": "products_photos\\sinks\\dms45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "144",
@@ -2014,7 +2300,9 @@ const excelData = [
     "Price": "44,400,000",
     "Pic_1": "products_photos\\sinks\\dss45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "145",
@@ -2028,7 +2316,9 @@ const excelData = [
     "Price": "54,900,000",
     "Pic_1": "products_photos\\sinks\\dlp45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "146",
@@ -2042,7 +2332,9 @@ const excelData = [
     "Price": "53,700,000",
     "Pic_1": "products_photos\\sinks\\dmp45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "147",
@@ -2056,7 +2348,9 @@ const excelData = [
     "Price": "44,400,000",
     "Pic_1": "products_photos\\sinks\\dsp45_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "148",
@@ -2070,7 +2364,9 @@ const excelData = [
     "Price": "90,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "149",
@@ -2084,7 +2380,9 @@ const excelData = [
     "Price": "90,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "150",
@@ -2098,7 +2396,9 @@ const excelData = [
     "Price": "90,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "151",
@@ -2112,7 +2412,9 @@ const excelData = [
     "Price": "90,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "152",
@@ -2126,7 +2428,9 @@ const excelData = [
     "Price": "90,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "153",
@@ -2140,7 +2444,9 @@ const excelData = [
     "Price": "90,400,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "154",
@@ -2154,7 +2460,9 @@ const excelData = [
     "Price": "384,800,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "155",
@@ -2168,7 +2476,9 @@ const excelData = [
     "Price": "396,500,000",
     "Pic_1": "products_photos\\ovens\\e6500m_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "156",
@@ -2182,7 +2492,9 @@ const excelData = [
     "Price": "398,800,000",
     "Pic_1": "products_photos\\ovens\\e6500w_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "157",
@@ -2196,7 +2508,9 @@ const excelData = [
     "Price": "356,800,000",
     "Pic_1": "products_photos\\ovens\\e6502_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "158",
@@ -2210,7 +2524,9 @@ const excelData = [
     "Price": "368,500,000",
     "Pic_1": "products_photos\\ovens\\e6502m_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "159",
@@ -2224,7 +2540,9 @@ const excelData = [
     "Price": "305,500,000",
     "Pic_1": "products_photos\\ovens\\e6503_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "160",
@@ -2238,7 +2556,9 @@ const excelData = [
     "Price": "397,700,000",
     "Pic_1": "products_photos\\ovens\\e6505m_1.webp",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "TRUE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "161",
@@ -2252,7 +2572,9 @@ const excelData = [
     "Price": "451,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "162",
@@ -2266,7 +2588,9 @@ const excelData = [
     "Price": "474,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "163",
@@ -2280,7 +2604,9 @@ const excelData = [
     "Price": "451,300,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "164",
@@ -2294,7 +2620,9 @@ const excelData = [
     "Price": "474,600,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "165",
@@ -2308,7 +2636,9 @@ const excelData = [
     "Price": "490,900,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "166",
@@ -2322,7 +2652,9 @@ const excelData = [
     "Price": "126,000,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   },
   {
     "ID": "167",
@@ -2336,6 +2668,8 @@ const excelData = [
     "Price": "120,100,000",
     "Pic_1": "",
     "Pic_2": "",
-    "Pic_3": ""
+    "Pic_3": "",
+    "Visible": "FALSE",
+    "ShowPrice": "TRUE"
   }
 ];
