@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl" data-theme="light" class="theme-light lang-fa">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title id="page-title">محصولات | میکس‌پلاس</title>
   <meta name="description" content="Catalog of MixPlus Premium Kitchen Products">
   
@@ -11,462 +11,456 @@
   
   <!-- PAGE SPECIFIC STYLES -->
   <style>
-    /* Filter Bar Layout */
+    /* --- FILTER BAR & HEADER --- */
     .mix-page-header {
-      padding-top: 130px;
+      padding-top: 120px;
       padding-bottom: 2rem;
       background: var(--bg);
       border-bottom: 1px solid var(--stroke);
+      transition: background 0.3s;
     }
 
     .filter-container {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+      max-width: 1440px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
     }
 
-    /* TOP ROW: Contains Search and Main Categories */
     .top-filters-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 2rem;
-      width: 100%;
+      display: flex; align-items: flex-start; gap: 2rem; width: 100%;
     }
 
-    /* Desktop Specifics */
+    /* Search & Categories Layout */
     @media (min-width: 769px) {
-      .search-section {
-        flex: 0 0 33%;
-        display: flex;
-        flex-direction: column;
-      }
-      .cats-section {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
-
-      /* RTL Layout: Search Left, Cats Right */
+      .search-section { flex: 0 0 300px; }
+      .cats-section { flex: 1; }
       html[dir="rtl"] .search-section { order: 2; }
       html[dir="rtl"] .cats-section { order: 1; }
-
-      /* LTR Layout: Cats Left, Search Right */
       html[dir="ltr"] .search-section { order: 2; }
       html[dir="ltr"] .cats-section { order: 1; }
     }
-
-    /* Mobile Specifics */
     @media (max-width: 768px) {
-      .top-filters-row {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      .search-section {
-        width: 100%;
-        order: 1;
-        flex: none;
-      }
-      .cats-section {
-        width: 100%;
-        order: 2;
-        flex: none;
-      }
+      .top-filters-row { flex-direction: column; gap: 1rem; }
+      .search-section, .cats-section { width: 100%; order: unset; }
       .main-cats { justify-content: center; }
     }
 
-    /* Search Box */
-    .search-box {
-      position: relative;
-      width: 100%;
-    }
+    /* Search Input */
+    .search-box { position: relative; width: 100%; }
     .search-input {
-      width: 100%;
-      padding: 0.9rem 3rem 0.9rem 1rem;
-      border-radius: 12px;
-      border: 1px solid var(--stroke);
-      background: var(--card);
-      color: var(--fg);
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: 0.3s;
+      width: 100%; padding: 0.9rem 3rem 0.9rem 1rem;
+      border-radius: 14px; border: 1px solid var(--stroke);
+      background: var(--card); color: var(--fg);
+      font-family: inherit; font-size: 0.95rem; transition: 0.3s;
     }
     .search-input:focus {
-      outline: none;
-      border-color: var(--brand);
-      box-shadow: 0 0 0 3px rgba(15, 169, 156, 0.1);
+      border-color: var(--brand); box-shadow: 0 0 0 4px rgba(15, 169, 156, 0.1);
     }
     .search-icon {
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      pointer-events: none;
+      position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none;
     }
     html[dir="ltr"] .search-input { padding: 0.9rem 1rem 0.9rem 3rem; }
     html[dir="ltr"] .search-icon { right: auto; left: 1rem; }
 
-    /* Categories Pills */
-    .main-cats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      align-items: center;
-      width: 100%;
-    }
-
+    /* Category Pills */
+    .main-cats { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; width: 100%; }
     .cat-pill {
-      padding: 0.6rem 1.2rem;
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: 50px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.3s ease;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--fg);
+      padding: 0.6rem 1.4rem; background: var(--card);
+      border: 1px solid var(--stroke); border-radius: 50px;
+      cursor: pointer; white-space: nowrap; transition: all 0.3s ease;
+      font-weight: 600; font-size: 0.9rem; color: var(--fg);
     }
-    html[dir="ltr"] .cat-pill { direction: ltr; text-align: left; }
-    
-    .cat-pill:hover { border-color: var(--brand); color: var(--brand); }
+    .cat-pill:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-2px); }
     .cat-pill.active {
-      background: var(--brand);
-      color: white;
-      border-color: var(--brand);
-      box-shadow: 0 4px 10px rgba(15, 169, 156, 0.3);
+      background: var(--brand); color: white; border-color: var(--brand);
+      box-shadow: 0 4px 12px rgba(15, 169, 156, 0.25);
     }
 
-    /* SUB CATEGORIES - FULL WIDTH */
+    /* Sub Categories */
     .sub-cats-wrapper {
-      height: 0;
-      overflow: hidden;
-      transition: height 0.4s ease, opacity 0.4s ease;
-      opacity: 0;
-      width: 100%;
-      padding-top: 0.5rem;
+      height: 0; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0; width: 100%;
     }
     .sub-cats-wrapper.open {
-      height: auto;
-      opacity: 1;
-      border-top: 1px dashed var(--stroke); 
-      padding-top: 1rem;
-      margin-top: 0.5rem;
+      height: auto; opacity: 1; border-top: 1px dashed var(--stroke);
+      padding-top: 1rem; margin-top: 0.5rem;
     }
-    .sub-cats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      width: 100%;
-    }
+    .sub-cats { display: flex; flex-wrap: wrap; gap: 0.6rem; width: 100%; }
     .sub-pill {
-      padding: 0.4rem 1rem;
-      background: transparent;
-      border: 1px solid var(--stroke);
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      transition: 0.2s;
+      padding: 0.4rem 1rem; background: transparent;
+      border: 1px solid var(--stroke); border-radius: 10px;
+      cursor: pointer; font-size: 0.85rem; color: var(--text-muted); transition: 0.2s;
     }
-    html[dir="ltr"] .sub-pill { direction: ltr; }
     .sub-pill:hover, .sub-pill.active {
-      background: rgba(15, 169, 156, 0.1);
-      color: var(--brand);
-      border-color: var(--brand);
+      background: rgba(15, 169, 156, 0.08); color: var(--brand); border-color: var(--brand);
     }
 
-    /* Product Grid */
+    /* --- PRODUCTS GRID --- */
     .mix-grid {
-      display: grid;
-      gap: 1.5rem;
-      grid-template-columns: repeat(5, 1fr);
+      display: grid; gap: 2rem;
+      /* Default for Desktop */
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      padding-bottom: 6rem; /* Space for mobile nav */
     }
-    @media (max-width: 1400px) { .mix-grid { grid-template-columns: repeat(4, 1fr); } }
-    @media (max-width: 1100px) { .mix-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 600px) { .mix-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
 
-    /* Product Card */
+    /* Mobile Grid Adjustment (Force 2 columns) */
+    @media (max-width: 640px) {
+      .mix-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.8rem;
+      }
+      .filter-container { padding: 0 1rem; }
+    }
+
     .product-card {
-      position: relative;
-      background: var(--card);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative; background: var(--card);
+      border-radius: 20px; overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       border: 1px solid var(--stroke);
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      height: 100%;
+      display: flex; flex-direction: column; cursor: pointer; height: 100%;
     }
     .product-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1);
       border-color: var(--brand);
     }
 
     .product-image-wrapper {
-      flex: 1;
-      position: relative;
-      background: #f1f1f1;
-      overflow: hidden;
-      min-height: 180px;
+      position: relative; aspect-ratio: 1/1; /* Square aspect ratio */
+      background: #f8f8f8; overflow: hidden; padding: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
     }
+    .theme-dark .product-image-wrapper { background: #1e293b; }
+
     .product-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      transition: opacity 0.3s ease;
-      position: absolute;
-      top: 0; left: 0;
-      padding: 10px;
+      width: 100%; height: 100%; object-fit: contain;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      position: absolute; top: 0; left: 0; padding: 1.5rem;
     }
-    .product-img-main { z-index: 1; }
+    
+    .product-img-main { z-index: 1; opacity: 1; }
     .product-img-hover { z-index: 2; opacity: 0; }
     
-    /* FIX: Explicitly hide main image on hover */
-    .product-card:hover .product-img-main { opacity: 0 !important; }
-    .product-card:hover .product-img-hover { opacity: 1; }
+    /* HOVER LOGIC: Only applied if card has 'has-hover' class */
+    .product-card.has-hover:hover .product-img-hover { opacity: 1; }
+    .product-card.has-hover:hover .product-img-main { opacity: 0; }
     
-    .no-image { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.8rem; }
+    /* Scale effect works for all to show interactivity */
+    .product-card:hover .product-image { transform: scale(1.05); }
+
+    .no-image {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: var(--text-muted); font-size: 0.8rem;
+      background: rgba(0,0,0,0.03); width: 100%;
+    }
 
     .product-info {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border-top: 1px solid var(--stroke);
-      background: var(--bg);
-      min-height: 80px;
-      gap: 0.5rem;
-      text-align: center;
-      align-items: center;
+      padding: 1.2rem;
+      display: flex; flex-direction: column; justify-content: center;
+      border-top: 1px solid var(--stroke); background: var(--bg);
+      flex-grow: 1; gap: 0.5rem; text-align: center;
+    }
+    /* Smaller padding on mobile to save space */
+    @media (max-width: 640px) {
+      .product-info { padding: 0.8rem; }
+      .product-image { padding: 0.8rem; }
     }
 
     .product-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--fg);
-      direction: ltr;
-      text-align: center;
-      width: 100%;
-      order: 1;
+      font-size: 1rem; font-weight: 700; color: var(--fg);
+      direction: ltr; margin-bottom: auto;
     }
+    @media (max-width: 640px) { .product-name { font-size: 0.9rem; } }
 
     .product-price {
-      font-size: 0.9rem;
-      color: var(--brand);
-      font-weight: 700;
-      display: flex;
-      align-items: baseline;
-      gap: 4px;
-      white-space: nowrap;
-      direction: rtl;
-      text-align: center;
-      justify-content: center;
-      width: 100%;
-      order: 2;
+      font-size: 1rem; color: var(--brand); font-weight: 800;
+      display: flex; align-items: baseline; justify-content: center; gap: 4px;
+      direction: rtl; margin-top: 0.5rem;
     }
     .currency { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
 
-    /* Modal */
+    /* --- REDESIGNED MODAL (POPUP) --- */
     .mix-modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); z-index: 3000;
+      background: rgba(0,0,0,0.6); z-index: 3000;
       display: flex; align-items: center; justify-content: center;
-      opacity: 0; visibility: hidden; transition: all 0.3s ease;
-      backdrop-filter: blur(5px);
+      opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
     }
     .mix-modal-overlay.active { opacity: 1; visibility: visible; }
-    
-    /* FIX: Increase Modal Size on Desktop (30-40% bigger) */
+
     .mix-modal-content {
-      background: var(--bg); 
-      width: 90%; 
-      max-width: 900px; /* Mobile */
-      max-height: 90vh; 
-      border-radius: 20px; 
-      overflow-y: auto;
-      position: relative; 
-      display: grid; 
-      grid-template-columns: 1fr 1fr;
-      box-shadow: var(--shadow-lg); 
-      transform: scale(0.9); 
-      transition: 0.3s ease;
+      background: var(--bg);
+      width: 95%; max-width: 1200px;
+      height: 90vh; max-height: 800px;
+      border-radius: 24px; overflow: hidden;
+      position: relative; display: flex;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      transform: scale(0.95) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .mix-modal-overlay.active .mix-modal-content { transform: scale(1) translateY(0); }
+
+    /* Modal Layout */
+    .modal-layout {
+      display: grid; grid-template-columns: 1.3fr 0.9fr;
+      width: 100%; height: 100%;
+    }
+
+    /* Left: Gallery */
+    .modal-gallery-section {
+      background: var(--card);
+      padding: 2rem; position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-left: 1px solid var(--stroke); /* RTL */
+    }
+    html[dir="ltr"] .modal-gallery-section { border-left: none; border-right: 1px solid var(--stroke); }
+
+    .gallery-main-viewport {
+      flex: 1; width: 100%; display: flex;
+      align-items: center; justify-content: center;
+      overflow: hidden; padding: 2rem; position: relative;
+    }
+    .modal-main-img {
+      max-width: 100%; max-height: 100%; object-fit: contain;
+      transition: transform 0.3s ease; cursor: crosshair;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
     }
     
-    @media (min-width: 769px) {
+    .gallery-thumbs {
+      display: flex; gap: 10px; margin-top: 1rem;
+      padding: 10px; background: var(--bg); border-radius: 16px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--stroke);
+    }
+    .thumb {
+      width: 60px; height: 60px; border-radius: 10px;
+      border: 2px solid transparent; cursor: pointer;
+      object-fit: contain; background: white; padding: 4px;
+      transition: all 0.2s; opacity: 0.7;
+    }
+    .thumb.active { border-color: var(--brand); opacity: 1; transform: scale(1.05); }
+
+    /* Right: Details */
+    .modal-info-section {
+      padding: 3rem; overflow-y: auto;
+      display: flex; flex-direction: column;
+      background: var(--bg);
+    }
+
+    .modal-header { margin-bottom: 2rem; }
+    .modal-cat-badge {
+      display: inline-block; padding: 0.4rem 1rem;
+      background: rgba(15, 169, 156, 0.1); color: var(--brand);
+      border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .modal-title {
+      font-size: 2rem; font-weight: 900; color: var(--fg);
+      line-height: 1.2; letter-spacing: -0.5px;
+      margin-bottom: 0.5rem; font-family: var(--font-en);
+    }
+
+    .modal-desc-box {
+      margin-bottom: 2rem; line-height: 1.8; color: var(--text-muted);
+      font-size: 1rem; border-left: 3px solid var(--brand); /* RTL */
+      padding-left: 1rem;
+    }
+    html[dir="rtl"] .modal-desc-box { border-left: none; border-right: 3px solid var(--brand); padding-left: 0; padding-right: 1rem; }
+
+    .modal-specs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      margin-bottom: auto;
+    }
+    .spec-item {
+      padding: 1rem; background: var(--card);
+      border-radius: 12px; border: 1px solid var(--stroke);
+    }
+    .spec-label { font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
+    .spec-value { font-weight: 600; color: var(--fg); }
+
+    .modal-footer {
+      margin-top: 2rem; padding-top: 2rem;
+      border-top: 1px solid var(--stroke);
+      display: flex; justify-content: flex-end; align-items: center;
+    }
+    .modal-price-tag {
+      font-size: 1.8rem; font-weight: 800; color: var(--brand);
+      display: flex; align-items: baseline; gap: 6px;
+    }
+    
+    .close-modal-btn {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--bg); border: 1px solid var(--stroke);
+      color: var(--fg); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.3s; z-index: 10;
+      box-shadow: var(--shadow-md);
+    }
+    html[dir="ltr"] .close-modal-btn { right: auto; left: 1.5rem; }
+    .close-modal-btn:hover { background: #ef4444; color: white; border-color: #ef4444; transform: rotate(90deg); }
+
+    /* Responsive Modal (Mobile) */
+    @media (max-width: 968px) {
       .mix-modal-content {
-        max-width: 1200px; /* Desktop Increased */
+        flex-direction: column;
+        height: 100%; /* Full Height */
+        width: 100%;
+        max-width: none;
+        border-radius: 0;
+        transform: translateY(100%); /* Slide up effect */
       }
-    }
+      .mix-modal-overlay.active .mix-modal-content { transform: translateY(0); }
 
-    .mix-modal-overlay.active .mix-modal-content { transform: scale(1); }
-    @media (max-width: 768px) { .mix-modal-content { grid-template-columns: 1fr; } }
-    
-    /* FIX: Thumbs pinned to bottom */
-    .modal-gallery { 
-      background: #f8f8f8; 
-      padding: 2rem; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 1rem;
-      height: 100%; /* Important: Fill parent height */
-    }
-    
-    .modal-main-img { 
-      max-width: 100%; 
-      max-height: 350px; 
-      object-fit: contain; 
-      flex: 1; /* Take available space */
-      transition: transform 0.2s ease-out; /* Smooth for zoom */
-      cursor: crosshair;
-    }
-    
-    .modal-thumbs { 
-      display: flex; 
-      gap: 0.5rem; 
-      margin-top: auto; /* Force to bottom */
-      flex-shrink: 0; /* Don't shrink if image is small */
-    }
-    
-    .thumb { 
-      width: 50px; 
-      height: 50px; 
-      border: 2px solid var(--stroke); 
-      border-radius: 8px; 
-      cursor: pointer; 
-      object-fit: cover; 
-    }
-    .thumb.active { border-color: var(--brand); }
-    
-    .modal-details { 
-      padding: 2rem; 
-      display: flex; 
-      flex-direction: column; 
-      height: 100%; /* Match gallery height */
-    }
-    
-    .modal-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; direction: ltr; text-align: left; }
-    .modal-cat { color: var(--brand); font-weight: 600; margin-bottom: 1.5rem; }
-    .modal-desc { color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; max-height: 200px; overflow-y: auto; }
-    .modal-price { font-size: 1.4rem; font-weight: 800; color: var(--fg); margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--stroke); direction: rtl; text-align: right; }
-    
-    .close-modal {
-      position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px;
-      border-radius: 50%; background: var(--card); border: 1px solid var(--stroke);
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-      z-index: 10; transition: 0.2s;
-    }
-    .close-modal:hover { background: var(--brand); color: white; }
-    html[dir="ltr"] .close-modal { right: auto; left: 1rem; }
+      .modal-layout {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden; /* Prevent body scroll within layout */
+      }
 
-    .hidden { display: none !important; }
+      /* Gallery: Top 35% */
+      .modal-gallery-section {
+        height: 35%; /* Fixed height portion */
+        padding: 1rem;
+        border-bottom: 1px solid var(--stroke);
+        border-left: none;
+        border-right: none;
+      }
+      .gallery-main-viewport { padding: 0.5rem; }
+      .modal-main-img { max-height: 100%; }
+      .gallery-thumbs {
+        margin-top: 0.5rem; padding: 5px;
+      }
+      .thumb { width: 40px; height: 40px; border-radius: 6px; }
+
+      /* Info: Bottom 65% - Scrollable */
+      .modal-info-section {
+        flex: 1; /* Takes remaining space */
+        height: 65%;
+        padding: 1.5rem;
+        overflow-y: auto; /* Internal Scroll */
+      }
+
+      .modal-header { margin-bottom: 1rem; }
+      .modal-title { font-size: 1.5rem; margin-bottom: 0.2rem; }
+      .modal-cat-badge { margin-bottom: 0.5rem; font-size: 0.75rem; padding: 0.3rem 0.8rem; }
+      
+      .modal-desc-box { 
+        font-size: 0.9rem; margin-bottom: 1.5rem; 
+        padding-right: 0.8rem; border-right-width: 2px;
+      }
+      
+      .modal-specs { gap: 0.5rem; }
+      .spec-item { padding: 0.8rem; }
+      
+      .close-modal-btn {
+        top: 10px; right: 10px; width: 36px; height: 36px;
+        background: rgba(255,255,255,0.8); backdrop-filter: blur(4px);
+        border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      html[dir="ltr"] .close-modal-btn { right: auto; left: 10px; }
+    }
   </style>
 </head>
 <body>
 
   <div id="header-container"></div>
 
-  <!-- PRODUCTS PAGE HEADER & FILTERS -->
+  <!-- HEADER & FILTERS -->
   <section class="mix-page-header">
     <div class="filter-container">
-      
-      <!-- TOP ROW: Search + Main Categories -->
+      <!-- Search & Cats Row -->
       <div class="top-filters-row">
-        
-        <!-- Search Section -->
+        <!-- Search -->
         <div class="search-section">
           <div class="search-box">
-            <input type="text" id="global-search" class="search-input" placeholder="جستجو در نام محصول...">
+            <input type="text" id="global-search" class="search-input" placeholder="جستجو...">
             <span class="search-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
             </span>
           </div>
         </div>
-
-        <!-- Categories Section -->
+        <!-- Categories -->
         <div class="cats-section">
-          <div class="main-cats" id="main-categories-container">
-            <!-- JS Injected (No "All" button) -->
-          </div>
+          <div class="main-cats" id="main-categories-container"></div>
         </div>
-
-      </div> <!-- End Top Row -->
-
-      <!-- SUB CATEGORIES (Full Width) -->
+      </div>
+      <!-- Sub Categories -->
       <div class="sub-cats-wrapper" id="sub-cats-wrapper">
         <div class="sub-cats" id="sub-categories-container"></div>
       </div>
-
     </div>
   </section>
 
   <!-- PRODUCTS GRID -->
   <section class="mix-section">
-    <div class="mix-grid" id="products-grid">
-      <!-- JS Injected Products -->
-    </div>
+    <div class="mix-grid" id="products-grid"></div>
     
     <!-- Empty State -->
     <div id="no-results" class="hidden" style="text-align: center; width: 100%; padding: 4rem;">
-      <div style="margin-bottom: 1rem;">
-        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </div>
-      <h3 style="color: var(--fg); margin-bottom: 1rem;">
-        <span class="text-fa">محصولی با این مشخصات یافت نشد</span>
+      <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin-bottom: 1rem;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <h3 style="color: var(--fg);">
+        <span class="text-fa">محصولی یافت نشد</span>
         <span class="text-en hidden">No products found</span>
       </h3>
-      <button class="mix-btn mix-btn--outline" onclick="window.resetFilters()">
-        <span class="text-fa">مشاهده همه محصولات</span>
-        <span class="text-en hidden">View All Products</span>
+      <button class="mix-btn mix-btn--outline" onclick="window.resetFilters()" style="margin-top: 1rem;">
+        <span class="text-fa">مشاهده همه</span>
+        <span class="text-en hidden">View All</span>
       </button>
     </div>
   </section>
 
-  <!-- MODAL -->
+  <!-- NEW PRO MODAL -->
   <div class="mix-modal-overlay" id="product-modal">
     <div class="mix-modal-content">
-      <button class="close-modal" onclick="window.closeModal()">
+      <button class="close-modal-btn" onclick="window.closeModal()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
       
-      <div class="modal-gallery">
-        <!-- Container added for Zoom & Swipe logic -->
-        <div id="m-img-container" style="width: 100%; height: 100%; overflow: hidden; position: relative;">
-            <img src="" id="m-main-img" class="modal-main-img" alt="Product">
-        </div>
-        <div class="modal-thumbs" id="m-thumbs"></div>
-      </div>
-      
-      <div class="modal-details">
-        <div id="m-cat" class="modal-cat"></div>
-        <h2 id="m-title" class="modal-title"></h2>
-        <p id="m-desc" class="modal-desc"></p>
-        
-        <div style="margin-top: auto;">
-            <div class="text-fa" style="font-size: 0.85rem; color: var(--text-muted);">شناسه محصول:</div>
-            <div class="text-en hidden" style="font-size: 0.85rem; color: var(--text-muted);">Product ID:</div>
-            <div id="m-id" style="font-weight: 600; margin-bottom: 1rem; font-family: monospace; font-size: 1.1rem;"></div>
+      <div class="modal-layout">
+        <!-- Left: Gallery (Top on Mobile) -->
+        <div class="modal-gallery-section">
+          <div class="gallery-main-viewport" id="m-img-container">
+            <img src="" id="m-main-img" class="modal-main-img" alt="Product Detail">
+          </div>
+          <div class="gallery-thumbs" id="m-thumbs"></div>
         </div>
 
-        <div class="modal-price">
-          <span id="m-price"></span>
-          <span class="currency" style="margin-right: 4px;">
-            <span class="text-fa">ریال</span>
-            <span class="text-en hidden">Rial</span>
-          </span>
+        <!-- Right: Info (Bottom on Mobile) -->
+        <div class="modal-info-section">
+          <div class="modal-header">
+            <div id="m-cat" class="modal-cat-badge"></div>
+            <h2 id="m-title" class="modal-title"></h2>
+            <!-- ID Row Removed as requested -->
+          </div>
+
+          <div class="modal-desc-box">
+            <p id="m-desc"></p>
+          </div>
+
+          <div class="modal-specs">
+            <div class="spec-item">
+              <span class="spec-label"><span class="text-fa">گارانتی</span><span class="text-en hidden">Warranty</span></span>
+              <span class="spec-value"><span class="text-fa">۲۴ ماه</span><span class="text-en hidden">24 Months</span></span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label"><span class="text-fa">خدمات</span><span class="text-en hidden">Service</span></span>
+              <span class="spec-value"><span class="text-fa">۱۰ سال</span><span class="text-en hidden">10 Years</span></span>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="modal-price-wrapper" id="m-price-box">
+              <div class="modal-price-tag">
+                <span id="m-price"></span>
+                <span class="currency" style="font-size: 1rem; font-weight: 400;">
+                  <span class="text-fa">ریال</span><span class="text-en hidden">Rial</span>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <button class="mix-btn mix-btn--primary" style="width: 100%; margin-top: 2rem;">
-           <span class="text-fa">درخواست خرید</span>
-           <span class="text-en hidden">Request to Buy</span>
-        </button>
       </div>
     </div>
   </div>
@@ -478,12 +472,14 @@
   <script src="js/main.js"></script>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
+  <script src="js/mobile-nav.js"></script> <!-- ADDED MOBILE NAV -->
 
-  <!-- PAGE LOGIC -->
+  <!-- LOGIC -->
   <script>
     let allProducts = [];
-    let activeCategory = null; // Stores normalized Category_Fa
-    let activeSubCategory = null; // Stores normalized Sub-Category_Fa
+    let activeCategory = null;
+    let activeSubCategory = null;
+    let modalImages = [];
 
     const categoryMap = {
       "سینک ظرفشویی": "سینک",
@@ -509,60 +505,45 @@
 
     function normalizeCategory(cat) {
       if (!cat) return null;
-      if (categoryMap[cat]) return categoryMap[cat];
-      return cat;
+      return categoryMap[cat] || cat;
     }
 
+    // --- URL Handling ---
     function initFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const catParam = urlParams.get('cat');
       if (!catParam) return;
 
       const rawValue = decodeURIComponent(catParam);
-
-      // 1. Check if it's a MAIN Category (Supports both Fa and En input)
-      const mainCatProduct = allProducts.find(p => p.Category_Fa === rawValue || p.Category_En === rawValue);
       
+      const mainCatProduct = allProducts.find(p => p.Category_Fa === rawValue || p.Category_En === rawValue);
       if (mainCatProduct) {
         activeCategory = normalizeCategory(mainCatProduct.Category_Fa);
         activeSubCategory = null;
         return;
       }
 
-      // 2. Check if it's a SUB Category (Supports both Fa and En input)
       const subCatProduct = allProducts.find(p => p['Sub-Category_Fa'] === rawValue || p['Sub-Category_En'] === rawValue);
-
       if (subCatProduct) {
         activeCategory = normalizeCategory(subCatProduct.Category_Fa);
         activeSubCategory = subCatProduct['Sub-Category_Fa'];
       }
     }
 
-    // --- CATEGORIES LOGIC ---
-
+    // --- Category Rendering ---
     function renderMainCategories() {
       const container = document.getElementById('main-categories-container');
       const lang = document.documentElement.lang;
-      
       const categoriesFa = [...new Set(allProducts.map(p => p.Category_Fa))];
       
       let html = '';
-      // REMOVED "All" Button
-
       categoriesFa.forEach(catFa => {
         const sampleProd = allProducts.find(p => p.Category_Fa === catFa);
         const displayText = lang === 'en' && sampleProd ? sampleProd.Category_En : catFa;
-        
-        html += `
-          <div class="cat-pill ${activeCategory === catFa ? 'active' : ''}" onclick="setCategory('${encodeURIComponent(catFa)}')">
-            ${displayText}
-          </div>
-        `;
+        html += `<div class="cat-pill ${activeCategory === catFa ? 'active' : ''}" onclick="setCategory('${encodeURIComponent(catFa)}')">${displayText}</div>`;
       });
-
       container.innerHTML = html;
 
-      // Handle Sub Cats
       if (activeCategory) {
         renderSubCategories(activeCategory);
         document.getElementById('sub-cats-wrapper').classList.add('open');
@@ -572,18 +553,10 @@
     }
 
     function setCategory(cat) {
-      // TOGGLE LOGIC
       const targetCat = cat ? decodeURIComponent(cat) : null;
-
-      if (activeCategory === targetCat) {
-        activeCategory = null;
-      } else {
-        activeCategory = targetCat;
-      }
-      
-      activeSubCategory = null; // Reset sub
+      activeCategory = (activeCategory === targetCat) ? null : targetCat;
+      activeSubCategory = null;
       renderAll();
-      
       const newUrl = activeCategory ? `?cat=${encodeURIComponent(activeCategory)}` : 'products.html';
       window.history.replaceState({}, '', newUrl);
     }
@@ -591,31 +564,15 @@
     function renderSubCategories(catFa) {
       const container = document.getElementById('sub-categories-container');
       const lang = document.documentElement.lang;
+      const subsFa = [...new Set(allProducts.filter(p => p.Category_Fa === catFa).map(p => p['Sub-Category_Fa']))];
+
+      let html = `<div class="sub-pill ${activeSubCategory === null ? 'active' : ''}" onclick="setSubCategory(null)"><span class="text-fa">همه</span><span class="text-en hidden">All</span></div>`;
       
-      const subsFa = [...new Set(
-        allProducts
-          .filter(p => p.Category_Fa === catFa)
-          .map(p => p['Sub-Category_Fa'])
-      )];
-
-      let html = `
-        <div class="sub-pill ${activeSubCategory === null ? 'active' : ''}" onclick="setSubCategory(null)">
-          <span class="text-fa">همه زیرمجموعه‌ها</span>
-          <span class="text-en hidden">All Subcategories</span>
-        </div>
-      `;
-
       subsFa.forEach(subFa => {
         const sampleProd = allProducts.find(p => p.Category_Fa === catFa && p['Sub-Category_Fa'] === subFa);
         const displayText = lang === 'en' && sampleProd ? sampleProd['Sub-Category_En'] : subFa;
-
-        html += `
-          <div class="sub-pill ${activeSubCategory === subFa ? 'active' : ''}" onclick="setSubCategory('${encodeURIComponent(subFa)}')">
-            ${displayText}
-          </div>
-        `;
+        html += `<div class="sub-pill ${activeSubCategory === subFa ? 'active' : ''}" onclick="setSubCategory('${encodeURIComponent(subFa)}')">${displayText}</div>`;
       });
-
       container.innerHTML = html;
     }
 
@@ -625,27 +582,16 @@
       applyFilters();
     }
 
-    // --- FILTERING LOGIC ---
-
+    // --- Filters ---
     function applyFilters() {
       let filtered = allProducts;
-
-      // If NO main category is active, show ALL (no filter)
-      if (activeCategory) {
-        filtered = filtered.filter(p => p.Category_Fa === activeCategory);
-      }
-
-      if (activeSubCategory) {
-        filtered = filtered.filter(p => p['Sub-Category_Fa'] === activeSubCategory);
-      }
-
+      if (activeCategory) filtered = filtered.filter(p => p.Category_Fa === activeCategory);
+      if (activeSubCategory) filtered = filtered.filter(p => p['Sub-Category_Fa'] === activeSubCategory);
+      
       const searchTerm = document.getElementById('global-search').value.trim().toLowerCase();
-      if (searchTerm) {
-        filtered = filtered.filter(p => p.Name.toLowerCase().includes(searchTerm));
-      }
+      if (searchTerm) filtered = filtered.filter(p => p.Name.toLowerCase().includes(searchTerm));
 
-      // --- VISIBILITY FILTER (NEW) ---
-      // حذف محصولاتی که ستون Visible آن‌ها فالس است
+      // VISIBILITY LOGIC
       filtered = filtered.filter(p => {
         const v = p.Visible;
         if (v === false) return false;
@@ -658,11 +604,10 @@
 
     window.resetFilters = function() {
       document.getElementById('global-search').value = "";
-      setCategory(null); // This sets activeCategory to null
+      setCategory(null);
     }
 
-    // --- RENDERING GRID ---
-
+    // --- Render Products (Card Logic) ---
     function renderProducts(products) {
       const grid = document.getElementById('products-grid');
       const noResults = document.getElementById('no-results');
@@ -673,49 +618,39 @@
         noResults.classList.remove('hidden');
         return;
       }
-
       noResults.classList.add('hidden');
 
       grid.innerHTML = products.map(p => {
         const img1 = p.Pic_1 ? p.Pic_1.replace(/\\/g, '/') : '';
         const img2 = p.Pic_2 ? p.Pic_2.replace(/\\/g, '/') : '';
-        const hasHover = img2 && img2 !== img1;
+        
+        // HOVER LOGIC FIX: Check if img2 exists AND is different from img1
+        const hasHover = img2 && img2.trim() !== '' && img2 !== img1;
         
         const priceDisplay = p.Price ? p.Price : '-';
         const currencyLabel = lang === 'en' ? 'Rial' : 'ریال';
-
-        // --- PRICE VISIBILITY (NEW) ---
-        // چک کردن ستون ShowPrice
+        
         const showPrice = !(p.ShowPrice === false || (typeof p.ShowPrice === 'string' && p.ShowPrice.trim().toLowerCase() === 'false'));
         
-        let priceHTML = '';
-        if (showPrice) {
-          priceHTML = `
-            <div class="product-price">
-              <span>${priceDisplay}</span>
-              <span class="currency">${currencyLabel}</span>
-            </div>
-          `;
-        } else {
-          // اگر ShowPrice فالس باشد، کلاً چیزی نمایش داده نمی‌شود
-          priceHTML = '';
-        }
+        let priceHTML = showPrice ? `
+          <div class="product-price">
+            <span>${priceDisplay}</span><span class="currency">${currencyLabel}</span>
+          </div>` : '';
+
+        let imgHTML = img1 
+          ? `<img src="${img1}" alt="${p.Name}" class="product-image product-img-main">`
+          : `<div class="no-image"><span class="text-fa">تصویر ندارد</span><span class="text-en hidden">No Image</span></div>`;
         
-        let imgHTML = '';
-        if (img1) {
-          imgHTML = `<img src="${img1}" alt="${p.Name}" class="product-image product-img-main">`;
-          if (hasHover) {
-            imgHTML += `<img src="${img2}" alt="${p.Name}" class="product-image product-img-hover">`;
-          }
-        } else {
-          imgHTML = `<div class="no-image"><span class="text-fa">تصویر ندارد</span><span class="text-en hidden">No Image</span></div>`;
+        if (hasHover && img1) {
+          imgHTML += `<img src="${img2}" alt="${p.Name}" class="product-image product-img-hover">`;
         }
 
+        // Add special class if card has valid hover image
+        const hoverClass = hasHover ? 'has-hover' : '';
+
         return `
-          <div class="product-card" onclick="openModal(${p.ID})">
-            <div class="product-image-wrapper">
-              ${imgHTML}
-            </div>
+          <div class="product-card ${hoverClass}" onclick="openModal(${p.ID})">
+            <div class="product-image-wrapper">${imgHTML}</div>
             <div class="product-info">
               <div class="product-name">${p.Name}</div>
               ${priceHTML}
@@ -725,10 +660,7 @@
       }).join('');
     }
 
-    // --- MODAL LOGIC & INTERACTIONS ---
-
-    let modalImages = []; // Store images for swipe logic
-
+    // --- PRO MODAL LOGIC ---
     function findProductById(id) {
       return allProducts.find(p => String(p.ID) === String(id));
     }
@@ -740,39 +672,40 @@
       const modal = document.getElementById('product-modal');
       const lang = document.documentElement.lang;
 
-      const catText = (lang === 'en') ? `${p.Category_En} > ${p['Sub-Category_En']}` : `${p.Category_Fa} > ${p['Sub-Category_Fa']}`;
+      // Text Data
+      const catText = (lang === 'en') ? p.Category_En : p.Category_Fa;
       const descText = (lang === 'en') ? (p.Description_En || '-') : (p.Description_Fa || '-');
       
       document.getElementById('m-title').textContent = p.Name;
       document.getElementById('m-cat').textContent = catText;
       document.getElementById('m-desc').textContent = descText;
-      document.getElementById('m-id').textContent = p.ID;
+      // ID display removed
 
-      // --- MODAL PRICE VISIBILITY (NEW) ---
+      // Price Visibility
       const showPrice = !(p.ShowPrice === false || (typeof p.ShowPrice === 'string' && p.ShowPrice.trim().toLowerCase() === 'false'));
-      const modalPriceEl = document.querySelector('.modal-price');
-
+      const priceBox = document.getElementById('m-price-box');
       if (showPrice) {
         document.getElementById('m-price').textContent = p.Price || '-';
-        modalPriceEl.style.display = 'block'; 
+        priceBox.style.display = 'block';
       } else {
-        modalPriceEl.style.display = 'none';
+        priceBox.style.display = 'none';
       }
 
+      // Gallery Logic
       const mainImg = document.getElementById('m-main-img');
       const thumbsContainer = document.getElementById('m-thumbs');
-      
       modalImages = [p.Pic_1, p.Pic_2, p.Pic_3].filter(path => path && path.trim() !== '');
-      
+
       if (modalImages.length > 0) {
         const firstImg = modalImages[0].replace(/\\/g, '/');
         mainImg.src = firstImg;
+        // Generate Thumbs
         thumbsContainer.innerHTML = modalImages.map((imgPath, index) => {
            const path = imgPath.replace(/\\/g, '/');
            return `<img src="${path}" class="thumb ${index===0?'active':''}" onclick="changeModalImage('${path}', this)">`;
         }).join('');
       } else {
-        mainImg.src = 'https://picsum.photos/seed/mixplus/400/400';
+        mainImg.src = 'https://via.placeholder.com/600x600?text=No+Image'; // Better Placeholder
         thumbsContainer.innerHTML = '';
       }
 
@@ -781,81 +714,49 @@
     }
 
     window.closeModal = function() {
-      const modal = document.getElementById('product-modal');
-      modal.classList.remove('active');
+      document.getElementById('product-modal').classList.remove('active');
       document.body.style.overflow = '';
     }
 
     window.changeModalImage = function(src, thumbEl) {
-      document.getElementById('m-main-img').src = src;
+      const mainImg = document.getElementById('m-main-img');
+      // Simple Fade Effect
+      mainImg.style.opacity = 0;
+      setTimeout(() => {
+        mainImg.src = src;
+        mainImg.style.opacity = 1;
+      }, 200);
+      
       document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-      thumbEl.classList.add('active');
+      if(thumbEl) thumbEl.classList.add('active');
     }
 
+    // Modal Background Click
     document.getElementById('product-modal').addEventListener('click', (e) => {
       if (e.target.id === 'product-modal') window.closeModal();
     });
 
-    // --- DESKTOP ZOOM LOGIC ---
+    // Zoom Logic (Desktop Only)
     const imgContainer = document.getElementById('m-img-container');
     const modalImg = document.getElementById('m-main-img');
 
-    // Only enable zoom on hover-enabled devices (Desktop)
     if (window.matchMedia("(hover: hover)").matches) {
         imgContainer.addEventListener('mousemove', (e) => {
             const rect = imgContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left; // x position within element
-            const y = e.clientY - rect.top;  // y position within element
-            
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
             const xPercent = (x / rect.width) * 100;
             const yPercent = (y / rect.height) * 100;
-            
-            // Set origin to mouse position to simulate parallax
             modalImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-            // Scale up (1.8x zoom)
-            modalImg.style.transform = 'scale(1.8)'; 
+            modalImg.style.transform = 'scale(1.6)'; 
         });
-
         imgContainer.addEventListener('mouseleave', () => {
-            // Reset on leave
             modalImg.style.transformOrigin = 'center center';
             modalImg.style.transform = 'scale(1)';
         });
     }
 
-    // --- MOBILE SWIPE LOGIC ---
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    imgContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-
-    imgContainer.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, {passive: true});
-
-    function handleSwipe() {
-        const diffX = touchStartX - touchEndX;
-        // Swipe Right (Prev)
-        if (diffX > 50) {
-            const currentSrc = document.getElementById('m-main-img').src;
-            const currentIndex = modalImages.findIndex(img => img.replace(/\\/g, '/') === currentSrc);
-            if (currentIndex > 0) {
-                changeModalImage(modalImages[currentIndex - 1].replace(/\\/g, '/'), document.querySelectorAll('.thumb')[currentIndex - 1]);
-            }
-        }
-        // Swipe Left (Next)
-        if (diffX < -50) {
-            const currentSrc = document.getElementById('m-main-img').src;
-            const currentIndex = modalImages.findIndex(img => img.replace(/\\/g, '/') === currentSrc);
-            if (currentIndex < modalImages.length - 1) {
-                changeModalImage(modalImages[currentIndex + 1].replace(/\\/g, '/'), document.querySelectorAll('.thumb')[currentIndex + 1]);
-            }
-        }
-    }
-
+    // Lang Change Observer
     function observeLanguageChange() {
       const target = document.documentElement;
       const config = { attributes: true, attributeFilter: ['lang', 'dir'] };
@@ -866,8 +767,7 @@
             const searchInput = document.getElementById('global-search');
             if (searchInput) {
                searchInput.placeholder = document.documentElement.lang === 'en' 
-                 ? 'Search by product name...' 
-                 : 'جستجو در نام محصول...';
+                 ? 'Search...' : 'جستجو...';
             }
           }
         });
@@ -875,7 +775,6 @@
       const observer = new MutationObserver(callback);
       observer.observe(target, config);
     }
-
   </script>
 </body>
 </html>
