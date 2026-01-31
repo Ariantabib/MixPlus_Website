@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   
   <style>
-    /* استایل‌های مربوط به فیلترها و محصولات صفحه */
+    /* --- استایل‌های صفحه محصولات --- */
     .mix-page-header {
       padding-top: 120px;
       padding-bottom: 2rem;
@@ -419,10 +419,56 @@
       html[dir="ltr"] .close-modal-btn { right: auto; left: 10px; }
     }
 
-    /* NOTE: Mobile Nav CSS removed to rely on style.css */
+    /* --- FIX: Perfect Mobile Navigation (Floating Island) --- */
+    
+    /* 1. Force Hide on Desktop */
+    .mix-mobile-bottom-bar {
+      display: none !important;
+    }
+
+    /* 2. Force Show & Style on Mobile */
+    @media (max-width: 968px) {
+      .mix-mobile-bottom-bar {
+        display: flex !important;       /* Show it */
+        position: fixed !important;
+        bottom: 15px !important;        /* Gap from bottom (Not stuck) */
+        left: 15px !important;          /* Gap from left */
+        right: 15px !important;         /* Gap from right (Floating look) */
+        width: auto !important;         /* Auto width, not full screen */
+        z-index: 9999 !important;
+        transform: translateY(0) !important;
+        background: var(--bg) !important;
+        border: 1px solid var(--stroke) !important;
+        border-radius: 50px !important; /* Fully rounded corners (Pill shape) */
+        padding: 12px 10px !important;
+        box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3) !important; /* Deep shadow for float effect */
+        
+        /* Centering logic */
+        justify-content: center !important; 
+        align-items: center !important;
+        gap: 1rem !important; /* Space between icons */
+      }
+      
+      /* Make items take available space but stay centered */
+      .mix-mobile-bottom-bar .mobile-nav-item {
+        flex: 1;
+        max-width: 60px; /* Prevent stretching too wide */
+        display: flex;
+        justify-content: center;
+      }
+      
+      /* Ensure body has space */
+      body {
+        padding-bottom: 100px !important; /* More space for floating bar */
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- FIX: Dummy Elements to Prevent Script Errors -->
+  <div id="hero-section" style="display:none;"></div>
+  <div id="scroll-arrow" style="display:none;"></div>
 
   <div id="header-container"></div>
 
@@ -578,7 +624,7 @@
   <script src="js/main.js"></script>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
-
+  
   <script>
     let allProducts = [];
     let activeCategory = null;
@@ -1101,7 +1147,7 @@
     }
   </script>
   
-  <!-- MOBILE NAV LOADED AT THE VERY END -->
+  <!-- Load Mobile Nav Script Last -->
   <script src="js/mobile-nav.js"></script>
   
 </body>
