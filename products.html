@@ -6,18 +6,15 @@
   <title id="page-title">محصولات | میکس‌پلاس</title>
   <meta name="description" content="Catalog of MixPlus Premium Kitchen Products">
   
-  <!-- STYLES -->
   <link rel="stylesheet" href="css/style.css">
   
-  <!-- PAGE SPECIFIC STYLES -->
   <style>
-    /* --- FILTER BAR & HEADER --- */
+    /* استایل‌های مربوط به فیلترها و محصولات صفحه */
     .mix-page-header {
       padding-top: 120px;
       padding-bottom: 2rem;
       background: var(--bg);
       border-bottom: 1px solid var(--stroke);
-      transition: background 0.3s;
     }
 
     .filter-container {
@@ -29,7 +26,6 @@
       display: flex; align-items: flex-start; gap: 2rem; width: 100%;
     }
 
-    /* Search & Categories Layout */
     @media (min-width: 769px) {
       .search-section { flex: 0 0 300px; }
       .cats-section { flex: 1; }
@@ -40,11 +36,9 @@
     }
     @media (max-width: 768px) {
       .top-filters-row { flex-direction: column; gap: 1rem; }
-      .search-section, .cats-section { width: 100%; order: unset; }
-      .main-cats { justify-content: center; }
+      .search-section, .cats-section { width: 100%; }
     }
 
-    /* Search Input */
     .search-box { position: relative; width: 100%; }
     .search-input {
       width: 100%; padding: 0.9rem 3rem 0.9rem 1rem;
@@ -52,327 +46,389 @@
       background: var(--card); color: var(--fg);
       font-family: inherit; font-size: 0.95rem; transition: 0.3s;
     }
-    .search-input:focus {
-      border-color: var(--brand); box-shadow: 0 0 0 4px rgba(15, 169, 156, 0.1);
-    }
-    .search-icon {
-      position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
-      color: var(--text-muted); pointer-events: none;
-    }
+    .search-input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(15, 169, 156, 0.1); }
+    .search-icon { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
     html[dir="ltr"] .search-input { padding: 0.9rem 1rem 0.9rem 3rem; }
     html[dir="ltr"] .search-icon { right: auto; left: 1rem; }
 
-    /* Category Pills */
     .main-cats { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; width: 100%; }
     .cat-pill {
       padding: 0.6rem 1.4rem; background: var(--card);
       border: 1px solid var(--stroke); border-radius: 50px;
       cursor: pointer; white-space: nowrap; transition: all 0.3s ease;
       font-weight: 600; font-size: 0.9rem; color: var(--fg);
+      flex: 1;
+      text-align: center;
     }
     .cat-pill:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-2px); }
-    .cat-pill.active {
-      background: var(--brand); color: white; border-color: var(--brand);
-      box-shadow: 0 4px 12px rgba(15, 169, 156, 0.25);
+    .cat-pill.active { background: var(--brand); color: white; border-color: var(--brand); box-shadow: 0 4px 12px rgba(15, 169, 156, 0.25); }
+
+    @media (max-width: 768px) {
+      .main-cats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        overflow-x: visible;
+        flex-wrap: nowrap;
+      }
+      .cat-pill {
+        flex: none;
+        min-width: 0;
+        padding: 0.5rem 0.2rem;
+        font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
-    /* Sub Categories */
-    .sub-cats-wrapper {
-      height: 0; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0; width: 100%;
+    .sub-cats-wrapper { 
+      height: 0; 
+      overflow: hidden; 
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+      opacity: 0; 
+      width: 100%; 
     }
-    .sub-cats-wrapper.open {
-      height: auto; opacity: 1; border-top: 1px dashed var(--stroke);
-      padding-top: 1rem; margin-top: 0.5rem;
+    .sub-cats-wrapper.open { 
+      height: auto; 
+      opacity: 1; 
+      border-top: 1px dashed var(--stroke); 
+      padding-top: 0.75rem; 
+      margin-top: 0.25rem; 
+      margin-bottom: 0.5rem;
     }
     .sub-cats { display: flex; flex-wrap: wrap; gap: 0.6rem; width: 100%; }
-    .sub-pill {
-      padding: 0.4rem 1rem; background: transparent;
-      border: 1px solid var(--stroke); border-radius: 10px;
-      cursor: pointer; font-size: 0.85rem; color: var(--text-muted); transition: 0.2s;
+    .sub-pill { 
+      padding: 0.4rem 1rem; 
+      background: transparent; 
+      border: 1px solid var(--stroke); 
+      border-radius: 10px; 
+      cursor: pointer; 
+      font-size: 0.85rem; 
+      color: var(--text-muted); 
+      transition: 0.2s; 
     }
-    .sub-pill:hover, .sub-pill.active {
-      background: rgba(15, 169, 156, 0.08); color: var(--brand); border-color: var(--brand);
-    }
-
-    /* --- PRODUCTS GRID --- */
-    .mix-grid {
-      display: grid; gap: 2rem;
-      /* Default for Desktop */
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      padding-bottom: 6rem; /* Space for mobile nav */
-    }
-
-    /* Mobile Grid Adjustment (Force 2 columns) */
-    @media (max-width: 640px) {
-      .mix-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 0.8rem;
-      }
-      .filter-container { padding: 0 1rem; }
+    .sub-pill:hover, .sub-pill.active { 
+      background: rgba(15, 169, 156, 0.08); 
+      color: var(--brand); 
+      border-color: var(--brand); 
     }
 
-    .product-card {
-      position: relative; background: var(--card);
-      border-radius: 20px; overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Price Slider */
+    .price-slider-wrapper {
+      flex: 1;
+      min-width: 280px;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .price-inputs-end {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+      flex-direction: row-reverse;
+    }
+    html[dir="ltr"] .price-inputs-end { flex-direction: row; }
+
+    .price-end-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card);
       border: 1px solid var(--stroke);
-      display: flex; flex-direction: column; cursor: pointer; height: 100%;
-    }
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1);
-      border-color: var(--brand);
+      border-radius: 10px;
+      padding: 0.4rem 0.8rem;
+      min-width: 140px;
     }
 
-    .product-image-wrapper {
-      position: relative; aspect-ratio: 1/1; /* Square aspect ratio */
-      background: #f8f8f8; overflow: hidden; padding: 1.5rem;
-      display: flex; align-items: center; justify-content: center;
+    .price-end-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      outline: none;
     }
+
+    .price-end-suffix {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .range-slider-container {
+      position: relative;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+    }
+
+    .range-slider {
+      position: relative;
+      width: 100%;
+      height: 6px;
+      background: var(--stroke);
+      border-radius: 3px;
+      margin: 0 12px;
+      direction: ltr;
+    }
+
+    .range-selected {
+      position: absolute;
+      height: 100%;
+      background: var(--brand);
+      border-radius: 3px;
+      top: 0;
+      left: var(--min-percent, 0%);
+      width: calc(var(--max-percent, 100%) - var(--min-percent, 0%));
+    }
+
+    .range-handle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--brand);
+      border: 3px solid var(--bg);
+      border-radius: 50%;
+      top: 50%;
+      margin-top: -10px;
+      cursor: grab;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.1s;
+      z-index: 3;
+      left: var(--percent, 0%);
+      transform: translateX(-50%);
+    }
+
+    .range-handle:active {
+      cursor: grabbing;
+      transform: translateX(-50%) scale(1.15);
+    }
+
+    .snap-ticks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .tick {
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background: rgba(0,0,0,0.1);
+      top: 0;
+      left: var(--percent);
+    }
+
+    .sort-stock-group {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: nowrap;
+    }
+
+    .sort-wrapper {
+      position: relative;
+      min-width: 180px;
+    }
+
+    .sort-select {
+      width: 100%;
+      padding: 0.7rem 0.75rem 0.7rem 3rem;
+      border: 1px solid var(--stroke);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      appearance: none;
+      transition: 0.3s;
+    }
+
+    .sort-arrow {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    html[dir="ltr"] .sort-select { padding: 0.7rem 3rem 0.7rem 0.75rem; }
+    html[dir="ltr"] .sort-arrow { left: auto; right: 1rem; }
+
+    .sort-select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(15, 169, 156, 0.1); outline: none; }
+
+    .toggle-switch { position: relative; display: inline-flex; align-items: center; cursor: pointer; gap: 0.6rem; white-space: nowrap; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: relative; width: 44px; height: 24px; background-color: var(--stroke); border-radius: 34px; transition: 0.3s; flex-shrink: 0; }
+    .toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; right: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    html[dir="ltr"] .toggle-slider:before { right: auto; left: 3px; }
+    .toggle-switch input:checked + .toggle-slider { background-color: var(--brand); }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(-20px); }
+    html[dir="ltr"] .toggle-switch input:checked + .toggle-slider:before { transform: translateX(20px); }
+    .toggle-label { font-size: 0.85rem; color: var(--fg); font-weight: 500; white-space: nowrap; }
+
+    .advanced-filters-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--stroke);
+      flex-wrap: wrap;
+    }
+
+    .results-count {
+      margin-right: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    html[dir="ltr"] .results-count { margin-right: 0; margin-left: auto; }
+
+    .mobile-filter-toggle {
+      display: none;
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 12px;
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-filter-toggle:hover { border-color: var(--brand); color: var(--brand); }
+    .mobile-filter-toggle.active { background: var(--brand); color: white; border-color: var(--brand); }
+
+    @media (max-width: 768px) {
+      .mobile-filter-toggle { display: flex; }
+      .advanced-filters-row { display: none; flex-direction: column; align-items: center; gap: 1.5rem; padding: 1.5rem; background: var(--card); border-radius: 16px; border: 1px solid var(--stroke); margin-top: 0.5rem; animation: slideDown 0.3s ease; }
+      .advanced-filters-row.open { display: flex; }
+      @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+      
+      .sort-stock-group { flex-direction: column; width: 100%; gap: 1.5rem; align-items: center; }
+      .sort-stock-group .filter-group { width: 100%; justify-content: center; flex-direction: column; gap: 0.5rem; }
+      .sort-stock-group .filter-label { text-align: center; font-size: 0.9rem; }
+      .sort-wrapper { width: 100%; max-width: 280px; }
+      .toggle-switch { justify-content: center; width: 100%; }
+      .price-slider-wrapper { order: 3; max-width: 100%; min-width: 100%; margin-top: 0.5rem; }
+      .price-end-group { min-width: 120px; padding: 0.3rem 0.6rem; }
+      .price-end-input { font-size: 0.8rem; }
+      .results-count { order: 4; text-align: center; margin: 0; width: 100%; padding-top: 0.5rem; border-top: 1px dashed var(--stroke); margin-right: 0; margin-left: 0; }
+    }
+
+    .mix-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); padding-bottom: 6rem; padding: 0 1.5rem 6rem; }
+    @media (max-width: 640px) { .mix-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.8rem; padding: 0 1rem 6rem; } }
+
+    .product-card { position: relative; background: var(--card); border-radius: 20px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--stroke); display: flex; flex-direction: column; cursor: pointer; height: 100%; }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1); border-color: var(--brand); }
+
+    .badge-container { position: absolute; top: 1rem; left: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 10; }
+    html[dir="ltr"] .badge-container { left: auto; right: 1rem; }
+
+    .stock-badge, .bestseller-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); white-space: nowrap; }
+    .stock-badge { background: #ef4444; }
+    .stock-badge.in-stock { background: #10b981; }
+    .bestseller-badge { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+    .product-image-wrapper { position: relative; aspect-ratio: 1/1; background: #f8f8f8; overflow: hidden; padding: 1.5rem; display: flex; align-items: center; justify-content: center; }
     .theme-dark .product-image-wrapper { background: #1e293b; }
-
-    .product-image {
-      width: 100%; height: 100%; object-fit: contain;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      position: absolute; top: 0; left: 0; padding: 1.5rem;
-    }
-    
+    .product-image { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.4s ease, transform 0.4s ease; position: absolute; top: 0; left: 0; padding: 1.5rem; }
     .product-img-main { z-index: 1; opacity: 1; }
     .product-img-hover { z-index: 2; opacity: 0; }
-    
-    /* HOVER LOGIC: Only applied if card has 'has-hover' class */
     .product-card.has-hover:hover .product-img-hover { opacity: 1; }
     .product-card.has-hover:hover .product-img-main { opacity: 0; }
-    
-    /* Scale effect works for all to show interactivity */
     .product-card:hover .product-image { transform: scale(1.05); }
-
-    .no-image {
-      display: flex; align-items: center; justify-content: center;
-      height: 100%; color: var(--text-muted); font-size: 0.8rem;
-      background: rgba(0,0,0,0.03); width: 100%;
-    }
-
-    .product-info {
-      padding: 1.2rem;
-      display: flex; flex-direction: column; justify-content: center;
-      border-top: 1px solid var(--stroke); background: var(--bg);
-      flex-grow: 1; gap: 0.5rem; text-align: center;
-    }
-    /* Smaller padding on mobile to save space */
-    @media (max-width: 640px) {
-      .product-info { padding: 0.8rem; }
-      .product-image { padding: 0.8rem; }
-    }
-
-    .product-name {
-      font-size: 1rem; font-weight: 700; color: var(--fg);
-      direction: ltr; margin-bottom: auto;
-    }
+    .no-image { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.8rem; background: rgba(0,0,0,0.03); width: 100%; }
+    
+    .product-info { padding: 1.2rem; display: flex; flex-direction: column; justify-content: center; border-top: 1px solid var(--stroke); background: var(--bg); flex-grow: 1; gap: 0.5rem; text-align: center; }
+    @media (max-width: 640px) { .product-info { padding: 0.8rem; } .product-image { padding: 0.8rem; } }
+    .product-name { font-size: 1rem; font-weight: 700; color: var(--fg); direction: ltr; margin-bottom: auto; }
     @media (max-width: 640px) { .product-name { font-size: 0.9rem; } }
-
-    .product-price {
-      font-size: 1rem; color: var(--brand); font-weight: 800;
-      display: flex; align-items: baseline; justify-content: center; gap: 4px;
-      direction: rtl; margin-top: 0.5rem;
-    }
+    .product-price { font-size: 1.1rem; color: var(--brand); font-weight: 800; display: flex; align-items: baseline; justify-content: center; gap: 4px; direction: rtl; margin-top: 0.5rem; }
     .currency { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
 
-    /* --- REDESIGNED MODAL (POPUP) --- */
-    .mix-modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6); z-index: 3000;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      backdrop-filter: blur(8px);
-    }
+    /* Modal Styles */
+    .mix-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(8px); }
     .mix-modal-overlay.active { opacity: 1; visibility: visible; }
-
-    .mix-modal-content {
-      background: var(--bg);
-      width: 95%; max-width: 1200px;
-      height: 90vh; max-height: 800px;
-      border-radius: 24px; overflow: hidden;
-      position: relative; display: flex;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-      transform: scale(0.95) translateY(20px);
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+    .mix-modal-content { background: var(--bg); width: 95%; max-width: 1200px; height: 90vh; max-height: 800px; border-radius: 24px; overflow: hidden; position: relative; display: flex; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .mix-modal-overlay.active .mix-modal-content { transform: scale(1) translateY(0); }
-
-    /* Modal Layout */
-    .modal-layout {
-      display: grid; grid-template-columns: 1.3fr 0.9fr;
-      width: 100%; height: 100%;
-    }
-
-    /* Left: Gallery */
-    .modal-gallery-section {
-      background: var(--card);
-      padding: 2rem; position: relative;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      border-left: 1px solid var(--stroke); /* RTL */
-    }
+    .modal-layout { display: grid; grid-template-columns: 1.3fr 0.9fr; width: 100%; height: 100%; }
+    .modal-gallery-section { background: var(--card); padding: 2rem; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; border-left: 1px solid var(--stroke); }
     html[dir="ltr"] .modal-gallery-section { border-left: none; border-right: 1px solid var(--stroke); }
-
-    .gallery-main-viewport {
-      flex: 1; width: 100%; display: flex;
-      align-items: center; justify-content: center;
-      overflow: hidden; padding: 2rem; position: relative;
-    }
-    .modal-main-img {
-      max-width: 100%; max-height: 100%; object-fit: contain;
-      transition: transform 0.3s ease; cursor: crosshair;
-      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-    }
-    
-    .gallery-thumbs {
-      display: flex; gap: 10px; margin-top: 1rem;
-      padding: 10px; background: var(--bg); border-radius: 16px;
-      box-shadow: var(--shadow-sm); border: 1px solid var(--stroke);
-    }
-    .thumb {
-      width: 60px; height: 60px; border-radius: 10px;
-      border: 2px solid transparent; cursor: pointer;
-      object-fit: contain; background: white; padding: 4px;
-      transition: all 0.2s; opacity: 0.7;
-    }
+    .gallery-main-viewport { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 2rem; position: relative; }
+    .modal-main-img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: crosshair; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); }
+    .gallery-thumbs { display: flex; gap: 10px; margin-top: 1rem; padding: 10px; background: var(--bg); border-radius: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--stroke); }
+    .thumb { width: 60px; height: 60px; border-radius: 10px; border: 2px solid transparent; cursor: pointer; object-fit: contain; background: white; padding: 4px; transition: all 0.2s; opacity: 0.7; }
     .thumb.active { border-color: var(--brand); opacity: 1; transform: scale(1.05); }
-
-    /* Right: Details */
-    .modal-info-section {
-      padding: 3rem; overflow-y: auto;
-      display: flex; flex-direction: column;
-      background: var(--bg);
-    }
-
+    .modal-info-section { padding: 3rem; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); }
     .modal-header { margin-bottom: 2rem; }
-    .modal-cat-badge {
-      display: inline-block; padding: 0.4rem 1rem;
-      background: rgba(15, 169, 156, 0.1); color: var(--brand);
-      border-radius: 50px; font-size: 0.85rem; font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    .modal-title {
-      font-size: 2rem; font-weight: 900; color: var(--fg);
-      line-height: 1.2; letter-spacing: -0.5px;
-      margin-bottom: 0.5rem; font-family: var(--font-en);
-    }
-
-    .modal-desc-box {
-      margin-bottom: 2rem; line-height: 1.8; color: var(--text-muted);
-      font-size: 1rem; border-left: 3px solid var(--brand); /* RTL */
-      padding-left: 1rem;
-    }
-    html[dir="rtl"] .modal-desc-box { border-left: none; border-right: 3px solid var(--brand); padding-left: 0; padding-right: 1rem; }
-
-    .modal-specs {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-      margin-bottom: auto;
-    }
-    .spec-item {
-      padding: 1rem; background: var(--card);
-      border-radius: 12px; border: 1px solid var(--stroke);
-    }
+    .modal-cat-badge { display: inline-block; padding: 0.4rem 1rem; background: rgba(15, 169, 156, 0.1); color: var(--brand); border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; }
+    .modal-title { font-size: 2rem; font-weight: 900; color: var(--fg); line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+    .modal-badges { display: flex; gap: 0.5rem; margin: 0.5rem 0; flex-wrap: wrap; }
+    .modal-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+    .modal-badge.bestseller { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .modal-badge.popular { background: rgba(15, 169, 156, 0.1); color: var(--brand); }
+    .modal-badge.out-of-stock { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+    .modal-desc-box { margin: 2rem 0; line-height: 1.8; color: var(--text-muted); font-size: 1rem; border-right: 3px solid var(--brand); padding-right: 1rem; }
+    html[dir="ltr"] .modal-desc-box { border-right: none; border-left: 3px solid var(--brand); padding-right: 0; padding-left: 1rem; }
+    .modal-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: auto; }
+    .spec-item { padding: 1rem; background: var(--card); border-radius: 12px; border: 1px solid var(--stroke); }
     .spec-label { font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
     .spec-value { font-weight: 600; color: var(--fg); }
-
-    .modal-footer {
-      margin-top: 2rem; padding-top: 2rem;
-      border-top: 1px solid var(--stroke);
-      display: flex; justify-content: flex-end; align-items: center;
-    }
-    .modal-price-tag {
-      font-size: 1.8rem; font-weight: 800; color: var(--brand);
-      display: flex; align-items: baseline; gap: 6px;
-    }
-    
-    .close-modal-btn {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--bg); border: 1px solid var(--stroke);
-      color: var(--fg); display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: 0.3s; z-index: 10;
-      box-shadow: var(--shadow-md);
-    }
+    .modal-footer { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--stroke); display: flex; justify-content: flex-end; align-items: center; }
+    .modal-price-tag { font-size: 1.8rem; font-weight: 800; color: var(--brand); display: flex; align-items: baseline; gap: 6px; }
+    .close-modal-btn { position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; border-radius: 50%; background: var(--bg); border: 1px solid var(--stroke); color: var(--fg); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; z-index: 10; box-shadow: var(--shadow-md); }
     html[dir="ltr"] .close-modal-btn { right: auto; left: 1.5rem; }
     .close-modal-btn:hover { background: #ef4444; color: white; border-color: #ef4444; transform: rotate(90deg); }
 
-    /* Responsive Modal (Mobile) */
     @media (max-width: 968px) {
-      .mix-modal-content {
-        flex-direction: column;
-        height: 100%; /* Full Height */
-        width: 100%;
-        max-width: none;
-        border-radius: 0;
-        transform: translateY(100%); /* Slide up effect */
-      }
+      .mix-modal-content { flex-direction: column; height: 100%; width: 100%; max-width: none; border-radius: 0; transform: translateY(100%); }
       .mix-modal-overlay.active .mix-modal-content { transform: translateY(0); }
-
-      .modal-layout {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        overflow: hidden; /* Prevent body scroll within layout */
-      }
-
-      /* Gallery: Top 35% */
-      .modal-gallery-section {
-        height: 35%; /* Fixed height portion */
-        padding: 1rem;
-        border-bottom: 1px solid var(--stroke);
-        border-left: none;
-        border-right: none;
-      }
+      .modal-layout { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+      .modal-gallery-section { height: 35%; padding: 1rem; border-bottom: 1px solid var(--stroke); border-left: none; border-right: none; }
       .gallery-main-viewport { padding: 0.5rem; }
       .modal-main-img { max-height: 100%; }
-      .gallery-thumbs {
-        margin-top: 0.5rem; padding: 5px;
-      }
+      .gallery-thumbs { margin-top: 0.5rem; padding: 5px; }
       .thumb { width: 40px; height: 40px; border-radius: 6px; }
-
-      /* Info: Bottom 65% - Scrollable */
-      .modal-info-section {
-        flex: 1; /* Takes remaining space */
-        height: 65%;
-        padding: 1.5rem;
-        overflow-y: auto; /* Internal Scroll */
-      }
-
-      .modal-header { margin-bottom: 1rem; }
-      .modal-title { font-size: 1.5rem; margin-bottom: 0.2rem; }
-      .modal-cat-badge { margin-bottom: 0.5rem; font-size: 0.75rem; padding: 0.3rem 0.8rem; }
-      
-      .modal-desc-box { 
-        font-size: 0.9rem; margin-bottom: 1.5rem; 
-        padding-right: 0.8rem; border-right-width: 2px;
-      }
-      
-      .modal-specs { gap: 0.5rem; }
-      .spec-item { padding: 0.8rem; }
-      
-      .close-modal-btn {
-        top: 10px; right: 10px; width: 36px; height: 36px;
-        background: rgba(255,255,255,0.8); backdrop-filter: blur(4px);
-        border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      }
+      .modal-info-section { flex: 1; height: 65%; padding: 1.5rem; overflow-y: auto; }
+      .modal-title { font-size: 1.5rem; }
+      .modal-desc-box { font-size: 0.9rem; }
+      .close-modal-btn { top: 10px; right: 10px; width: 36px; height: 36px; background: rgba(255,255,255,0.9); border: none; }
       html[dir="ltr"] .close-modal-btn { right: auto; left: 10px; }
     }
+
+    /* NOTE: Mobile Nav CSS removed to rely on style.css */
   </style>
 </head>
 <body>
 
   <div id="header-container"></div>
 
-  <!-- HEADER & FILTERS -->
   <section class="mix-page-header">
     <div class="filter-container">
-      <!-- Search & Cats Row -->
       <div class="top-filters-row">
-        <!-- Search -->
         <div class="search-section">
           <div class="search-box">
             <input type="text" id="global-search" class="search-input" placeholder="جستجو...">
@@ -381,23 +437,81 @@
             </span>
           </div>
         </div>
-        <!-- Categories -->
         <div class="cats-section">
           <div class="main-cats" id="main-categories-container"></div>
         </div>
       </div>
-      <!-- Sub Categories -->
+      
       <div class="sub-cats-wrapper" id="sub-cats-wrapper">
         <div class="sub-cats" id="sub-categories-container"></div>
+      </div>
+
+      <button class="mobile-filter-toggle" id="mobile-filter-toggle" onclick="toggleMobileFilters()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+        <span class="text-fa">فیلتر محصولات</span>
+        <span class="text-en hidden">Filter Products</span>
+      </button>
+
+      <div class="advanced-filters-row" id="advanced-filters">
+        <div class="price-slider-wrapper">
+          <div class="range-slider-container">
+            <div class="range-slider" id="price-slider">
+              <div class="snap-ticks" id="snap-ticks"></div>
+              <div class="range-selected" id="range-selected"></div>
+              <div class="range-handle" id="handle-min" data-handle="min"></div>
+              <div class="range-handle" id="handle-max" data-handle="max"></div>
+            </div>
+          </div>
+          <div class="price-inputs-end">
+            <div class="price-end-group">
+              <input type="number" id="price-max-input" class="price-end-input" placeholder="تا">
+              <span class="price-end-suffix">ریال</span>
+            </div>
+            <div class="price-end-group">
+              <input type="number" id="price-min-input" class="price-end-input" placeholder="از">
+              <span class="price-end-suffix">ریال</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sort-stock-group">
+          <div class="filter-group">
+            <span class="filter-label">
+              <span class="text-fa">مرتب‌سازی:</span>
+              <span class="text-en hidden">Sort:</span>
+            </span>
+            <div class="sort-wrapper">
+              <select id="sort-select" class="sort-select">
+                <option value="catalog" data-fa="به ترتیب کاتالوگ" data-en="Default"></option>
+                <option value="popularity" data-fa="محبوبیت" data-en="Popularity"></option>
+                <option value="price-asc" data-fa="ارزان به گران" data-en="Price: Low to High"></option>
+                <option value="price-desc" data-fa="گران به ارزان" data-en="Price: High to Low"></option>
+              </select>
+              <span class="sort-arrow">▼</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="stock-only">
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">
+                <span class="text-fa">فقط موجود</span>
+                <span class="text-en hidden">In Stock</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="results-count" id="results-count"></div>
       </div>
     </div>
   </section>
 
-  <!-- PRODUCTS GRID -->
   <section class="mix-section">
     <div class="mix-grid" id="products-grid"></div>
-    
-    <!-- Empty State -->
     <div id="no-results" class="hidden" style="text-align: center; width: 100%; padding: 4rem;">
       <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin-bottom: 1rem;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <h3 style="color: var(--fg);">
@@ -411,34 +525,27 @@
     </div>
   </section>
 
-  <!-- NEW PRO MODAL -->
   <div class="mix-modal-overlay" id="product-modal">
     <div class="mix-modal-content">
       <button class="close-modal-btn" onclick="window.closeModal()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
-      
       <div class="modal-layout">
-        <!-- Left: Gallery (Top on Mobile) -->
         <div class="modal-gallery-section">
           <div class="gallery-main-viewport" id="m-img-container">
             <img src="" id="m-main-img" class="modal-main-img" alt="Product Detail">
           </div>
           <div class="gallery-thumbs" id="m-thumbs"></div>
         </div>
-
-        <!-- Right: Info (Bottom on Mobile) -->
         <div class="modal-info-section">
           <div class="modal-header">
             <div id="m-cat" class="modal-cat-badge"></div>
             <h2 id="m-title" class="modal-title"></h2>
-            <!-- ID Row Removed as requested -->
+            <div class="modal-badges" id="m-badges"></div>
           </div>
-
           <div class="modal-desc-box">
             <p id="m-desc"></p>
           </div>
-
           <div class="modal-specs">
             <div class="spec-item">
               <span class="spec-label"><span class="text-fa">گارانتی</span><span class="text-en hidden">Warranty</span></span>
@@ -449,7 +556,6 @@
               <span class="spec-value"><span class="text-fa">۱۰ سال</span><span class="text-en hidden">10 Years</span></span>
             </div>
           </div>
-
           <div class="modal-footer">
             <div class="modal-price-wrapper" id="m-price-box">
               <div class="modal-price-tag">
@@ -472,14 +578,17 @@
   <script src="js/main.js"></script>
   <script src="js/header.js"></script>
   <script src="js/footer.js"></script>
-  <script src="js/mobile-nav.js"></script> <!-- ADDED MOBILE NAV -->
 
-  <!-- LOGIC -->
   <script>
     let allProducts = [];
     let activeCategory = null;
     let activeSubCategory = null;
     let modalImages = [];
+    let currentSort = 'catalog';
+    let priceSnapValues = [];
+    let currentPriceIndices = { min: 0, max: 0 };
+    let isDragging = null;
+    let mobileFiltersOpen = false;
 
     const categoryMap = {
       "سینک ظرفشویی": "سینک",
@@ -488,15 +597,243 @@
       "Built-in Oven": "Oven"
     };
 
+    const parsePrice = (priceStr) => {
+      if (!priceStr) return 0;
+      return parseInt(priceStr.toString().replace(/,/g, '').replace(/[^0-9]/g, '')) || 0;
+    };
+
+    const formatPrice = (price) => {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
+    const toPersianNum = (num) => {
+      if (document.documentElement.lang !== 'fa') return num.toString();
+      const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+      return num.toString().replace(/\d/g, (digit) => persianDigits[digit]);
+    };
+
+    window.toggleMobileFilters = function() {
+      const filtersRow = document.getElementById('advanced-filters');
+      const toggleBtn = document.getElementById('mobile-filter-toggle');
+      mobileFiltersOpen = !mobileFiltersOpen;
+      if (mobileFiltersOpen) {
+        filtersRow.classList.add('open');
+        toggleBtn.classList.add('active');
+      } else {
+        filtersRow.classList.remove('open');
+        toggleBtn.classList.remove('active');
+      }
+    };
+
     window.addEventListener('load', () => {
       if (typeof excelData !== 'undefined') {
-        allProducts = excelData;
+        allProducts = excelData.map(p => ({
+          ...p,
+          Popularity: parseInt(p.Popularity) || 999,
+          InStock: String(p.InStock).toLowerCase() === 'true' || p.InStock === true || p.InStock === 1,
+          BestSeller: String(p.BestSeller).toLowerCase() === 'true' || p.BestSeller === true || p.BestSeller === 1,
+          Visible: String(p.Visible).toLowerCase() !== 'false' && p.Visible !== false,
+          ShowPrice: String(p.ShowPrice).toLowerCase() !== 'false' && p.ShowPrice !== false,
+          PriceValue: parsePrice(p.Price)
+        }));
+
         initFromURL();
+        updatePriceSnapValues();
+        initPriceSlider();
         renderAll();
-        document.getElementById('global-search').addEventListener('input', applyFilters);
+        setupEventListeners();
         observeLanguageChange();
+        updateTranslations();
       }
     });
+
+    function updatePriceSnapValues() {
+      let products = allProducts.filter(p => p.Visible);
+      if (activeCategory) products = products.filter(p => p.Category_Fa === activeCategory);
+      if (activeSubCategory) products = products.filter(p => p['Sub-Category_Fa'] === activeSubCategory);
+      
+      const prices = [...new Set(products.map(p => p.PriceValue))].filter(p => p > 0).sort((a, b) => a - b);
+      
+      if (prices.length < 2) {
+        priceSnapValues = [0, prices[0] || 1000000000];
+      } else {
+        priceSnapValues = prices;
+      }
+      
+      currentPriceIndices = { min: 0, max: priceSnapValues.length - 1 };
+      renderSnapTicks();
+    }
+
+    function renderSnapTicks() {
+      const container = document.getElementById('snap-ticks');
+      if (priceSnapValues.length > 20) {
+        container.innerHTML = '';
+        return;
+      }
+      container.innerHTML = priceSnapValues.map((_, index) => {
+        const percent = (index / (priceSnapValues.length - 1)) * 100;
+        return `<div class="tick" style="--percent: ${percent}%"></div>`;
+      }).join('');
+    }
+
+    function initPriceSlider() {
+      const handleMin = document.getElementById('handle-min');
+      const handleMax = document.getElementById('handle-max');
+      updateSliderUI();
+      [handleMin, handleMax].forEach(handle => {
+        handle.addEventListener('mousedown', (e) => startDrag(e, handle.dataset.handle));
+        handle.addEventListener('touchstart', (e) => startDrag(e, handle.dataset.handle), {passive: false});
+      });
+      document.getElementById('price-slider').addEventListener('click', handleTrackClick);
+      document.getElementById('price-min-input').addEventListener('change', updatePriceFromInput);
+      document.getElementById('price-max-input').addEventListener('change', updatePriceFromInput);
+    }
+
+    function handleTrackClick(e) {
+      if (e.target.classList.contains('range-handle')) return;
+      const slider = document.getElementById('price-slider');
+      const rect = slider.getBoundingClientRect();
+      let percent = (e.clientX - rect.left) / rect.width;
+      percent = Math.max(0, Math.min(1, percent));
+      const targetIndex = Math.round(percent * (priceSnapValues.length - 1));
+      const minDist = Math.abs(targetIndex - currentPriceIndices.min);
+      const maxDist = Math.abs(targetIndex - currentPriceIndices.max);
+      if (minDist <= maxDist) {
+        if (targetIndex < currentPriceIndices.max) currentPriceIndices.min = targetIndex;
+      } else {
+        if (targetIndex > currentPriceIndices.min) currentPriceIndices.max = targetIndex;
+      }
+      updateSliderUI();
+      applyFilters();
+    }
+
+    function updatePriceFromInput() {
+      const minVal = parseInt(document.getElementById('price-min-input').value);
+      const maxVal = parseInt(document.getElementById('price-max-input').value);
+      if (!isNaN(minVal)) currentPriceIndices.min = findClosestIndex(minVal);
+      if (!isNaN(maxVal)) currentPriceIndices.max = findClosestIndex(maxVal);
+      if (currentPriceIndices.min >= currentPriceIndices.max) {
+        currentPriceIndices.min = Math.max(0, currentPriceIndices.max - 1);
+      }
+      if (currentPriceIndices.max <= currentPriceIndices.min) {
+        currentPriceIndices.max = Math.min(priceSnapValues.length - 1, currentPriceIndices.min + 1);
+      }
+      updateSliderUI();
+      applyFilters();
+    }
+
+    function findClosestIndex(value) {
+      let closest = 0;
+      let minDiff = Infinity;
+      priceSnapValues.forEach((price, index) => {
+        const diff = Math.abs(price - value);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = index;
+        }
+      });
+      return closest;
+    }
+
+    function startDrag(e, handleType) {
+      e.preventDefault();
+      e.stopPropagation();
+      isDragging = handleType;
+      document.body.style.userSelect = 'none';
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', stopDrag);
+      document.addEventListener('touchmove', onDrag, {passive: false});
+      document.addEventListener('touchend', stopDrag);
+    }
+
+    function onDrag(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      const slider = document.getElementById('price-slider');
+      const rect = slider.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      let percent = (clientX - rect.left) / rect.width;
+      percent = Math.max(0, Math.min(1, percent));
+      const index = Math.round(percent * (priceSnapValues.length - 1));
+      if (isDragging === 'min') {
+        if (index < currentPriceIndices.max) currentPriceIndices.min = index;
+      } else {
+        if (index > currentPriceIndices.min) currentPriceIndices.max = index;
+      }
+      updateSliderUI();
+    }
+
+    function stopDrag() {
+      if (isDragging) {
+        isDragging = null;
+        document.body.style.userSelect = '';
+        applyFilters();
+      }
+      document.removeEventListener('mousemove', onDrag);
+      document.removeEventListener('mouseup', stopDrag);
+      document.removeEventListener('touchmove', onDrag);
+      document.removeEventListener('touchend', stopDrag);
+    }
+
+    function updateSliderUI() {
+      const rangeSelected = document.getElementById('range-selected');
+      const handleMin = document.getElementById('handle-min');
+      const handleMax = document.getElementById('handle-max');
+      const minInput = document.getElementById('price-min-input');
+      const maxInput = document.getElementById('price-max-input');
+      
+      const minIdx = currentPriceIndices.min;
+      const maxIdx = currentPriceIndices.max;
+      const total = priceSnapValues.length - 1;
+      
+      const minPercent = total > 0 ? (minIdx / total) * 100 : 0;
+      const maxPercent = total > 0 ? (maxIdx / total) * 100 : 100;
+      
+      handleMin.style.setProperty('--percent', minPercent + '%');
+      handleMax.style.setProperty('--percent', maxPercent + '%');
+      rangeSelected.style.setProperty('--min-percent', minPercent + '%');
+      rangeSelected.style.setProperty('--max-percent', maxPercent + '%');
+      
+      minInput.value = priceSnapValues[minIdx];
+      maxInput.value = priceSnapValues[maxIdx];
+    }
+
+    function setupEventListeners() {
+      document.getElementById('global-search').addEventListener('input', debounce(applyFilters, 300));
+      document.getElementById('stock-only').addEventListener('change', applyFilters);
+      document.getElementById('sort-select').addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        applyFilters();
+      });
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    function updateTranslations() {
+      const lang = document.documentElement.lang;
+      document.getElementById('global-search').placeholder = lang === 'en' ? 'Search...' : 'جستجو...';
+      const sortSelect = document.getElementById('sort-select');
+      Array.from(sortSelect.options).forEach(option => {
+        option.textContent = lang === 'en' ? option.getAttribute('data-en') : option.getAttribute('data-fa');
+      });
+      document.querySelectorAll('.price-end-suffix').forEach(el => {
+        el.textContent = lang === 'en' ? 'Rial' : 'ریال';
+      });
+      document.getElementById('price-min-input').placeholder = lang === 'en' ? 'Min' : 'از';
+      document.getElementById('price-max-input').placeholder = lang === 'en' ? 'Max' : 'تا';
+      if (activeCategory) renderSubCategories(activeCategory);
+      updateSliderUI();
+    }
 
     function renderAll() {
       renderMainCategories();
@@ -508,21 +845,16 @@
       return categoryMap[cat] || cat;
     }
 
-    // --- URL Handling ---
     function initFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const catParam = urlParams.get('cat');
       if (!catParam) return;
-
       const rawValue = decodeURIComponent(catParam);
-      
       const mainCatProduct = allProducts.find(p => p.Category_Fa === rawValue || p.Category_En === rawValue);
       if (mainCatProduct) {
         activeCategory = normalizeCategory(mainCatProduct.Category_Fa);
-        activeSubCategory = null;
         return;
       }
-
       const subCatProduct = allProducts.find(p => p['Sub-Category_Fa'] === rawValue || p['Sub-Category_En'] === rawValue);
       if (subCatProduct) {
         activeCategory = normalizeCategory(subCatProduct.Category_Fa);
@@ -530,12 +862,10 @@
       }
     }
 
-    // --- Category Rendering ---
     function renderMainCategories() {
       const container = document.getElementById('main-categories-container');
       const lang = document.documentElement.lang;
       const categoriesFa = [...new Set(allProducts.map(p => p.Category_Fa))];
-      
       let html = '';
       categoriesFa.forEach(catFa => {
         const sampleProd = allProducts.find(p => p.Category_Fa === catFa);
@@ -543,7 +873,6 @@
         html += `<div class="cat-pill ${activeCategory === catFa ? 'active' : ''}" onclick="setCategory('${encodeURIComponent(catFa)}')">${displayText}</div>`;
       });
       container.innerHTML = html;
-
       if (activeCategory) {
         renderSubCategories(activeCategory);
         document.getElementById('sub-cats-wrapper').classList.add('open');
@@ -556,6 +885,8 @@
       const targetCat = cat ? decodeURIComponent(cat) : null;
       activeCategory = (activeCategory === targetCat) ? null : targetCat;
       activeSubCategory = null;
+      updatePriceSnapValues();
+      updateSliderUI();
       renderAll();
       const newUrl = activeCategory ? `?cat=${encodeURIComponent(activeCategory)}` : 'products.html';
       window.history.replaceState({}, '', newUrl);
@@ -565,9 +896,8 @@
       const container = document.getElementById('sub-categories-container');
       const lang = document.documentElement.lang;
       const subsFa = [...new Set(allProducts.filter(p => p.Category_Fa === catFa).map(p => p['Sub-Category_Fa']))];
-
-      let html = `<div class="sub-pill ${activeSubCategory === null ? 'active' : ''}" onclick="setSubCategory(null)"><span class="text-fa">همه</span><span class="text-en hidden">All</span></div>`;
-      
+      const allText = lang === 'en' ? 'All' : 'همه';
+      let html = `<div class="sub-pill ${activeSubCategory === null ? 'active' : ''}" onclick="setSubCategory(null)">${allText}</div>`;
       subsFa.forEach(subFa => {
         const sampleProd = allProducts.find(p => p.Category_Fa === catFa && p['Sub-Category_Fa'] === subFa);
         const displayText = lang === 'en' && sampleProd ? sampleProd['Sub-Category_En'] : subFa;
@@ -578,89 +908,109 @@
 
     function setSubCategory(sub) {
       activeSubCategory = sub ? decodeURIComponent(sub) : null;
+      updatePriceSnapValues();
+      updateSliderUI();
       renderSubCategories(activeCategory);
       applyFilters();
     }
 
-    // --- Filters ---
     function applyFilters() {
-      let filtered = allProducts;
+      let filtered = allProducts.filter(p => p.Visible);
       if (activeCategory) filtered = filtered.filter(p => p.Category_Fa === activeCategory);
       if (activeSubCategory) filtered = filtered.filter(p => p['Sub-Category_Fa'] === activeSubCategory);
       
       const searchTerm = document.getElementById('global-search').value.trim().toLowerCase();
-      if (searchTerm) filtered = filtered.filter(p => p.Name.toLowerCase().includes(searchTerm));
+      if (searchTerm) {
+        filtered = filtered.filter(p => 
+          p.Name.toLowerCase().includes(searchTerm) || 
+          (p.Description_Fa && p.Description_Fa.toLowerCase().includes(searchTerm))
+        );
+      }
 
-      // VISIBILITY LOGIC
-      filtered = filtered.filter(p => {
-        const v = p.Visible;
-        if (v === false) return false;
-        if (typeof v === 'string' && v.trim().toLowerCase() === 'false') return false;
-        return true;
-      });
+      const minPrice = priceSnapValues[currentPriceIndices.min];
+      const maxPrice = priceSnapValues[currentPriceIndices.max];
+      filtered = filtered.filter(p => p.PriceValue >= minPrice && p.PriceValue <= maxPrice);
 
+      if (document.getElementById('stock-only').checked) {
+        filtered = filtered.filter(p => p.InStock);
+      }
+
+      filtered = sortProducts(filtered);
+      updateResultsCount(filtered.length);
       renderProducts(filtered);
+    }
+
+    function sortProducts(products) {
+      const sorted = [...products];
+      switch(currentSort) {
+        case 'price-asc': sorted.sort((a, b) => a.PriceValue - b.PriceValue); break;
+        case 'price-desc': sorted.sort((a, b) => b.PriceValue - a.PriceValue); break;
+        case 'popularity': sorted.sort((a, b) => (a.Popularity || 999) - (b.Popularity || 999)); break;
+        case 'catalog': default: sorted.sort((a, b) => String(a.ID).localeCompare(String(b.ID))); break;
+      }
+      return sorted;
+    }
+
+    function updateResultsCount(count) {
+      const lang = document.documentElement.lang;
+      document.getElementById('results-count').textContent = 
+        lang === 'en' ? `${count} products found` : `${toPersianNum(count)} محصول`;
     }
 
     window.resetFilters = function() {
       document.getElementById('global-search').value = "";
+      document.getElementById('stock-only').checked = false;
+      document.getElementById('sort-select').value = 'catalog';
+      currentSort = 'catalog';
+      currentPriceIndices = { min: 0, max: priceSnapValues.length - 1 };
+      updateSliderUI();
+      updatePriceSnapValues();
+      if (mobileFiltersOpen) toggleMobileFilters();
       setCategory(null);
     }
 
-    // --- Render Products (Card Logic) ---
     function renderProducts(products) {
       const grid = document.getElementById('products-grid');
       const noResults = document.getElementById('no-results');
       const lang = document.documentElement.lang;
-
       if (products.length === 0) {
         grid.innerHTML = '';
         noResults.classList.remove('hidden');
         return;
       }
       noResults.classList.add('hidden');
-
       grid.innerHTML = products.map(p => {
         const img1 = p.Pic_1 ? p.Pic_1.replace(/\\/g, '/') : '';
         const img2 = p.Pic_2 ? p.Pic_2.replace(/\\/g, '/') : '';
-        
-        // HOVER LOGIC FIX: Check if img2 exists AND is different from img1
         const hasHover = img2 && img2.trim() !== '' && img2 !== img1;
+        let badges = '';
+        if (p.BestSeller) badges += `<div class="bestseller-badge">${lang === 'en' ? 'Bestseller' : 'پرفروش'}</div>`;
+        if (!p.InStock) badges += `<div class="stock-badge">${lang === 'en' ? 'Out' : 'ناموجود'}</div>`;
         
-        const priceDisplay = p.Price ? p.Price : '-';
-        const currencyLabel = lang === 'en' ? 'Rial' : 'ریال';
-        
-        const showPrice = !(p.ShowPrice === false || (typeof p.ShowPrice === 'string' && p.ShowPrice.trim().toLowerCase() === 'false'));
-        
-        let priceHTML = showPrice ? `
+        const priceDisplay = p.ShowPrice ? `
           <div class="product-price">
-            <span>${priceDisplay}</span><span class="currency">${currencyLabel}</span>
+            <span>${toPersianNum(formatPrice(p.PriceValue))}</span>
+            <span class="currency">${lang === 'en' ? 'Rial' : 'ریال'}</span>
           </div>` : '';
 
         let imgHTML = img1 
           ? `<img src="${img1}" alt="${p.Name}" class="product-image product-img-main">`
           : `<div class="no-image"><span class="text-fa">تصویر ندارد</span><span class="text-en hidden">No Image</span></div>`;
-        
-        if (hasHover && img1) {
-          imgHTML += `<img src="${img2}" alt="${p.Name}" class="product-image product-img-hover">`;
-        }
-
-        // Add special class if card has valid hover image
-        const hoverClass = hasHover ? 'has-hover' : '';
+        if (hasHover && img1) imgHTML += `<img src="${img2}" alt="${p.Name}" class="product-image product-img-hover">`;
 
         return `
-          <div class="product-card ${hoverClass}" onclick="openModal(${p.ID})">
+          <div class="product-card ${hasHover ? 'has-hover' : ''}" onclick="openModal('${p.ID}')">
+            <div class="badge-container">${badges}</div>
             <div class="product-image-wrapper">${imgHTML}</div>
             <div class="product-info">
               <div class="product-name">${p.Name}</div>
-              ${priceHTML}
+              ${priceDisplay}
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // --- PRO MODAL LOGIC ---
     function findProductById(id) {
       return allProducts.find(p => String(p.ID) === String(id));
     }
@@ -668,47 +1018,43 @@
     window.openModal = function(id) {
       const p = findProductById(id);
       if (!p) return;
-
       const modal = document.getElementById('product-modal');
       const lang = document.documentElement.lang;
-
-      // Text Data
-      const catText = (lang === 'en') ? p.Category_En : p.Category_Fa;
-      const descText = (lang === 'en') ? (p.Description_En || '-') : (p.Description_Fa || '-');
-      
       document.getElementById('m-title').textContent = p.Name;
-      document.getElementById('m-cat').textContent = catText;
-      document.getElementById('m-desc').textContent = descText;
-      // ID display removed
+      document.getElementById('m-cat').textContent = lang === 'en' ? p.Category_En : p.Category_Fa;
+      document.getElementById('m-desc').textContent = lang === 'en' ? (p.Description_En || '-') : (p.Description_Fa || '-');
 
-      // Price Visibility
-      const showPrice = !(p.ShowPrice === false || (typeof p.ShowPrice === 'string' && p.ShowPrice.trim().toLowerCase() === 'false'));
+      const badgesContainer = document.getElementById('m-badges');
+      let badgesHTML = '';
+      if (p.BestSeller) badgesHTML += `<span class="modal-badge bestseller">★ ${lang === 'en' ? 'Bestseller' : 'پرفروش‌ترین'}</span>`;
+      if (!p.InStock) {
+        badgesHTML += `<span class="modal-badge out-of-stock">✕ ${lang === 'en' ? 'Out of Stock' : 'ناموجود'}</span>`;
+      } else {
+        badgesHTML += `<span class="modal-badge popular">✓ ${lang === 'en' ? 'In Stock' : 'موجود'}</span>`;
+      }
+      badgesContainer.innerHTML = badgesHTML;
+
       const priceBox = document.getElementById('m-price-box');
-      if (showPrice) {
-        document.getElementById('m-price').textContent = p.Price || '-';
+      if (p.ShowPrice) {
+        document.getElementById('m-price').textContent = toPersianNum(formatPrice(p.PriceValue));
         priceBox.style.display = 'block';
       } else {
         priceBox.style.display = 'none';
       }
 
-      // Gallery Logic
       const mainImg = document.getElementById('m-main-img');
       const thumbsContainer = document.getElementById('m-thumbs');
       modalImages = [p.Pic_1, p.Pic_2, p.Pic_3].filter(path => path && path.trim() !== '');
-
       if (modalImages.length > 0) {
-        const firstImg = modalImages[0].replace(/\\/g, '/');
-        mainImg.src = firstImg;
-        // Generate Thumbs
+        mainImg.src = modalImages[0].replace(/\\/g, '/');
         thumbsContainer.innerHTML = modalImages.map((imgPath, index) => {
            const path = imgPath.replace(/\\/g, '/');
            return `<img src="${path}" class="thumb ${index===0?'active':''}" onclick="changeModalImage('${path}', this)">`;
         }).join('');
       } else {
-        mainImg.src = 'https://via.placeholder.com/600x600?text=No+Image'; // Better Placeholder
+        mainImg.src = '';
         thumbsContainer.innerHTML = '';
       }
-
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -720,61 +1066,43 @@
 
     window.changeModalImage = function(src, thumbEl) {
       const mainImg = document.getElementById('m-main-img');
-      // Simple Fade Effect
       mainImg.style.opacity = 0;
-      setTimeout(() => {
-        mainImg.src = src;
-        mainImg.style.opacity = 1;
-      }, 200);
-      
+      setTimeout(() => { mainImg.src = src; mainImg.style.opacity = 1; }, 200);
       document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
       if(thumbEl) thumbEl.classList.add('active');
     }
 
-    // Modal Background Click
     document.getElementById('product-modal').addEventListener('click', (e) => {
       if (e.target.id === 'product-modal') window.closeModal();
     });
 
-    // Zoom Logic (Desktop Only)
-    const imgContainer = document.getElementById('m-img-container');
-    const modalImg = document.getElementById('m-main-img');
-
     if (window.matchMedia("(hover: hover)").matches) {
-        imgContainer.addEventListener('mousemove', (e) => {
-            const rect = imgContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const xPercent = (x / rect.width) * 100;
-            const yPercent = (y / rect.height) * 100;
-            modalImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-            modalImg.style.transform = 'scale(1.6)'; 
-        });
-        imgContainer.addEventListener('mouseleave', () => {
-            modalImg.style.transformOrigin = 'center center';
-            modalImg.style.transform = 'scale(1)';
-        });
+      const imgContainer = document.getElementById('m-img-container');
+      const modalImg = document.getElementById('m-main-img');
+      imgContainer.addEventListener('mousemove', (e) => {
+        const rect = imgContainer.getBoundingClientRect();
+        modalImg.style.transformOrigin = `${((e.clientX-rect.left)/rect.width)*100}% ${((e.clientY-rect.top)/rect.height)*100}%`;
+        modalImg.style.transform = 'scale(1.6)'; 
+      });
+      imgContainer.addEventListener('mouseleave', () => { modalImg.style.transform = 'scale(1)'; });
     }
 
-    // Lang Change Observer
     function observeLanguageChange() {
-      const target = document.documentElement;
-      const config = { attributes: true, attributeFilter: ['lang', 'dir'] };
-      const callback = function(mutations) {
-        mutations.forEach(mutation => {
-          if (mutation.type === "attributes") {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((m) => {
+          if (m.type === "attributes" && (m.attributeName === 'lang' || m.attributeName === 'dir')) {
+            updatePriceSnapValues();
             renderAll();
-            const searchInput = document.getElementById('global-search');
-            if (searchInput) {
-               searchInput.placeholder = document.documentElement.lang === 'en' 
-                 ? 'Search...' : 'جستجو...';
-            }
+            updateTranslations();
           }
         });
-      };
-      const observer = new MutationObserver(callback);
-      observer.observe(target, config);
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang', 'dir'] });
     }
   </script>
+  
+  <!-- MOBILE NAV LOADED AT THE VERY END -->
+  <script src="js/mobile-nav.js"></script>
+  
 </body>
 </html>
