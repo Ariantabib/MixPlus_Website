@@ -398,7 +398,7 @@
       }
     }
 
-    /* اصلاح اسلایدر قیمت و اینپوت‌ها */
+    /* اسلایدر قیمت - اصلاح شده */
     .price-slider-wrapper {
       width: 100%;
       display: flex;
@@ -415,13 +415,15 @@
       align-items: center;
       gap: 1rem;
       margin-top: 1rem;
-      flex-direction: row; /* پیش‌فرض LTR: از چپ به راست */
-    }
+      flex-direction: row; 
+}
+
+html[dir="rtl"] .price-inputs-row {
+  flex-direction: row-reverse; /* جابجا کردن فقط در حالت فارسی */
+}
     
-    /* اصلاح: در فارسی، چینش باید برعکس شود تا "تا" در چپ و "از" در راست قرار گیرد */
-    html[dir="rtl"] .price-inputs-row {
-      flex-direction: row-reverse; 
-    }
+    /* حذف دستور قبلی row-reverse برای RTL تا ترتیب طبیعی حفظ شود */
+    /* حالت پیش‌فرض برای هر دو زبان row است که باعث می‌شود در RTL، اولین آیتم (از) سمت راست و دومین (تا) سمت چپ قرار گیرد */
 
     .price-input-group {
       display: flex;
@@ -717,7 +719,7 @@
         flex-direction: column; /* در موبایل عمودی */
         width: 100%;
       }
-      /* بازگرداندن ترتیب طبیعی برای حالت عمودی موبایل */
+      /* عمودی بودن برای هر دو زبان */
       html[dir="rtl"] .price-inputs-row, html[dir="ltr"] .price-inputs-row {
         flex-direction: column;
       }
@@ -1250,9 +1252,9 @@
             <div class="range-slider" id="price-slider">
               <div class="snap-ticks" id="snap-ticks"></div>
               <div class="range-selected" id="range-selected"></div>
-              <!-- handle-min همیشه سمت چپ بصری است (0%) -->
+              <!-- handle-min بصری چپ -->
               <div class="range-handle" id="handle-min" data-handle="min"></div>
-              <!-- handle-max همیشه سمت راست بصری است (100%) -->
+              <!-- handle-max بصری راست -->
               <div class="range-handle" id="handle-max" data-handle="max"></div>
             </div>
           </div>
@@ -1637,21 +1639,14 @@
       percent = Math.max(0, Math.min(1, percent));
       const targetIndex = Math.round(percent * (priceSnapValues.length - 1));
       
-      // منطق کلیک کردن روی اسلایدر باید توجه کند که در RTL کدام هندل کجاست
       const minDist = Math.abs(targetIndex - currentPriceIndices.min);
       const maxDist = Math.abs(targetIndex - currentPriceIndices.max);
       
       const isRTL = document.documentElement.dir === 'rtl';
 
       if (minDist <= maxDist) {
-        // آپدیت کردن ایندکس Min
-        // در LTR: هندل چپ (Min) باید به سمت راست حرکت کند (index افزایش یابد)
-        // در RTL: هندل راست (Min) باید به سمت چپ حرکت کند (index کاهش یابد)
-        // اما منطق آرایه همیشه کم به زیاد است.
-        // در حالت کلی اگر نزدیک Min است:
         if (targetIndex < currentPriceIndices.max) currentPriceIndices.min = targetIndex;
       } else {
-        // آپدیت کردن ایندکس Max
         if (targetIndex > currentPriceIndices.min) currentPriceIndices.max = targetIndex;
       }
       
@@ -1720,8 +1715,6 @@
       
       const isRTL = document.documentElement.dir === 'rtl';
 
-      // هندل بصری چپ (handle-min) و هندل بصری راست (handle-max)
-      
       if (isRTL) {
         // در حالت فارسی:
         // هندل سمت راست بصری (handle-max ID) باید حداقل قیمت را کنترل کند
@@ -1729,7 +1722,6 @@
         
         if (isDragging === 'min') { 
           // هندل چپ بصری -> کنترل Max
-          // چون Max > Min، ایندکس Max باید از ایندکس Min بزرگتر باشد
           if (index > currentPriceIndices.min) currentPriceIndices.max = index;
         } else { 
           // هندل راست بصری -> کنترل Min
@@ -1793,10 +1785,6 @@
         handleMax.style.setProperty('--percent', minPercent + '%'); // راست بصری = مقدار کم
         
         // استایل نوار انتخاب شده
-        // در RTL، نوار باید بین راست (minPercent) تا چپ (maxPercent) باشد
-        // اما CSS منطق LTR دارد (left, width).
-        // پس left را minPercent می‌گذاریم و width را محاسبه می‌کنیم.
-        // wait, minPercent در اینجا مقدار عددی کم است (مثلا 20%). پس سمت راست است.
         rangeSelected.style.setProperty('--min-percent', minPercent + '%');
         rangeSelected.style.setProperty('--max-percent', maxPercent + '%');
 
