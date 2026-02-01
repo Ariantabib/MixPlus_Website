@@ -10,20 +10,299 @@
   
   <style>
     /* --- استایل‌های صفحه محصولات --- */
-    .mix-page-header {
+    
+    .products-layout-wrapper {
+      display: flex;
+      gap: 2rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 130px 1.5rem 2rem;
+      direction: rtl;
+    }
+    
+    html[dir="ltr"] .products-layout-wrapper {
+      direction: ltr;
+    }
+
+    .filters-sidebar {
+      width: 360px;
+      flex-shrink: 0;
+      display: block;
+    }
+    
+    .filters-sticky-box {
+      position: sticky;
+      top: 100px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 24px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 1023px) {
+      .products-layout-wrapper {
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+      }
+      .filters-sidebar {
+        display: none !important;
+      }
+    }
+
+    .products-main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* گرید دسته‌بندی‌های اصلی 2x2 */
+    .main-cats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .main-cats-grid .cat-pill {
+      padding: 0.9rem 0.5rem;
+      font-size: 0.85rem;
+      text-align: center;
+      margin: 0;
+      flex: none;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .main-cats-grid .cat-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 169, 156, 0.15);
+    }
+    
+    .main-cats-grid .cat-pill.active {
+      background: var(--brand);
+      color: white;
+      border-color: var(--brand);
+      box-shadow: 0 4px 16px rgba(15, 169, 156, 0.3);
+    }
+
+    /* زیر دسته‌ها */
+    .sub-cats-container {
+      margin-bottom: 1.5rem;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .sub-cats-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    
+    .sub-pill {
+      width: 100%;
+      text-align: center;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid var(--stroke);
+      background: var(--bg);
+      color: var(--fg);
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .sub-pill:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      transform: translateX(-4px);
+      box-shadow: 0 2px 8px rgba(15, 169, 156, 0.1);
+    }
+    
+    html[dir="ltr"] .sub-pill:hover {
+      transform: translateX(4px);
+    }
+    
+    .sub-pill.active {
+      background: linear-gradient(135deg, var(--brand), var(--brand-hover));
+      color: white;
+      border-color: var(--brand);
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(15, 169, 156, 0.25);
+      transform: scale(1.02);
+    }
+    
+    .sub-pill.active::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: rgba(255,255,255,0.5);
+    }
+    
+    html[dir="ltr"] .sub-pill.active::before {
+      right: auto;
+      left: 0;
+    }
+    
+    .sub-pill::after {
+      content: '✓';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%) scale(0);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-size: 1.1rem;
+    }
+    
+    html[dir="ltr"] .sub-pill::after {
+      left: auto;
+      right: 12px;
+    }
+    
+    .sub-pill.active::after {
+      transform: translateY(-50%) scale(1);
+      opacity: 1;
+    }
+
+    /* کنترل‌های نمایش */
+    .view-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding: 0 1.5rem;
+      align-items: center;
+    }
+    
+    @media (max-width: 1023px) {
+      .view-controls {
+        display: none !important;
+      }
+    }
+    
+    .view-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--stroke);
+      background: var(--card);
+      color: var(--fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      padding: 6px;
+    }
+    
+    .view-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      transform: translateY(-2px);
+    }
+    
+    .view-btn.active {
+      background: var(--brand);
+      color: white;
+      border-color: var(--brand);
+      box-shadow: 0 4px 8px rgba(15, 169, 156, 0.25);
+    }
+    
+    .view-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* کلاس‌های سایز گرید */
+    #products-grid.grid-size-3 { grid-template-columns: repeat(3, 1fr); }
+    #products-grid.grid-size-4 { grid-template-columns: repeat(4, 1fr); }
+    #products-grid.grid-size-5 { grid-template-columns: repeat(5, 1fr); }
+    #products-grid.grid-size-6 { grid-template-columns: repeat(6, 1fr); }
+    
+    /* لیست ویو */
+    #products-grid.list-view {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    #products-grid.list-view .product-card {
+      flex-direction: row;
+      height: auto;
+      min-height: 140px;
+    }
+    
+    #products-grid.list-view .product-image-wrapper {
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+    }
+    
+    #products-grid.list-view .product-info {
+      border-top: none;
+      border-right: 1px solid var(--stroke);
+      text-align: right;
+      padding: 1rem;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    
+    html[dir="ltr"] #products-grid.list-view .product-info {
+      border-right: none;
+      border-left: 1px solid var(--stroke);
+      text-align: left;
+    }
+    
+    #products-grid.list-view .product-price {
+      justify-content: flex-end;
+      margin-top: auto;
+    }
+    
+    html[dir="ltr"] #products-grid.list-view .product-price {
+      justify-content: flex-start;
+    }
+
+    /* هدر موبایل */
+    .mix-page-header-mobile {
       padding-top: 120px;
       padding-bottom: 2rem;
       background: var(--bg);
       border-bottom: 1px solid var(--stroke);
     }
+    
+    @media (min-width: 1024px) {
+      .mix-page-header-mobile {
+        display: none !important;
+      }
+    }
 
     .filter-container {
-      max-width: 1440px; margin: 0 auto; padding: 0 1.5rem;
-      display: flex; flex-direction: column; gap: 1.5rem;
+      max-width: 1440px; 
+      margin: 0 auto; 
+      padding: 0 1.5rem;
+      display: flex; 
+      flex-direction: column; 
+      gap: 1.5rem;
     }
 
     .top-filters-row {
-      display: flex; align-items: flex-start; gap: 2rem; width: 100%;
+      display: flex; 
+      align-items: flex-start; 
+      gap: 2rem; 
+      width: 100%;
     }
 
     @media (min-width: 769px) {
@@ -34,6 +313,7 @@
       html[dir="ltr"] .search-section { order: 2; }
       html[dir="ltr"] .cats-section { order: 1; }
     }
+    
     @media (max-width: 768px) {
       .top-filters-row { flex-direction: column; gap: 1rem; }
       .search-section, .cats-section { width: 100%; }
@@ -41,27 +321,63 @@
 
     .search-box { position: relative; width: 100%; }
     .search-input {
-      width: 100%; padding: 0.9rem 3rem 0.9rem 1rem;
-      border-radius: 14px; border: 1px solid var(--stroke);
-      background: var(--card); color: var(--fg);
-      font-family: inherit; font-size: 0.95rem; transition: 0.3s;
+      width: 100%; 
+      padding: 0.9rem 3rem 0.9rem 1rem;
+      border-radius: 14px; 
+      border: 1px solid var(--stroke);
+      background: var(--card); 
+      color: var(--fg);
+      font-family: inherit; 
+      font-size: 0.95rem; 
+      transition: all 0.3s;
     }
-    .search-input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(15, 169, 156, 0.1); }
-    .search-icon { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+    .search-input:focus { 
+      border-color: var(--brand); 
+      box-shadow: 0 0 0 4px rgba(15, 169, 156, 0.1); 
+    }
+    .search-icon { 
+      position: absolute; 
+      right: 1rem; 
+      top: 50%; 
+      transform: translateY(-50%); 
+      color: var(--text-muted); 
+      pointer-events: none; 
+    }
     html[dir="ltr"] .search-input { padding: 0.9rem 1rem 0.9rem 3rem; }
     html[dir="ltr"] .search-icon { right: auto; left: 1rem; }
 
-    .main-cats { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; width: 100%; }
+    .main-cats { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 0.8rem; 
+      align-items: center; 
+      width: 100%; 
+    }
     .cat-pill {
-      padding: 0.6rem 1.4rem; background: var(--card);
-      border: 1px solid var(--stroke); border-radius: 50px;
-      cursor: pointer; white-space: nowrap; transition: all 0.3s ease;
-      font-weight: 600; font-size: 0.9rem; color: var(--fg);
+      padding: 0.6rem 1.4rem; 
+      background: var(--card);
+      border: 1px solid var(--stroke); 
+      border-radius: 50px;
+      cursor: pointer; 
+      white-space: nowrap; 
+      transition: all 0.3s ease;
+      font-weight: 600; 
+      font-size: 0.9rem; 
+      color: var(--fg);
       flex: 1;
       text-align: center;
     }
-    .cat-pill:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-2px); }
-    .cat-pill.active { background: var(--brand); color: white; border-color: var(--brand); box-shadow: 0 4px 12px rgba(15, 169, 156, 0.25); }
+    .cat-pill:hover { 
+      border-color: var(--brand); 
+      color: var(--brand); 
+      transform: translateY(-2px); 
+    }
+    .cat-pill.active { 
+      background: var(--brand); 
+      color: white; 
+      border-color: var(--brand); 
+      box-shadow: 0 4px 12px rgba(15, 169, 156, 0.25); 
+    }
 
     @media (max-width: 768px) {
       .main-cats {
@@ -75,92 +391,73 @@
         flex: none;
         min-width: 0;
         padding: 0.5rem 0.2rem;
-        font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+        font-size: clamp(0.8rem, 2.5vw, 0.85rem);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
     }
 
-    .sub-cats-wrapper { 
-      height: 0; 
-      overflow: hidden; 
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-      opacity: 0; 
-      width: 100%; 
-    }
-    .sub-cats-wrapper.open { 
-      height: auto; 
-      opacity: 1; 
-      border-top: 1px dashed var(--stroke); 
-      padding-top: 0.75rem; 
-      margin-top: 0.25rem; 
-      margin-bottom: 0.5rem;
-    }
-    .sub-cats { display: flex; flex-wrap: wrap; gap: 0.6rem; width: 100%; }
-    .sub-pill { 
-      padding: 0.4rem 1rem; 
-      background: transparent; 
-      border: 1px solid var(--stroke); 
-      border-radius: 10px; 
-      cursor: pointer; 
-      font-size: 0.85rem; 
-      color: var(--text-muted); 
-      transition: 0.2s; 
-    }
-    .sub-pill:hover, .sub-pill.active { 
-      background: rgba(15, 169, 156, 0.08); 
-      color: var(--brand); 
-      border-color: var(--brand); 
-    }
-
-    /* Price Slider */
+    /* اصلاح اسلایدر قیمت و اینپوت‌ها */
     .price-slider-wrapper {
-      flex: 1;
-      min-width: 280px;
-      max-width: 500px;
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      margin: 1.5rem 0;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--stroke);
     }
 
-    .price-inputs-end {
+    .price-inputs-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.5rem;
-      flex-direction: row-reverse;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-direction: row; /* پیش‌فرض LTR: از چپ به راست */
     }
-    html[dir="ltr"] .price-inputs-end { flex-direction: row; }
+    
+    /* اصلاح: در فارسی، چینش باید برعکس شود تا "تا" در چپ و "از" در راست قرار گیرد */
+    html[dir="rtl"] .price-inputs-row {
+      flex-direction: row-reverse; 
+    }
 
-    .price-end-group {
+    .price-input-group {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: 10px;
-      padding: 0.4rem 0.8rem;
-      min-width: 140px;
+      background: var(--bg);
+      border: 2px solid var(--stroke);
+      border-radius: 12px;
+      padding: 0.6rem;
+      flex: 1;
+      transition: all 0.3s;
+    }
+    
+    .price-input-group:focus-within {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(15, 169, 156, 0.1);
     }
 
-    .price-end-input {
+    .price-input {
       width: 100%;
       border: none;
       background: transparent;
       color: var(--fg);
       font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 700;
       text-align: center;
       outline: none;
     }
 
-    .price-end-suffix {
-      font-size: 0.75rem;
+    .price-label {
+      font-size: 0.8rem;
       color: var(--text-muted);
-      font-weight: 500;
+      font-weight: 600;
       white-space: nowrap;
+      padding: 0 0.3rem;
     }
 
     .range-slider-container {
@@ -178,39 +475,46 @@
       background: var(--stroke);
       border-radius: 3px;
       margin: 0 12px;
-      direction: ltr;
+      direction: ltr; /* همیشه LTR برای محاسبات دقیق اسلایدر */
     }
 
     .range-selected {
       position: absolute;
       height: 100%;
-      background: var(--brand);
+      background: linear-gradient(90deg, var(--brand), var(--brand-hover));
       border-radius: 3px;
       top: 0;
+      /* این مقادیر توسط JS ست می‌شوند */
       left: var(--min-percent, 0%);
       width: calc(var(--max-percent, 100%) - var(--min-percent, 0%));
     }
 
     .range-handle {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background: var(--brand);
-      border: 3px solid var(--bg);
+      width: 22px;
+      height: 22px;
+      background: white;
+      border: 3px solid var(--brand);
       border-radius: 50%;
       top: 50%;
-      margin-top: -10px;
+      margin-top: -11px;
       cursor: grab;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transition: transform 0.1s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.1s, box-shadow 0.2s;
       z-index: 3;
       left: var(--percent, 0%);
       transform: translateX(-50%);
     }
+    
+    .range-handle:hover {
+      box-shadow: 0 4px 12px rgba(15, 169, 156, 0.3);
+      transform: translateX(-50%) scale(1.1);
+    }
 
     .range-handle:active {
       cursor: grabbing;
-      transform: translateX(-50%) scale(1.15);
+      transform: translateX(-50%) scale(1.2);
+      box-shadow: 0 2px 12px rgba(15, 169, 156, 0.4);
     }
 
     .snap-ticks {
@@ -231,30 +535,37 @@
       left: var(--percent);
     }
 
-    .sort-stock-group {
+    .sort-stock-group-desktop {
       display: flex;
-      align-items: center;
-      gap: 2rem;
-      flex-wrap: nowrap;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      border-top: 2px solid var(--stroke);
+      padding-top: 1.5rem;
     }
 
     .sort-wrapper {
       position: relative;
-      min-width: 180px;
+      width: 100%;
     }
 
     .sort-select {
       width: 100%;
-      padding: 0.7rem 0.75rem 0.7rem 3rem;
-      border: 1px solid var(--stroke);
-      border-radius: 10px;
-      background: var(--card);
+      padding: 0.8rem 0.75rem 0.8rem 3rem;
+      border: 2px solid var(--stroke);
+      border-radius: 12px;
+      background: var(--bg);
       color: var(--fg);
       font-family: inherit;
       font-size: 0.9rem;
       cursor: pointer;
       appearance: none;
-      transition: 0.3s;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+    
+    .sort-select:hover {
+      border-color: var(--brand);
     }
 
     .sort-arrow {
@@ -267,49 +578,91 @@
       font-size: 0.7rem;
     }
 
-    html[dir="ltr"] .sort-select { padding: 0.7rem 3rem 0.7rem 0.75rem; }
+    html[dir="ltr"] .sort-select { padding: 0.8rem 3rem 0.8rem 0.75rem; }
     html[dir="ltr"] .sort-arrow { left: auto; right: 1rem; }
 
-    .sort-select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(15, 169, 156, 0.1); outline: none; }
+    .sort-select:focus { 
+      border-color: var(--brand); 
+      box-shadow: 0 0 0 3px rgba(15, 169, 156, 0.1); 
+      outline: none; 
+    }
 
-    .toggle-switch { position: relative; display: inline-flex; align-items: center; cursor: pointer; gap: 0.6rem; white-space: nowrap; }
+    .toggle-switch { 
+      position: relative; 
+      display: inline-flex; 
+      align-items: center; 
+      cursor: pointer; 
+      gap: 0.8rem; 
+      white-space: nowrap; 
+      width: 100%; 
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    
+    .toggle-switch:hover {
+      background: rgba(15, 169, 156, 0.05);
+    }
+    
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider { position: relative; width: 44px; height: 24px; background-color: var(--stroke); border-radius: 34px; transition: 0.3s; flex-shrink: 0; }
-    .toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; right: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    
+    .toggle-slider { 
+      position: relative; 
+      width: 48px; 
+      height: 26px; 
+      background-color: var(--stroke); 
+      border-radius: 34px; 
+      transition: 0.3s; 
+      flex-shrink: 0; 
+    }
+    
+    .toggle-slider:before { 
+      position: absolute; 
+      content: ""; 
+      height: 20px; 
+      width: 20px; 
+      right: 3px; 
+      bottom: 3px; 
+      background-color: white; 
+      border-radius: 50%; 
+      transition: 0.3s; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+    }
+    
     html[dir="ltr"] .toggle-slider:before { right: auto; left: 3px; }
     .toggle-switch input:checked + .toggle-slider { background-color: var(--brand); }
-    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(-20px); }
-    html[dir="ltr"] .toggle-switch input:checked + .toggle-slider:before { transform: translateX(20px); }
-    .toggle-label { font-size: 0.85rem; color: var(--fg); font-weight: 500; white-space: nowrap; }
-
-    .advanced-filters-row {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--stroke);
-      flex-wrap: wrap;
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(-22px); }
+    html[dir="ltr"] .toggle-switch input:checked + .toggle-slider:before { transform: translateX(22px); }
+    
+    .toggle-label { 
+      font-size: 0.9rem; 
+      color: var(--fg); 
+      font-weight: 600; 
+      white-space: nowrap; 
     }
 
-    .results-count {
-      margin-right: auto;
-      font-size: 0.85rem;
+    .results-count-desktop {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      font-weight: 500;
+      font-weight: 600;
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--stroke);
     }
-    html[dir="ltr"] .results-count { margin-right: 0; margin-left: auto; }
 
+    /* موبایل */
     .mobile-filter-toggle {
       display: none;
       width: 100%;
-      padding: 0.8rem;
+      padding: 1rem;
       background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: 12px;
+      border: 2px solid var(--stroke);
+      border-radius: 14px;
       color: var(--fg);
       font-family: inherit;
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
       align-items: center;
       justify-content: center;
@@ -318,96 +671,404 @@
       transition: all 0.3s ease;
     }
 
-    .mobile-filter-toggle:hover { border-color: var(--brand); color: var(--brand); }
-    .mobile-filter-toggle.active { background: var(--brand); color: white; border-color: var(--brand); }
-
-    @media (max-width: 768px) {
-      .mobile-filter-toggle { display: flex; }
-      .advanced-filters-row { display: none; flex-direction: column; align-items: center; gap: 1.5rem; padding: 1.5rem; background: var(--card); border-radius: 16px; border: 1px solid var(--stroke); margin-top: 0.5rem; animation: slideDown 0.3s ease; }
-      .advanced-filters-row.open { display: flex; }
-      @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-      
-      .sort-stock-group { flex-direction: column; width: 100%; gap: 1.5rem; align-items: center; }
-      .sort-stock-group .filter-group { width: 100%; justify-content: center; flex-direction: column; gap: 0.5rem; }
-      .sort-stock-group .filter-label { text-align: center; font-size: 0.9rem; }
-      .sort-wrapper { width: 100%; max-width: 280px; }
-      .toggle-switch { justify-content: center; width: 100%; }
-      .price-slider-wrapper { order: 3; max-width: 100%; min-width: 100%; margin-top: 0.5rem; }
-      .price-end-group { min-width: 120px; padding: 0.3rem 0.6rem; }
-      .price-end-input { font-size: 0.8rem; }
-      .results-count { order: 4; text-align: center; margin: 0; width: 100%; padding-top: 0.5rem; border-top: 1px dashed var(--stroke); margin-right: 0; margin-left: 0; }
+    .mobile-filter-toggle:hover { 
+      border-color: var(--brand); 
+      color: var(--brand); 
+    }
+    
+    .mobile-filter-toggle.active { 
+      background: var(--brand); 
+      color: white; 
+      border-color: var(--brand); 
     }
 
-    .mix-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); padding-bottom: 6rem; padding: 0 1.5rem 6rem; }
-    @media (max-width: 640px) { .mix-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.8rem; padding: 0 1rem 6rem; } }
+    @media (max-width: 1023px) {
+      .mobile-filter-toggle { display: flex; }
+      
+      .advanced-filters-row-mobile { 
+        display: none; 
+        flex-direction: column; 
+        align-items: center; 
+        gap: 1.5rem; 
+        padding: 1.5rem; 
+        background: var(--card); 
+        border-radius: 16px; 
+        border: 1px solid var(--stroke); 
+        margin-top: 0.5rem; 
+        animation: slideDown 0.3s ease; 
+      }
+      
+      .advanced-filters-row-mobile.open { display: flex; }
+      
+      @keyframes slideDown { 
+        from { opacity: 0; transform: translateY(-10px); } 
+        to { opacity: 1; transform: translateY(0); } 
+      }
+    }
 
-    .product-card { position: relative; background: var(--card); border-radius: 20px; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--stroke); display: flex; flex-direction: column; cursor: pointer; height: 100%; }
-    .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1); border-color: var(--brand); }
+    @media (max-width: 768px) {
+      .sort-stock-group { 
+        flex-direction: column; 
+        width: 100%; 
+        gap: 1.5rem; 
+        align-items: center; 
+      }
+      .price-inputs-row {
+        flex-direction: column; /* در موبایل عمودی */
+        width: 100%;
+      }
+      /* بازگرداندن ترتیب طبیعی برای حالت عمودی موبایل */
+      html[dir="rtl"] .price-inputs-row, html[dir="ltr"] .price-inputs-row {
+        flex-direction: column;
+      }
+    }
 
-    .badge-container { position: absolute; top: 1rem; left: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 10; }
+    .mix-grid { 
+      display: grid; 
+      gap: 1.5rem; 
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+      padding: 0 1.5rem 6rem; 
+    }
+    
+    @media (max-width: 640px) { 
+      .mix-grid { 
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 0.8rem; 
+        padding: 0 1rem 6rem; 
+      } 
+    }
+
+    .product-card { 
+      position: relative; 
+      background: var(--card); 
+      border-radius: 20px; 
+      overflow: hidden; 
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+      border: 1px solid var(--stroke); 
+      display: flex; 
+      flex-direction: column; 
+      cursor: pointer; 
+      height: 100%; 
+    }
+    .product-card:hover { 
+      transform: translateY(-8px); 
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.15); 
+      border-color: var(--brand); 
+    }
+
+    .badge-container { 
+      position: absolute; 
+      top: 1rem; 
+      left: 1rem; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 0.5rem; 
+      z-index: 10; 
+    }
     html[dir="ltr"] .badge-container { left: auto; right: 1rem; }
 
-    .stock-badge, .bestseller-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); white-space: nowrap; }
+    .stock-badge, .bestseller-badge { 
+      padding: 0.4rem 0.9rem; 
+      border-radius: 20px; 
+      font-size: 0.75rem; 
+      font-weight: 800; 
+      color: white; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+      white-space: nowrap; 
+    }
     .stock-badge { background: #ef4444; }
     .stock-badge.in-stock { background: #10b981; }
     .bestseller-badge { background: linear-gradient(135deg, #f59e0b, #d97706); }
 
-    .product-image-wrapper { position: relative; aspect-ratio: 1/1; background: #f8f8f8; overflow: hidden; padding: 1.5rem; display: flex; align-items: center; justify-content: center; }
+    .product-image-wrapper { 
+      position: relative; 
+      aspect-ratio: 1/1; 
+      background: #f8f8f8; 
+      overflow: hidden; 
+      padding: 1.5rem; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+    }
     .theme-dark .product-image-wrapper { background: #1e293b; }
-    .product-image { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.4s ease, transform 0.4s ease; position: absolute; top: 0; left: 0; padding: 1.5rem; }
+    .product-image { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain; 
+      transition: opacity 0.4s ease, transform 0.4s ease; 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      padding: 0.7rem; 
+    }
     .product-img-main { z-index: 1; opacity: 1; }
     .product-img-hover { z-index: 2; opacity: 0; }
     .product-card.has-hover:hover .product-img-hover { opacity: 1; }
     .product-card.has-hover:hover .product-img-main { opacity: 0; }
     .product-card:hover .product-image { transform: scale(1.05); }
-    .no-image { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.8rem; background: rgba(0,0,0,0.03); width: 100%; }
+    .no-image { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      height: 100%; 
+      color: var(--text-muted); 
+      font-size: 0.8rem; 
+      background: rgba(0,0,0,0.03); 
+      width: 100%; 
+    }
     
-    .product-info { padding: 1.2rem; display: flex; flex-direction: column; justify-content: center; border-top: 1px solid var(--stroke); background: var(--bg); flex-grow: 1; gap: 0.5rem; text-align: center; }
-    @media (max-width: 640px) { .product-info { padding: 0.8rem; } .product-image { padding: 0.8rem; } }
-    .product-name { font-size: 1rem; font-weight: 700; color: var(--fg); direction: ltr; margin-bottom: auto; }
+    .product-info { 
+      padding: 1.2rem; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      border-top: 1px solid var(--stroke); 
+      background: var(--bg); 
+      flex-grow: 1; 
+      gap: 0.5rem; 
+      text-align: center; 
+    }
+    @media (max-width: 640px) { 
+      .product-info { padding: 0.8rem; } 
+      .product-image { padding: 0.8rem; } 
+    }
+    .product-name { 
+      font-size: 1rem; 
+      font-weight: 700; 
+      color: var(--fg); 
+      direction: ltr; 
+      margin-bottom: auto; 
+      line-height: 1.4;
+    }
     @media (max-width: 640px) { .product-name { font-size: 0.9rem; } }
-    .product-price { font-size: 1.1rem; color: var(--brand); font-weight: 800; display: flex; align-items: baseline; justify-content: center; gap: 4px; direction: rtl; margin-top: 0.5rem; }
-    .currency { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
+    
+    .product-price { 
+      font-size: 1.1rem; 
+      color: var(--brand); 
+      font-weight: 800; 
+      display: flex; 
+      align-items: baseline; 
+      justify-content: center; 
+      gap: 6px; 
+      margin-top: 0.5rem; 
+      flex-direction: row-reverse; 
+    }
+    
+    html[dir="ltr"] .product-price {
+      flex-direction: row; 
+    }
+    
+    .currency { 
+      font-size: 0.8rem; 
+      color: var(--text-muted); 
+      font-weight: 500; 
+    }
 
-    /* Modal Styles */
-    .mix-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(8px); }
+    /* Modal */
+    .mix-modal-overlay { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      background: rgba(0,0,0,0.6); 
+      z-index: 3000; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      opacity: 0; 
+      visibility: hidden; 
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+      backdrop-filter: blur(8px); 
+    }
     .mix-modal-overlay.active { opacity: 1; visibility: visible; }
-    .mix-modal-content { background: var(--bg); width: 95%; max-width: 1200px; height: 90vh; max-height: 800px; border-radius: 24px; overflow: hidden; position: relative; display: flex; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .mix-modal-content { 
+      background: var(--bg); 
+      width: 95%; 
+      max-width: 1200px; 
+      height: 90vh; 
+      max-height: 800px; 
+      border-radius: 24px; 
+      overflow: hidden; 
+      position: relative; 
+      display: flex; 
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); 
+      transform: scale(0.95) translateY(20px); 
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    }
     .mix-modal-overlay.active .mix-modal-content { transform: scale(1) translateY(0); }
     .modal-layout { display: grid; grid-template-columns: 1.3fr 0.9fr; width: 100%; height: 100%; }
-    .modal-gallery-section { background: var(--card); padding: 2rem; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; border-left: 1px solid var(--stroke); }
+    .modal-gallery-section { 
+      background: var(--card); 
+      padding: 2rem; 
+      position: relative; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      border-left: 1px solid var(--stroke); 
+    }
     html[dir="ltr"] .modal-gallery-section { border-left: none; border-right: 1px solid var(--stroke); }
-    .gallery-main-viewport { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 2rem; position: relative; }
-    .modal-main-img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: crosshair; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); }
-    .gallery-thumbs { display: flex; gap: 10px; margin-top: 1rem; padding: 10px; background: var(--bg); border-radius: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--stroke); }
-    .thumb { width: 60px; height: 60px; border-radius: 10px; border: 2px solid transparent; cursor: pointer; object-fit: contain; background: white; padding: 4px; transition: all 0.2s; opacity: 0.7; }
+    .gallery-main-viewport { 
+      flex: 1; 
+      width: 100%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      overflow: hidden; 
+      padding: 2rem; 
+      position: relative; 
+    }
+    .modal-main-img { 
+      max-width: 100%; 
+      max-height: 100%; 
+      object-fit: contain; 
+      transition: transform 0.3s ease; 
+      cursor: crosshair; 
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); 
+    }
+    .gallery-thumbs { 
+      display: flex; 
+      gap: 10px; 
+      margin-top: 1rem; 
+      padding: 10px; 
+      background: var(--bg); 
+      border-radius: 16px; 
+      box-shadow: var(--shadow-sm); 
+      border: 1px solid var(--stroke); 
+    }
+    .thumb { 
+      width: 60px; 
+      height: 60px; 
+      border-radius: 10px; 
+      border: 2px solid transparent; 
+      cursor: pointer; 
+      object-fit: contain; 
+      background: white; 
+      padding: 4px; 
+      transition: all 0.2s; 
+      opacity: 0.7; 
+    }
     .thumb.active { border-color: var(--brand); opacity: 1; transform: scale(1.05); }
-    .modal-info-section { padding: 3rem; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); }
+    .modal-info-section { 
+      padding: 3rem; 
+      overflow-y: auto; 
+      display: flex; 
+      flex-direction: column; 
+      background: var(--bg); 
+    }
     .modal-header { margin-bottom: 2rem; }
-    .modal-cat-badge { display: inline-block; padding: 0.4rem 1rem; background: rgba(15, 169, 156, 0.1); color: var(--brand); border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; }
-    .modal-title { font-size: 2rem; font-weight: 900; color: var(--fg); line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+    .modal-cat-badge { 
+      display: inline-block; 
+      padding: 0.4rem 1rem; 
+      background: rgba(15, 169, 156, 0.1); 
+      color: var(--brand); 
+      border-radius: 50px; 
+      font-size: 0.85rem; 
+      font-weight: 700; 
+      margin-bottom: 1rem; 
+    }
+    .modal-title { 
+      font-size: 2rem; 
+      font-weight: 900; 
+      color: var(--fg); 
+      line-height: 1.2; 
+      letter-spacing: -0.5px; 
+      margin-bottom: 0.5rem; 
+    }
     .modal-badges { display: flex; gap: 0.5rem; margin: 0.5rem 0; flex-wrap: wrap; }
-    .modal-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+    .modal-badge { 
+      padding: 0.3rem 0.8rem; 
+      border-radius: 20px; 
+      font-size: 0.8rem; 
+      font-weight: 700; 
+    }
     .modal-badge.bestseller { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
     .modal-badge.popular { background: rgba(15, 169, 156, 0.1); color: var(--brand); }
     .modal-badge.out-of-stock { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-    .modal-desc-box { margin: 2rem 0; line-height: 1.8; color: var(--text-muted); font-size: 1rem; border-right: 3px solid var(--brand); padding-right: 1rem; }
-    html[dir="ltr"] .modal-desc-box { border-right: none; border-left: 3px solid var(--brand); padding-right: 0; padding-left: 1rem; }
+    .modal-desc-box { 
+      margin: 2rem 0; 
+      line-height: 1.8; 
+      color: var(--text-muted); 
+      font-size: 1rem; 
+      border-right: 3px solid var(--brand); 
+      padding-right: 1rem; 
+    }
+    html[dir="ltr"] .modal-desc-box { 
+      border-right: none; 
+      border-left: 3px solid var(--brand); 
+      padding-right: 0; 
+      padding-left: 1rem; 
+    }
     .modal-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: auto; }
-    .spec-item { padding: 1rem; background: var(--card); border-radius: 12px; border: 1px solid var(--stroke); }
+    .spec-item { 
+      padding: 1rem; 
+      background: var(--card); 
+      border-radius: 12px; 
+      border: 1px solid var(--stroke); 
+    }
     .spec-label { font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
     .spec-value { font-weight: 600; color: var(--fg); }
-    .modal-footer { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--stroke); display: flex; justify-content: flex-end; align-items: center; }
-    .modal-price-tag { font-size: 1.8rem; font-weight: 800; color: var(--brand); display: flex; align-items: baseline; gap: 6px; }
-    .close-modal-btn { position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; border-radius: 50%; background: var(--bg); border: 1px solid var(--stroke); color: var(--fg); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; z-index: 10; box-shadow: var(--shadow-md); }
+    .modal-footer { 
+      margin-top: 2rem; 
+      padding-top: 2rem; 
+      border-top: 1px solid var(--stroke); 
+      display: flex; 
+      justify-content: flex-end; 
+      align-items: center; 
+    }
+    .modal-price-tag { 
+      font-size: 1.8rem; 
+      font-weight: 800; 
+      color: var(--brand); 
+      display: flex; 
+      align-items: baseline; 
+      gap: 6px; 
+    }
+    .close-modal-btn { 
+      position: absolute; 
+      top: 1.5rem; 
+      right: 1.5rem; 
+      width: 44px; 
+      height: 44px; 
+      border-radius: 50%; 
+      background: var(--bg); 
+      border: 1px solid var(--stroke); 
+      color: var(--fg); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      cursor: pointer; 
+      transition: all 0.3s; 
+      z-index: 10; 
+      box-shadow: var(--shadow-md); 
+    }
     html[dir="ltr"] .close-modal-btn { right: auto; left: 1.5rem; }
-    .close-modal-btn:hover { background: #ef4444; color: white; border-color: #ef4444; transform: rotate(90deg); }
+    .close-modal-btn:hover { 
+      background: #ef4444; 
+      color: white; 
+      border-color: #ef4444; 
+      transform: rotate(90deg); 
+    }
 
     @media (max-width: 968px) {
-      .mix-modal-content { flex-direction: column; height: 100%; width: 100%; max-width: none; border-radius: 0; transform: translateY(100%); }
+      .mix-modal-content { 
+        flex-direction: column; 
+        height: 100%; 
+        width: 100%; 
+        max-width: none; 
+        border-radius: 0; 
+        transform: translateY(100%); 
+      }
       .mix-modal-overlay.active .mix-modal-content { transform: translateY(0); }
       .modal-layout { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
-      .modal-gallery-section { height: 35%; padding: 1rem; border-bottom: 1px solid var(--stroke); border-left: none; border-right: none; }
+      .modal-gallery-section { 
+        height: 35%; 
+        padding: 1rem; 
+        border-bottom: 1px solid var(--stroke); 
+        border-left: none; 
+        border-right: none; 
+      }
       .gallery-main-viewport { padding: 0.5rem; }
       .modal-main-img { max-height: 100%; }
       .gallery-thumbs { margin-top: 0.5rem; padding: 5px; }
@@ -415,81 +1076,79 @@
       .modal-info-section { flex: 1; height: 65%; padding: 1.5rem; overflow-y: auto; }
       .modal-title { font-size: 1.5rem; }
       .modal-desc-box { font-size: 0.9rem; }
-      .close-modal-btn { top: 10px; right: 10px; width: 36px; height: 36px; background: rgba(255,255,255,0.9); border: none; }
+      .close-modal-btn { 
+        top: 10px; 
+        right: 10px; 
+        width: 36px; 
+        height: 36px; 
+        background: rgba(255,255,255,0.9); 
+        border: none; 
+      }
       html[dir="ltr"] .close-modal-btn { right: auto; left: 10px; }
     }
 
-    /* --- FIX: Perfect Mobile Navigation (Floating Island) --- */
-    
-    /* 1. Force Hide on Desktop */
-    .mix-mobile-bottom-bar {
-      display: none !important;
-    }
-
-    /* 2. Force Show & Style on Mobile */
     @media (max-width: 968px) {
       .mix-mobile-bottom-bar {
-        display: flex !important;       /* Show it */
+        display: flex !important;
         position: fixed !important;
-        bottom: 15px !important;        /* Gap from bottom (Not stuck) */
-        left: 15px !important;          /* Gap from left */
-        right: 15px !important;         /* Gap from right (Floating look) */
-        width: auto !important;         /* Auto width, not full screen */
+        bottom: 15px !important;
+        left: 15px !important;
+        right: 15px !important;
+        width: auto !important;
         z-index: 9999 !important;
         transform: translateY(0) !important;
         background: var(--bg) !important;
         border: 1px solid var(--stroke) !important;
-        border-radius: 50px !important; /* Fully rounded corners (Pill shape) */
+        border-radius: 50px !important;
         padding: 12px 10px !important;
-        box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3) !important; /* Deep shadow for float effect */
-        
-        /* Centering logic */
-        justify-content: center !important; 
+        box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3) !important;
+        justify-content: center !important;
         align-items: center !important;
-        gap: 1rem !important; /* Space between icons */
+        gap: 1rem !important;
       }
       
-      /* Make items take available space but stay centered */
       .mix-mobile-bottom-bar .mobile-nav-item {
         flex: 1;
-        max-width: 60px; /* Prevent stretching too wide */
+        max-width: 60px;
         display: flex;
         justify-content: center;
       }
       
-      /* Ensure body has space */
       body {
-        padding-bottom: 100px !important; /* More space for floating bar */
+        padding-bottom: 100px !important;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- FIX: Dummy Elements to Prevent Script Errors -->
   <div id="hero-section" style="display:none;"></div>
   <div id="scroll-arrow" style="display:none;"></div>
 
   <div id="header-container"></div>
 
-  <section class="mix-page-header">
+  <!-- موبایل هدر -->
+  <section class="mix-page-header-mobile">
     <div class="filter-container">
       <div class="top-filters-row">
         <div class="search-section">
           <div class="search-box">
-            <input type="text" id="global-search" class="search-input" placeholder="جستجو...">
+            <input type="text" id="global-search-mobile" class="search-input" placeholder="جستجو...">
             <span class="search-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
             </span>
           </div>
         </div>
         <div class="cats-section">
-          <div class="main-cats" id="main-categories-container"></div>
+          <div class="main-cats" id="main-categories-container-mobile"></div>
         </div>
       </div>
       
-      <div class="sub-cats-wrapper" id="sub-cats-wrapper">
-        <div class="sub-cats" id="sub-categories-container"></div>
+      <div class="sub-cats-container" id="sub-cats-wrapper-mobile" style="display: none;">
+        <div class="sub-cats-vertical" id="sub-categories-container-mobile"></div>
       </div>
 
       <button class="mobile-filter-toggle" id="mobile-filter-toggle" onclick="toggleMobileFilters()">
@@ -500,34 +1159,120 @@
         <span class="text-en hidden">Filter Products</span>
       </button>
 
-      <div class="advanced-filters-row" id="advanced-filters">
-        <div class="price-slider-wrapper">
+      <div class="advanced-filters-row-mobile" id="advanced-filters-mobile">
+        <div class="price-slider-wrapper" style="width: 100%;">
           <div class="range-slider-container">
-            <div class="range-slider" id="price-slider">
-              <div class="snap-ticks" id="snap-ticks"></div>
-              <div class="range-selected" id="range-selected"></div>
-              <div class="range-handle" id="handle-min" data-handle="min"></div>
-              <div class="range-handle" id="handle-max" data-handle="max"></div>
+            <div class="range-slider" id="price-slider-mobile">
+              <div class="snap-ticks" id="snap-ticks-mobile"></div>
+              <div class="range-selected" id="range-selected-mobile"></div>
+              <div class="range-handle" id="handle-min-mobile" data-handle="min"></div>
+              <div class="range-handle" id="handle-max-mobile" data-handle="max"></div>
             </div>
           </div>
-          <div class="price-inputs-end">
-            <div class="price-end-group">
-              <input type="number" id="price-max-input" class="price-end-input" placeholder="تا">
-              <span class="price-end-suffix">ریال</span>
+          <div class="price-inputs-row">
+            <!-- DOM Order: Min then Max -->
+            <div class="price-input-group">
+              <span class="price-label price-label-from" data-fa="از" data-en="From">از</span>
+              <input type="number" id="price-min-input-mobile" class="price-input" placeholder="0">
             </div>
-            <div class="price-end-group">
-              <input type="number" id="price-min-input" class="price-end-input" placeholder="از">
-              <span class="price-end-suffix">ریال</span>
+            <div class="price-input-group">
+              <span class="price-label price-label-to" data-fa="تا" data-en="To">تا</span>
+              <input type="number" id="price-max-input-mobile" class="price-input" placeholder="0">
             </div>
           </div>
         </div>
 
-        <div class="sort-stock-group">
-          <div class="filter-group">
-            <span class="filter-label">
-              <span class="text-fa">مرتب‌سازی:</span>
-              <span class="text-en hidden">Sort:</span>
+        <div class="sort-stock-group" style="width: 100%;">
+          <div class="sort-wrapper" style="width: 100%;">
+            <select id="sort-select-mobile" class="sort-select">
+              <option value="catalog" data-fa="به ترتیب کاتالوگ" data-en="Default"></option>
+              <option value="popularity" data-fa="محبوبیت" data-en="Popularity"></option>
+              <option value="price-asc" data-fa="ارزان به گران" data-en="Price: Low to High"></option>
+              <option value="price-desc" data-fa="گران به ارزان" data-en="Price: High to Low"></option>
+            </select>
+            <span class="sort-arrow">▼</span>
+          </div>
+
+          <label class="toggle-switch">
+            <input type="checkbox" id="stock-only-mobile">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label">
+              <span class="text-fa">فقط موجود</span>
+              <span class="text-en hidden">In Stock</span>
             </span>
+          </label>
+        </div>
+
+        <div class="results-count" id="results-count-mobile" style="text-align: center; font-weight: 600;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- لایه‌بندی اصلی -->
+  <div class="products-layout-wrapper">
+    
+    <!-- سایدبار -->
+    <aside class="filters-sidebar">
+      <div class="filters-sticky-box">
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--fg); border-bottom: 2px solid var(--stroke); padding-bottom: 1rem;">
+          <span class="text-fa">فیلتر محصولات</span>
+          <span class="text-en hidden">Filter Products</span>
+        </h3>
+
+        <div class="search-box" style="margin-bottom: 1.5rem;">
+          <input type="text" id="global-search" class="search-input" placeholder="جستجو...">
+          <span class="search-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </span>
+        </div>
+
+        <!-- دسته‌بندی اصلی 2x2 -->
+        <div style="margin-bottom: 1rem;">
+          <div class="main-cats-grid" id="main-categories-container"></div>
+        </div>
+        
+        <!-- دسته‌بندی فرعی -->
+        <div id="sub-cats-container-wrapper" class="sub-cats-container" style="display: none;">
+          <div class="sub-cats-vertical" id="sub-categories-container"></div>
+        </div>
+
+        <!-- اسلایدر قیمت - اصلاح شده -->
+        <div class="price-slider-wrapper">
+          <div style="font-weight: 700; margin-bottom: 1rem; font-size: 0.95rem; color: var(--fg); display: flex; align-items: center; gap: 0.5rem;">
+            <span class="text-fa">محدوده قیمت</span>
+            <span class="text-en hidden">Price Range</span>
+          </div>
+          
+          <div class="range-slider-container">
+            <div class="range-slider" id="price-slider">
+              <div class="snap-ticks" id="snap-ticks"></div>
+              <div class="range-selected" id="range-selected"></div>
+              <!-- handle-min همیشه سمت چپ بصری است (0%) -->
+              <div class="range-handle" id="handle-min" data-handle="min"></div>
+              <!-- handle-max همیشه سمت راست بصری است (100%) -->
+              <div class="range-handle" id="handle-max" data-handle="max"></div>
+            </div>
+          </div>
+          
+          <div class="price-inputs-row">
+            <!-- DOM Order: Min Input then Max Input -->
+            <div class="price-input-group">
+              <span class="price-label price-label-from" data-fa="از" data-en="From">از</span>
+              <input type="number" id="price-min-input" class="price-input" placeholder="حداقل">
+            </div>
+            <div class="price-input-group">
+              <span class="price-label price-label-to" data-fa="تا" data-en="To">تا</span>
+              <input type="number" id="price-max-input" class="price-input" placeholder="حداکثر">
+            </div>
+          </div>
+        </div>
+
+        <!-- مرتب‌سازی و موجودی -->
+        <div class="sort-stock-group-desktop">
+          <div>
             <div class="sort-wrapper">
               <select id="sort-select" class="sort-select">
                 <option value="catalog" data-fa="به ترتیب کاتالوگ" data-en="Default"></option>
@@ -539,42 +1284,125 @@
             </div>
           </div>
 
-          <div class="filter-group">
-            <label class="toggle-switch">
-              <input type="checkbox" id="stock-only">
-              <span class="toggle-slider"></span>
-              <span class="toggle-label">
-                <span class="text-fa">فقط موجود</span>
-                <span class="text-en hidden">In Stock</span>
-              </span>
-            </label>
-          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="stock-only">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label">
+              <span class="text-fa">فقط محصولات موجود</span>
+              <span class="text-en hidden">In Stock Only</span>
+            </span>
+          </label>
         </div>
 
-        <div class="results-count" id="results-count"></div>
+        <div class="results-count-desktop" id="results-count"></div>
       </div>
-    </div>
-  </section>
+    </aside>
 
-  <section class="mix-section">
-    <div class="mix-grid" id="products-grid"></div>
-    <div id="no-results" class="hidden" style="text-align: center; width: 100%; padding: 4rem;">
-      <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin-bottom: 1rem;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <h3 style="color: var(--fg);">
-        <span class="text-fa">محصولی یافت نشد</span>
-        <span class="text-en hidden">No products found</span>
-      </h3>
-      <button class="mix-btn mix-btn--outline" onclick="window.resetFilters()" style="margin-top: 1rem;">
-        <span class="text-fa">مشاهده همه</span>
-        <span class="text-en hidden">View All</span>
-      </button>
-    </div>
-  </section>
+    <!-- محتوای اصلی -->
+    <main class="products-main-content">
+      <div class="view-controls">
+        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+          <span class="text-fa">نمایش:</span>
+          <span class="text-en hidden">View:</span>
+        </span>
+        
+        <button class="view-btn active" onclick="setViewMode('grid', 3)" title="3 ستون" data-mode="grid-3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+          </svg>
+        </button>
+        
+        <button class="view-btn" onclick="setViewMode('grid', 4)" title="4 ستون" data-mode="grid-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="4" height="4"></rect>
+            <rect x="10" y="3" width="4" height="4"></rect>
+            <rect x="17" y="3" width="4" height="4"></rect>
+            <rect x="3" y="10" width="4" height="4"></rect>
+            <rect x="10" y="10" width="4" height="4"></rect>
+            <rect x="17" y="10" width="4" height="4"></rect>
+            <rect x="3" y="17" width="4" height="4"></rect>
+            <rect x="10" y="17" width="4" height="4"></rect>
+            <rect x="17" y="17" width="4" height="4"></rect>
+          </svg>
+        </button>
+        
+        <button class="view-btn" onclick="setViewMode('grid', 5)" title="5 ستون" data-mode="grid-5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="3" height="3"></rect>
+            <rect x="7" y="2" width="3" height="3"></rect>
+            <rect x="12" y="2" width="3" height="3"></rect>
+            <rect x="17" y="2" width="3" height="3"></rect>
+            <rect x="2" y="7" width="3" height="3"></rect>
+            <rect x="7" y="7" width="3" height="3"></rect>
+            <rect x="12" y="7" width="3" height="3"></rect>
+            <rect x="17" y="7" width="3" height="3"></rect>
+            <rect x="2" y="12" width="3" height="3"></rect>
+            <rect x="7" y="12" width="3" height="3"></rect>
+            <rect x="12" y="12" width="3" height="3"></rect>
+            <rect x="17" y="12" width="3" height="3"></rect>
+          </svg>
+        </button>
+        
+        <button class="view-btn" onclick="setViewMode('grid', 6)" title="6 ستون (ریز)" data-mode="grid-6">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="2.5" height="2.5"></rect>
+            <rect x="6" y="2" width="2.5" height="2.5"></rect>
+            <rect x="10" y="2" width="2.5" height="2.5"></rect>
+            <rect x="14" y="2" width="2.5" height="2.5"></rect>
+            <rect x="18" y="2" width="2.5" height="2.5"></rect>
+            <rect x="2" y="6" width="2.5" height="2.5"></rect>
+            <rect x="6" y="6" width="2.5" height="2.5"></rect>
+            <rect x="10" y="6" width="2.5" height="2.5"></rect>
+            <rect x="14" y="6" width="2.5" height="2.5"></rect>
+            <rect x="18" y="6" width="2.5" height="2.5"></rect>
+          </svg>
+        </button>
+        
+        <div style="width: 1px; height: 24px; background: var(--stroke); margin: 0 0.3rem;"></div>
+        
+        <button class="view-btn" onclick="setViewMode('list', 0)" title="نمایش لیست" data-mode="list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+        </button>
+      </div>
 
+      <section class="mix-section" style="padding: 0;">
+        <div class="mix-grid" id="products-grid"></div>
+        <div id="no-results" class="hidden" style="text-align: center; width: 100%; padding: 4rem;">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin-bottom: 1rem;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <h3 style="color: var(--fg); margin-bottom: 1rem;">
+            <span class="text-fa">محصولی یافت نشد</span>
+            <span class="text-en hidden">No products found</span>
+          </h3>
+          <button class="mix-btn mix-btn--outline" onclick="window.resetFilters()" style="margin-top: 1rem;">
+            <span class="text-fa">مشاهده همه محصولات</span>
+            <span class="text-en hidden">View All Products</span>
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- مودال -->
   <div class="mix-modal-overlay" id="product-modal">
     <div class="mix-modal-content">
       <button class="close-modal-btn" onclick="window.closeModal()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
       </button>
       <div class="modal-layout">
         <div class="modal-gallery-section">
@@ -594,20 +1422,33 @@
           </div>
           <div class="modal-specs">
             <div class="spec-item">
-              <span class="spec-label"><span class="text-fa">گارانتی</span><span class="text-en hidden">Warranty</span></span>
-              <span class="spec-value"><span class="text-fa">۲۴ ماه</span><span class="text-en hidden">24 Months</span></span>
+              <span class="spec-label">
+                <span class="text-fa">گارانتی</span>
+                <span class="text-en hidden">Warranty</span>
+              </span>
+              <span class="spec-value">
+                <span class="text-fa">۲۴ ماه</span>
+                <span class="text-en hidden">24 Months</span>
+              </span>
             </div>
             <div class="spec-item">
-              <span class="spec-label"><span class="text-fa">خدمات</span><span class="text-en hidden">Service</span></span>
-              <span class="spec-value"><span class="text-fa">۱۰ سال</span><span class="text-en hidden">10 Years</span></span>
+              <span class="spec-label">
+                <span class="text-fa">خدمات</span>
+                <span class="text-en hidden">Service</span>
+              </span>
+              <span class="spec-value">
+                <span class="text-fa">۱۰ سال</span>
+                <span class="text-en hidden">10 Years</span>
+              </span>
             </div>
           </div>
           <div class="modal-footer">
             <div class="modal-price-wrapper" id="m-price-box">
-              <div class="modal-price-tag">
-                <span id="m-price"></span>
-                <span class="currency" style="font-size: 1rem; font-weight: 400;">
-                  <span class="text-fa">ریال</span><span class="text-en hidden">Rial</span>
+              <div class="modal-price-tag" style="flex-direction: row-reverse; gap: 8px;">
+                <span id="m-price" style="font-size: 2rem;"></span>
+                <span style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
+                  <span class="text-fa">ریال</span>
+                  <span class="text-en hidden">Toman</span>
                 </span>
               </div>
             </div>
@@ -619,7 +1460,6 @@
 
   <div id="footer-container"></div>
 
-  <!-- SCRIPTS -->
   <script src="data/products.js"></script> 
   <script src="js/main.js"></script>
   <script src="js/header.js"></script>
@@ -635,13 +1475,9 @@
     let currentPriceIndices = { min: 0, max: 0 };
     let isDragging = null;
     let mobileFiltersOpen = false;
-
-    const categoryMap = {
-      "سینک ظرفشویی": "سینک",
-      "Sink Dishwasher": "Sink",
-      "فر توکار": "فر و آون",
-      "Built-in Oven": "Oven"
-    };
+    let isMobile = window.innerWidth < 1024;
+    let currentViewMode = 'grid';
+    let currentGridSize = 3;
 
     const parsePrice = (priceStr) => {
       if (!priceStr) return 0;
@@ -653,13 +1489,40 @@
     };
 
     const toPersianNum = (num) => {
+      if (!num) return '0';
       if (document.documentElement.lang !== 'fa') return num.toString();
       const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
       return num.toString().replace(/\d/g, (digit) => persianDigits[digit]);
     };
 
+    window.setViewMode = function(mode, size) {
+      const grid = document.getElementById('products-grid');
+      currentViewMode = mode;
+      if (size) currentGridSize = size;
+      localStorage.setItem('mix_view_mode', mode);
+      localStorage.setItem('mix_grid_size', size || 3);
+      
+      grid.classList.remove('grid-size-3', 'grid-size-4', 'grid-size-5', 'grid-size-6', 'list-view');
+      
+      if (mode === 'list') {
+        grid.classList.add('list-view');
+      } else {
+        grid.classList.add(`grid-size-${size}`);
+      }
+      
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.classList.remove('active');
+        const btnMode = btn.dataset.mode;
+        if (mode === 'list' && btnMode === 'list') {
+          btn.classList.add('active');
+        } else if (mode === 'grid' && btnMode === `grid-${size}`) {
+          btn.classList.add('active');
+        }
+      });
+    };
+
     window.toggleMobileFilters = function() {
-      const filtersRow = document.getElementById('advanced-filters');
+      const filtersRow = document.getElementById('advanced-filters-mobile');
       const toggleBtn = document.getElementById('mobile-filter-toggle');
       mobileFiltersOpen = !mobileFiltersOpen;
       if (mobileFiltersOpen) {
@@ -680,12 +1543,26 @@
           BestSeller: String(p.BestSeller).toLowerCase() === 'true' || p.BestSeller === true || p.BestSeller === 1,
           Visible: String(p.Visible).toLowerCase() !== 'false' && p.Visible !== false,
           ShowPrice: String(p.ShowPrice).toLowerCase() !== 'false' && p.ShowPrice !== false,
-          PriceValue: parsePrice(p.Price)
+          PriceValue: parsePrice(p.Price),
+          SubCategoryFa: p['Sub-Category_Fa'] || p.Sub_Category_Fa || '',
+          SubCategoryEn: p['Sub-Category_En'] || p.Sub_Category_En || ''
         }));
+
+        const savedView = localStorage.getItem('mix_view_mode') || 'grid';
+        const savedSize = parseInt(localStorage.getItem('mix_grid_size')) || 3;
+        if (!isMobile) {
+          setViewMode(savedView, savedSize);
+        }
 
         initFromURL();
         updatePriceSnapValues();
-        initPriceSlider();
+        
+        if (isMobile) {
+          initPriceSlider('mobile');
+        } else {
+          initPriceSlider('desktop');
+        }
+        
         renderAll();
         setupEventListeners();
         observeLanguageChange();
@@ -696,7 +1573,7 @@
     function updatePriceSnapValues() {
       let products = allProducts.filter(p => p.Visible);
       if (activeCategory) products = products.filter(p => p.Category_Fa === activeCategory);
-      if (activeSubCategory) products = products.filter(p => p['Sub-Category_Fa'] === activeSubCategory);
+      if (activeSubCategory) products = products.filter(p => p.SubCategoryFa === activeSubCategory);
       
       const prices = [...new Set(products.map(p => p.PriceValue))].filter(p => p > 0).sort((a, b) => a - b);
       
@@ -710,8 +1587,9 @@
       renderSnapTicks();
     }
 
-    function renderSnapTicks() {
-      const container = document.getElementById('snap-ticks');
+    function renderSnapTicks(suffix = '') {
+      const container = document.getElementById(`snap-ticks${suffix}`);
+      if (!container) return;
       if (priceSnapValues.length > 20) {
         container.innerHTML = '';
         return;
@@ -722,40 +1600,69 @@
       }).join('');
     }
 
-    function initPriceSlider() {
-      const handleMin = document.getElementById('handle-min');
-      const handleMax = document.getElementById('handle-max');
-      updateSliderUI();
+    function initPriceSlider(type = 'desktop') {
+      const suffix = type === 'mobile' ? '-mobile' : '';
+      const handleMin = document.getElementById(`handle-min${suffix}`);
+      const handleMax = document.getElementById(`handle-max${suffix}`);
+      
+      if (!handleMin || !handleMax) return;
+      
+      updateSliderUI(type);
+      
       [handleMin, handleMax].forEach(handle => {
-        handle.addEventListener('mousedown', (e) => startDrag(e, handle.dataset.handle));
-        handle.addEventListener('touchstart', (e) => startDrag(e, handle.dataset.handle), {passive: false});
+        handle.addEventListener('mousedown', (e) => startDrag(e, handle.dataset.handle, type));
+        handle.addEventListener('touchstart', (e) => startDrag(e, handle.dataset.handle, type), {passive: false});
       });
-      document.getElementById('price-slider').addEventListener('click', handleTrackClick);
-      document.getElementById('price-min-input').addEventListener('change', updatePriceFromInput);
-      document.getElementById('price-max-input').addEventListener('change', updatePriceFromInput);
+      
+      const slider = document.getElementById(`price-slider${suffix}`);
+      if (slider) {
+        slider.addEventListener('click', (e) => handleTrackClick(e, type));
+      }
+      
+      const minInput = document.getElementById(`price-min-input${suffix}`);
+      const maxInput = document.getElementById(`price-max-input${suffix}`);
+      
+      if (minInput) minInput.addEventListener('change', () => updatePriceFromInput(type));
+      if (maxInput) maxInput.addEventListener('change', () => updatePriceFromInput(type));
     }
 
-    function handleTrackClick(e) {
+    function handleTrackClick(e, type = 'desktop') {
       if (e.target.classList.contains('range-handle')) return;
-      const slider = document.getElementById('price-slider');
+      const suffix = type === 'mobile' ? '-mobile' : '';
+      const slider = document.getElementById(`price-slider${suffix}`);
+      if (!slider) return;
+      
       const rect = slider.getBoundingClientRect();
       let percent = (e.clientX - rect.left) / rect.width;
       percent = Math.max(0, Math.min(1, percent));
       const targetIndex = Math.round(percent * (priceSnapValues.length - 1));
+      
+      // منطق کلیک کردن روی اسلایدر باید توجه کند که در RTL کدام هندل کجاست
       const minDist = Math.abs(targetIndex - currentPriceIndices.min);
       const maxDist = Math.abs(targetIndex - currentPriceIndices.max);
+      
+      const isRTL = document.documentElement.dir === 'rtl';
+
       if (minDist <= maxDist) {
+        // آپدیت کردن ایندکس Min
+        // در LTR: هندل چپ (Min) باید به سمت راست حرکت کند (index افزایش یابد)
+        // در RTL: هندل راست (Min) باید به سمت چپ حرکت کند (index کاهش یابد)
+        // اما منطق آرایه همیشه کم به زیاد است.
+        // در حالت کلی اگر نزدیک Min است:
         if (targetIndex < currentPriceIndices.max) currentPriceIndices.min = targetIndex;
       } else {
+        // آپدیت کردن ایندکس Max
         if (targetIndex > currentPriceIndices.min) currentPriceIndices.max = targetIndex;
       }
-      updateSliderUI();
+      
+      updateSliderUI(type);
       applyFilters();
     }
 
-    function updatePriceFromInput() {
-      const minVal = parseInt(document.getElementById('price-min-input').value);
-      const maxVal = parseInt(document.getElementById('price-max-input').value);
+    function updatePriceFromInput(type = 'desktop') {
+      const suffix = type === 'mobile' ? '-mobile' : '';
+      const minVal = parseInt(document.getElementById(`price-min-input${suffix}`).value);
+      const maxVal = parseInt(document.getElementById(`price-max-input${suffix}`).value);
       if (!isNaN(minVal)) currentPriceIndices.min = findClosestIndex(minVal);
       if (!isNaN(maxVal)) currentPriceIndices.max = findClosestIndex(maxVal);
       if (currentPriceIndices.min >= currentPriceIndices.max) {
@@ -764,7 +1671,7 @@
       if (currentPriceIndices.max <= currentPriceIndices.min) {
         currentPriceIndices.max = Math.min(priceSnapValues.length - 1, currentPriceIndices.min + 1);
       }
-      updateSliderUI();
+      updateSliderUI(type);
       applyFilters();
     }
 
@@ -781,73 +1688,153 @@
       return closest;
     }
 
-    function startDrag(e, handleType) {
+    function startDrag(e, handleType, type = 'desktop') {
       e.preventDefault();
       e.stopPropagation();
       isDragging = handleType;
       document.body.style.userSelect = 'none';
-      document.addEventListener('mousemove', onDrag);
-      document.addEventListener('mouseup', stopDrag);
-      document.addEventListener('touchmove', onDrag, {passive: false});
-      document.addEventListener('touchend', stopDrag);
+      
+      const moveHandler = (ev) => onDrag(ev, type);
+      const upHandler = () => stopDrag(type);
+      
+      document.addEventListener('mousemove', moveHandler);
+      document.addEventListener('mouseup', upHandler);
+      document.addEventListener('touchmove', moveHandler, {passive: false});
+      document.addEventListener('touchend', upHandler);
+      
+      window._currentDragHandlers = { moveHandler, upHandler };
     }
 
-    function onDrag(e) {
+    function onDrag(e, type = 'desktop') {
       if (!isDragging) return;
       e.preventDefault();
-      const slider = document.getElementById('price-slider');
+      const suffix = type === 'mobile' ? '-mobile' : '';
+      const slider = document.getElementById(`price-slider${suffix}`);
+      if (!slider) return;
+      
       const rect = slider.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       let percent = (clientX - rect.left) / rect.width;
       percent = Math.max(0, Math.min(1, percent));
       const index = Math.round(percent * (priceSnapValues.length - 1));
-      if (isDragging === 'min') {
-        if (index < currentPriceIndices.max) currentPriceIndices.min = index;
+      
+      const isRTL = document.documentElement.dir === 'rtl';
+
+      // هندل بصری چپ (handle-min) و هندل بصری راست (handle-max)
+      
+      if (isRTL) {
+        // در حالت فارسی:
+        // هندل سمت راست بصری (handle-max ID) باید حداقل قیمت را کنترل کند
+        // هندل سمت چپ بصری (handle-min ID) باید حداکثر قیمت را کنترل کند
+        
+        if (isDragging === 'min') { 
+          // هندل چپ بصری -> کنترل Max
+          // چون Max > Min، ایندکس Max باید از ایندکس Min بزرگتر باشد
+          if (index > currentPriceIndices.min) currentPriceIndices.max = index;
+        } else { 
+          // هندل راست بصری -> کنترل Min
+          if (index < currentPriceIndices.max) currentPriceIndices.min = index;
+        }
       } else {
-        if (index > currentPriceIndices.min) currentPriceIndices.max = index;
+        // حالت انگلیسی (استاندارد):
+        // هندل چپ بصری -> کنترل Min
+        // هندل راست بصری -> کنترل Max
+        
+        if (isDragging === 'min') { 
+          if (index < currentPriceIndices.max) currentPriceIndices.min = index;
+        } else { 
+          if (index > currentPriceIndices.min) currentPriceIndices.max = index;
+        }
       }
-      updateSliderUI();
+      
+      updateSliderUI(type);
     }
 
-    function stopDrag() {
+    function stopDrag(type = 'desktop') {
       if (isDragging) {
         isDragging = null;
         document.body.style.userSelect = '';
         applyFilters();
       }
-      document.removeEventListener('mousemove', onDrag);
-      document.removeEventListener('mouseup', stopDrag);
-      document.removeEventListener('touchmove', onDrag);
-      document.removeEventListener('touchend', stopDrag);
+      
+      if (window._currentDragHandlers) {
+        document.removeEventListener('mousemove', window._currentDragHandlers.moveHandler);
+        document.removeEventListener('mouseup', window._currentDragHandlers.upHandler);
+        document.removeEventListener('touchmove', window._currentDragHandlers.moveHandler);
+        document.removeEventListener('touchend', window._currentDragHandlers.upHandler);
+      }
     }
 
-    function updateSliderUI() {
-      const rangeSelected = document.getElementById('range-selected');
-      const handleMin = document.getElementById('handle-min');
-      const handleMax = document.getElementById('handle-max');
-      const minInput = document.getElementById('price-min-input');
-      const maxInput = document.getElementById('price-max-input');
+    function updateSliderUI(type = 'desktop') {
+      const suffix = type === 'mobile' ? '-mobile' : '';
+      const rangeSelected = document.getElementById(`range-selected${suffix}`);
+      const handleMin = document.getElementById(`handle-min${suffix}`); // بصری چپ
+      const handleMax = document.getElementById(`handle-max${suffix}`); // بصری راست
+      const minInput = document.getElementById(`price-min-input${suffix}`);
+      const maxInput = document.getElementById(`price-max-input${suffix}`);
       
-      const minIdx = currentPriceIndices.min;
-      const maxIdx = currentPriceIndices.max;
+      if (!rangeSelected || !handleMin || !handleMax) return;
+      
+      const minIdx = currentPriceIndices.min; // مقدار کوچک
+      const maxIdx = currentPriceIndices.max; // مقدار بزرگ
       const total = priceSnapValues.length - 1;
       
       const minPercent = total > 0 ? (minIdx / total) * 100 : 0;
       const maxPercent = total > 0 ? (maxIdx / total) * 100 : 100;
       
-      handleMin.style.setProperty('--percent', minPercent + '%');
-      handleMax.style.setProperty('--percent', maxPercent + '%');
-      rangeSelected.style.setProperty('--min-percent', minPercent + '%');
-      rangeSelected.style.setProperty('--max-percent', maxPercent + '%');
-      
-      minInput.value = priceSnapValues[minIdx];
-      maxInput.value = priceSnapValues[maxIdx];
+      const isRTL = document.documentElement.dir === 'rtl';
+
+      if (isRTL) {
+        // در فارسی:
+        // هندل بصری چپ (handle-min) باید روی درصد بزرگ (Max) قرار بگیرد
+        // هندل بصری راست (handle-max) باید روی درصد کوچک (Min) قرار بگیرد
+        
+        handleMin.style.setProperty('--percent', maxPercent + '%'); // چپ بصری = مقدار زیاد
+        handleMax.style.setProperty('--percent', minPercent + '%'); // راست بصری = مقدار کم
+        
+        // استایل نوار انتخاب شده
+        // در RTL، نوار باید بین راست (minPercent) تا چپ (maxPercent) باشد
+        // اما CSS منطق LTR دارد (left, width).
+        // پس left را minPercent می‌گذاریم و width را محاسبه می‌کنیم.
+        // wait, minPercent در اینجا مقدار عددی کم است (مثلا 20%). پس سمت راست است.
+        rangeSelected.style.setProperty('--min-percent', minPercent + '%');
+        rangeSelected.style.setProperty('--max-percent', maxPercent + '%');
+
+        // مقادیر اینپوت‌ها (چون DOM درست مرتب شده نیازی به سواپ نیست)
+        if (minInput) minInput.value = priceSnapValues[minIdx];
+        if (maxInput) maxInput.value = priceSnapValues[maxIdx];
+      } else {
+        // در انگلیسی (استاندارد)
+        handleMin.style.setProperty('--percent', minPercent + '%'); // چپ = کم
+        handleMax.style.setProperty('--percent', maxPercent + '%'); // راست = زیاد
+        
+        rangeSelected.style.setProperty('--min-percent', minPercent + '%');
+        rangeSelected.style.setProperty('--max-percent', maxPercent + '%');
+        
+        if (minInput) minInput.value = priceSnapValues[minIdx];
+        if (maxInput) maxInput.value = priceSnapValues[maxIdx];
+      }
     }
 
     function setupEventListeners() {
-      document.getElementById('global-search').addEventListener('input', debounce(applyFilters, 300));
-      document.getElementById('stock-only').addEventListener('change', applyFilters);
-      document.getElementById('sort-select').addEventListener('change', (e) => {
+      const searchInput = document.getElementById('global-search');
+      const stockCheck = document.getElementById('stock-only');
+      const sortSelect = document.getElementById('sort-select');
+      
+      if (searchInput) searchInput.addEventListener('input', debounce(applyFilters, 300));
+      if (stockCheck) stockCheck.addEventListener('change', applyFilters);
+      if (sortSelect) sortSelect.addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        applyFilters();
+      });
+      
+      const searchMobile = document.getElementById('global-search-mobile');
+      const stockMobile = document.getElementById('stock-only-mobile');
+      const sortMobile = document.getElementById('sort-select-mobile');
+      
+      if (searchMobile) searchMobile.addEventListener('input', debounce(applyFilters, 300));
+      if (stockMobile) stockMobile.addEventListener('change', applyFilters);
+      if (sortMobile) sortMobile.addEventListener('change', (e) => {
         currentSort = e.target.value;
         applyFilters();
       });
@@ -867,18 +1854,39 @@
 
     function updateTranslations() {
       const lang = document.documentElement.lang;
-      document.getElementById('global-search').placeholder = lang === 'en' ? 'Search...' : 'جستجو...';
-      const sortSelect = document.getElementById('sort-select');
-      Array.from(sortSelect.options).forEach(option => {
-        option.textContent = lang === 'en' ? option.getAttribute('data-en') : option.getAttribute('data-fa');
+      const isFa = lang === 'fa';
+      
+      const inputs = ['global-search', 'global-search-mobile'];
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.placeholder = isFa ? 'جستجو...' : 'Search...';
       });
-      document.querySelectorAll('.price-end-suffix').forEach(el => {
-        el.textContent = lang === 'en' ? 'Rial' : 'ریال';
+      
+      const selects = ['sort-select', 'sort-select-mobile'];
+      selects.forEach(id => {
+        const sel = document.getElementById(id);
+        if (sel) {
+          Array.from(sel.options).forEach(option => {
+            option.textContent = isFa ? option.getAttribute('data-fa') : option.getAttribute('data-en');
+          });
+        }
       });
-      document.getElementById('price-min-input').placeholder = lang === 'en' ? 'Min' : 'از';
-      document.getElementById('price-max-input').placeholder = lang === 'en' ? 'Max' : 'تا';
-      if (activeCategory) renderSubCategories(activeCategory);
-      updateSliderUI();
+
+      // آپدیت لیبل‌های قیمت
+      document.querySelectorAll('.price-label-from').forEach(el => {
+        el.textContent = isFa ? el.getAttribute('data-fa') : el.getAttribute('data-en');
+      });
+      document.querySelectorAll('.price-label-to').forEach(el => {
+        el.textContent = isFa ? el.getAttribute('data-fa') : el.getAttribute('data-en');
+      });
+      
+      renderMainCategories();
+      if (activeCategory) {
+        renderSubCategories(activeCategory);
+      }
+      
+      updateSliderUI('desktop');
+      updateSliderUI('mobile');
     }
 
     function renderAll() {
@@ -886,90 +1894,154 @@
       applyFilters();
     }
 
-    function normalizeCategory(cat) {
-      if (!cat) return null;
-      return categoryMap[cat] || cat;
-    }
-
     function initFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const catParam = urlParams.get('cat');
       if (!catParam) return;
+      
       const rawValue = decodeURIComponent(catParam);
-      const mainCatProduct = allProducts.find(p => p.Category_Fa === rawValue || p.Category_En === rawValue);
+      const mainCatProduct = allProducts.find(p => 
+        p.Category_Fa === rawValue || p.Category_En === rawValue
+      );
+      
       if (mainCatProduct) {
-        activeCategory = normalizeCategory(mainCatProduct.Category_Fa);
+        activeCategory = mainCatProduct.Category_Fa;
+        renderSubCategories(activeCategory);
         return;
       }
-      const subCatProduct = allProducts.find(p => p['Sub-Category_Fa'] === rawValue || p['Sub-Category_En'] === rawValue);
+      
+      const subCatProduct = allProducts.find(p => 
+        p.SubCategoryFa === rawValue || p.SubCategoryEn === rawValue
+      );
+      
       if (subCatProduct) {
-        activeCategory = normalizeCategory(subCatProduct.Category_Fa);
-        activeSubCategory = subCatProduct['Sub-Category_Fa'];
+        activeCategory = subCatProduct.Category_Fa;
+        activeSubCategory = subCatProduct.SubCategoryFa;
+        renderSubCategories(activeCategory);
       }
     }
 
     function renderMainCategories() {
-      const container = document.getElementById('main-categories-container');
+      const containers = [
+        document.getElementById('main-categories-container'),
+        document.getElementById('main-categories-container-mobile')
+      ].filter(Boolean);
+      
       const lang = document.documentElement.lang;
       const categoriesFa = [...new Set(allProducts.map(p => p.Category_Fa))];
+      
       let html = '';
       categoriesFa.forEach(catFa => {
         const sampleProd = allProducts.find(p => p.Category_Fa === catFa);
         const displayText = lang === 'en' && sampleProd ? sampleProd.Category_En : catFa;
-        html += `<div class="cat-pill ${activeCategory === catFa ? 'active' : ''}" onclick="setCategory('${encodeURIComponent(catFa)}')">${displayText}</div>`;
+        const isActive = activeCategory === catFa;
+        html += `<div class="cat-pill ${isActive ? 'active' : ''}" onclick="setCategory('${encodeURIComponent(catFa)}')">${displayText}</div>`;
       });
-      container.innerHTML = html;
-      if (activeCategory) {
-        renderSubCategories(activeCategory);
-        document.getElementById('sub-cats-wrapper').classList.add('open');
-      } else {
-        document.getElementById('sub-cats-wrapper').classList.remove('open');
-      }
+      
+      containers.forEach(container => {
+        container.innerHTML = html;
+      });
     }
 
     function setCategory(cat) {
       const targetCat = cat ? decodeURIComponent(cat) : null;
-      activeCategory = (activeCategory === targetCat) ? null : targetCat;
-      activeSubCategory = null;
+      
+      if (activeCategory === targetCat) {
+        activeCategory = null;
+        activeSubCategory = null;
+        document.getElementById('sub-cats-container-wrapper').style.display = 'none';
+        document.getElementById('sub-cats-wrapper-mobile')?.style.setProperty('display', 'none');
+      } else {
+        activeCategory = targetCat;
+        activeSubCategory = null;
+        renderSubCategories(activeCategory);
+      }
+      
       updatePriceSnapValues();
-      updateSliderUI();
-      renderAll();
+      updateSliderUI('desktop');
+      updateSliderUI('mobile');
+      renderMainCategories();
+      applyFilters();
+      
       const newUrl = activeCategory ? `?cat=${encodeURIComponent(activeCategory)}` : 'products.html';
       window.history.replaceState({}, '', newUrl);
     }
 
     function renderSubCategories(catFa) {
-      const container = document.getElementById('sub-categories-container');
+      const containers = [
+        document.getElementById('sub-categories-container'),
+        document.getElementById('sub-categories-container-mobile')
+      ].filter(Boolean);
+      
+      const wrappers = [
+        document.getElementById('sub-cats-container-wrapper'),
+        document.getElementById('sub-cats-wrapper-mobile')
+      ].filter(Boolean);
+      
       const lang = document.documentElement.lang;
-      const subsFa = [...new Set(allProducts.filter(p => p.Category_Fa === catFa).map(p => p['Sub-Category_Fa']))];
-      const allText = lang === 'en' ? 'All' : 'همه';
-      let html = `<div class="sub-pill ${activeSubCategory === null ? 'active' : ''}" onclick="setSubCategory(null)">${allText}</div>`;
-      subsFa.forEach(subFa => {
-        const sampleProd = allProducts.find(p => p.Category_Fa === catFa && p['Sub-Category_Fa'] === subFa);
-        const displayText = lang === 'en' && sampleProd ? sampleProd['Sub-Category_En'] : subFa;
-        html += `<div class="sub-pill ${activeSubCategory === subFa ? 'active' : ''}" onclick="setSubCategory('${encodeURIComponent(subFa)}')">${displayText}</div>`;
+      const productsInCat = allProducts.filter(p => p.Category_Fa === catFa);
+      const subCats = [...new Set(productsInCat.map(p => p.SubCategoryFa).filter(Boolean))];
+      
+      if (subCats.length === 0) {
+        wrappers.forEach(w => w.style.display = 'none');
+        return;
+      }
+      
+      wrappers.forEach(w => w.style.display = 'block');
+      
+      let html = '';
+      subCats.forEach((subFa, index) => {
+        const sampleProd = allProducts.find(p => p.SubCategoryFa === subFa);
+        const displayText = lang === 'en' && sampleProd ? sampleProd.SubCategoryEn : subFa;
+        const isActive = activeSubCategory === subFa;
+        const delay = index * 0.05;
+        html += `<div class="sub-pill ${isActive ? 'active' : ''}" onclick="setSubCategory('${encodeURIComponent(subFa)}')" style="animation: fadeIn 0.3s ease forwards; animation-delay: ${delay}s; opacity: 0;">${displayText}</div>`;
       });
-      container.innerHTML = html;
+      
+      containers.forEach(container => {
+        container.innerHTML = html;
+      });
     }
 
     function setSubCategory(sub) {
-      activeSubCategory = sub ? decodeURIComponent(sub) : null;
+      const targetSub = sub ? decodeURIComponent(sub) : null;
+      
+      if (activeSubCategory === targetSub) {
+        activeSubCategory = null;
+      } else {
+        activeSubCategory = targetSub;
+      }
+      
       updatePriceSnapValues();
-      updateSliderUI();
-      renderSubCategories(activeCategory);
+      updateSliderUI('desktop');
+      updateSliderUI('mobile');
+      
+      if (activeCategory) {
+        renderSubCategories(activeCategory);
+      }
+      
       applyFilters();
     }
 
     function applyFilters() {
       let filtered = allProducts.filter(p => p.Visible);
-      if (activeCategory) filtered = filtered.filter(p => p.Category_Fa === activeCategory);
-      if (activeSubCategory) filtered = filtered.filter(p => p['Sub-Category_Fa'] === activeSubCategory);
       
-      const searchTerm = document.getElementById('global-search').value.trim().toLowerCase();
+      if (activeCategory) {
+        filtered = filtered.filter(p => p.Category_Fa === activeCategory);
+      }
+      
+      if (activeSubCategory) {
+        filtered = filtered.filter(p => p.SubCategoryFa === activeSubCategory);
+      }
+      
+      const searchValue = document.getElementById('global-search')?.value || document.getElementById('global-search-mobile')?.value || '';
+      const searchTerm = searchValue.trim().toLowerCase();
+      
       if (searchTerm) {
         filtered = filtered.filter(p => 
           p.Name.toLowerCase().includes(searchTerm) || 
-          (p.Description_Fa && p.Description_Fa.toLowerCase().includes(searchTerm))
+          (p.Description_Fa && p.Description_Fa.toLowerCase().includes(searchTerm)) ||
+          (p.Description_En && p.Description_En.toLowerCase().includes(searchTerm))
         );
       }
 
@@ -977,7 +2049,8 @@
       const maxPrice = priceSnapValues[currentPriceIndices.max];
       filtered = filtered.filter(p => p.PriceValue >= minPrice && p.PriceValue <= maxPrice);
 
-      if (document.getElementById('stock-only').checked) {
+      const stockChecked = document.getElementById('stock-only')?.checked || document.getElementById('stock-only-mobile')?.checked;
+      if (stockChecked) {
         filtered = filtered.filter(p => p.InStock);
       }
 
@@ -999,50 +2072,85 @@
 
     function updateResultsCount(count) {
       const lang = document.documentElement.lang;
-      document.getElementById('results-count').textContent = 
-        lang === 'en' ? `${count} products found` : `${toPersianNum(count)} محصول`;
+      const text = lang === 'en' ? `${count} products found` : `${toPersianNum(count)} محصول`;
+      
+      const el = document.getElementById('results-count');
+      const elMobile = document.getElementById('results-count-mobile');
+      
+      if (el) el.textContent = text;
+      if (elMobile) elMobile.textContent = text;
     }
 
     window.resetFilters = function() {
-      document.getElementById('global-search').value = "";
-      document.getElementById('stock-only').checked = false;
-      document.getElementById('sort-select').value = 'catalog';
+      ['global-search', 'global-search-mobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+      });
+      
+      ['stock-only', 'stock-only-mobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = false;
+      });
+      
+      ['sort-select', 'sort-select-mobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = 'catalog';
+      });
+      
       currentSort = 'catalog';
       currentPriceIndices = { min: 0, max: priceSnapValues.length - 1 };
-      updateSliderUI();
+      activeCategory = null;
+      activeSubCategory = null;
+      
+      const subWrapper = document.getElementById('sub-cats-container-wrapper');
+      const subWrapperMobile = document.getElementById('sub-cats-wrapper-mobile');
+      if (subWrapper) subWrapper.style.display = 'none';
+      if (subWrapperMobile) subWrapperMobile.style.display = 'none';
+      
+      updateSliderUI('desktop');
+      updateSliderUI('mobile');
       updatePriceSnapValues();
+      
       if (mobileFiltersOpen) toggleMobileFilters();
-      setCategory(null);
+      
+      renderMainCategories();
+      applyFilters();
+      
+      window.history.replaceState({}, '', 'products.html');
     }
 
     function renderProducts(products) {
       const grid = document.getElementById('products-grid');
       const noResults = document.getElementById('no-results');
       const lang = document.documentElement.lang;
+      
       if (products.length === 0) {
         grid.innerHTML = '';
         noResults.classList.remove('hidden');
         return;
       }
+      
       noResults.classList.add('hidden');
+      
       grid.innerHTML = products.map(p => {
         const img1 = p.Pic_1 ? p.Pic_1.replace(/\\/g, '/') : '';
         const img2 = p.Pic_2 ? p.Pic_2.replace(/\\/g, '/') : '';
         const hasHover = img2 && img2.trim() !== '' && img2 !== img1;
+        
         let badges = '';
         if (p.BestSeller) badges += `<div class="bestseller-badge">${lang === 'en' ? 'Bestseller' : 'پرفروش'}</div>`;
         if (!p.InStock) badges += `<div class="stock-badge">${lang === 'en' ? 'Out' : 'ناموجود'}</div>`;
         
-        const priceDisplay = p.ShowPrice ? `
+        const priceHtml = p.ShowPrice ? `
           <div class="product-price">
-            <span>${toPersianNum(formatPrice(p.PriceValue))}</span>
-            <span class="currency">${lang === 'en' ? 'Rial' : 'ریال'}</span>
+            <span class="currency">${lang === 'en' ? 'Toman' : 'ریال'}</span>
+            <span class="price-value">${toPersianNum(formatPrice(p.PriceValue))}</span>
           </div>` : '';
 
         let imgHTML = img1 
-          ? `<img src="${img1}" alt="${p.Name}" class="product-image product-img-main">`
+          ? `<img src="${img1}" alt="${p.Name}" class="product-image product-img-main" loading="lazy">`
           : `<div class="no-image"><span class="text-fa">تصویر ندارد</span><span class="text-en hidden">No Image</span></div>`;
-        if (hasHover && img1) imgHTML += `<img src="${img2}" alt="${p.Name}" class="product-image product-img-hover">`;
+        if (hasHover && img1) imgHTML += `<img src="${img2}" alt="${p.Name}" class="product-image product-img-hover" loading="lazy">`;
 
         return `
           <div class="product-card ${hasHover ? 'has-hover' : ''}" onclick="openModal('${p.ID}')">
@@ -1050,7 +2158,7 @@
             <div class="product-image-wrapper">${imgHTML}</div>
             <div class="product-info">
               <div class="product-name">${p.Name}</div>
-              ${priceDisplay}
+              ${priceHtml}
             </div>
           </div>
         `;
@@ -1066,24 +2174,27 @@
       if (!p) return;
       const modal = document.getElementById('product-modal');
       const lang = document.documentElement.lang;
+      const isFa = lang === 'fa';
+      
       document.getElementById('m-title').textContent = p.Name;
-      document.getElementById('m-cat').textContent = lang === 'en' ? p.Category_En : p.Category_Fa;
-      document.getElementById('m-desc').textContent = lang === 'en' ? (p.Description_En || '-') : (p.Description_Fa || '-');
+      document.getElementById('m-cat').textContent = isFa ? p.Category_Fa : p.Category_En;
+      document.getElementById('m-desc').textContent = isFa ? (p.Description_Fa || '-') : (p.Description_En || '-');
 
       const badgesContainer = document.getElementById('m-badges');
       let badgesHTML = '';
-      if (p.BestSeller) badgesHTML += `<span class="modal-badge bestseller">★ ${lang === 'en' ? 'Bestseller' : 'پرفروش‌ترین'}</span>`;
+      if (p.BestSeller) badgesHTML += `<span class="modal-badge bestseller">★ ${isFa ? 'پرفروش‌ترین' : 'Bestseller'}</span>`;
       if (!p.InStock) {
-        badgesHTML += `<span class="modal-badge out-of-stock">✕ ${lang === 'en' ? 'Out of Stock' : 'ناموجود'}</span>`;
+        badgesHTML += `<span class="modal-badge out-of-stock">✕ ${isFa ? 'ناموجود' : 'Out of Stock'}</span>`;
       } else {
-        badgesHTML += `<span class="modal-badge popular">✓ ${lang === 'en' ? 'In Stock' : 'موجود'}</span>`;
+        badgesHTML += `<span class="modal-badge popular">✓ ${isFa ? 'موجود' : 'In Stock'}</span>`;
       }
       badgesContainer.innerHTML = badgesHTML;
 
       const priceBox = document.getElementById('m-price-box');
+      const priceEl = document.getElementById('m-price');
       if (p.ShowPrice) {
-        document.getElementById('m-price').textContent = toPersianNum(formatPrice(p.PriceValue));
-        priceBox.style.display = 'block';
+        priceEl.textContent = toPersianNum(formatPrice(p.PriceValue));
+        priceBox.style.display = 'flex';
       } else {
         priceBox.style.display = 'none';
       }
@@ -1091,16 +2202,18 @@
       const mainImg = document.getElementById('m-main-img');
       const thumbsContainer = document.getElementById('m-thumbs');
       modalImages = [p.Pic_1, p.Pic_2, p.Pic_3].filter(path => path && path.trim() !== '');
+      
       if (modalImages.length > 0) {
         mainImg.src = modalImages[0].replace(/\\/g, '/');
         thumbsContainer.innerHTML = modalImages.map((imgPath, index) => {
            const path = imgPath.replace(/\\/g, '/');
-           return `<img src="${path}" class="thumb ${index===0?'active':''}" onclick="changeModalImage('${path}', this)">`;
+           return `<img src="${path}" class="thumb ${index===0?'active':''}" onclick="changeModalImage('${path}', this)" loading="lazy">`;
         }).join('');
       } else {
         mainImg.src = '';
         thumbsContainer.innerHTML = '';
       }
+      
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -1113,7 +2226,10 @@
     window.changeModalImage = function(src, thumbEl) {
       const mainImg = document.getElementById('m-main-img');
       mainImg.style.opacity = 0;
-      setTimeout(() => { mainImg.src = src; mainImg.style.opacity = 1; }, 200);
+      setTimeout(() => { 
+        mainImg.src = src; 
+        mainImg.style.opacity = 1; 
+      }, 200);
       document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
       if(thumbEl) thumbEl.classList.add('active');
     }
@@ -1125,12 +2241,16 @@
     if (window.matchMedia("(hover: hover)").matches) {
       const imgContainer = document.getElementById('m-img-container');
       const modalImg = document.getElementById('m-main-img');
-      imgContainer.addEventListener('mousemove', (e) => {
-        const rect = imgContainer.getBoundingClientRect();
-        modalImg.style.transformOrigin = `${((e.clientX-rect.left)/rect.width)*100}% ${((e.clientY-rect.top)/rect.height)*100}%`;
-        modalImg.style.transform = 'scale(1.6)'; 
-      });
-      imgContainer.addEventListener('mouseleave', () => { modalImg.style.transform = 'scale(1)'; });
+      if (imgContainer && modalImg) {
+        imgContainer.addEventListener('mousemove', (e) => {
+          const rect = imgContainer.getBoundingClientRect();
+          modalImg.style.transformOrigin = `${((e.clientX-rect.left)/rect.width)*100}% ${((e.clientY-rect.top)/rect.height)*100}%`;
+          modalImg.style.transform = 'scale(1.6)'; 
+        });
+        imgContainer.addEventListener('mouseleave', () => { 
+          modalImg.style.transform = 'scale(1)'; 
+        });
+      }
     }
 
     function observeLanguageChange() {
@@ -1145,9 +2265,16 @@
       });
       observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang', 'dir'] });
     }
+    
+    window.addEventListener('resize', () => {
+      const newIsMobile = window.innerWidth < 1024;
+      if (newIsMobile !== isMobile) {
+        isMobile = newIsMobile;
+        location.reload();
+      }
+    });
   </script>
   
-  <!-- Load Mobile Nav Script Last -->
   <script src="js/mobile-nav.js"></script>
   
 </body>
